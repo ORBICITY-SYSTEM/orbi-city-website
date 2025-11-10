@@ -70,3 +70,16 @@
 - [x] Create fullscreen mode for immersive experience
 - [x] Add loading states and error handling
 - [x] Test virtual tour on mobile and desktop
+
+
+## CRITICAL: Missing Pages for Production
+- [x] Create Apartments listing page (separate from home)
+- [x] Create Gallery page with lightbox and categories
+- [x] Create Amenities page with detailed descriptions
+- [x] Create Location page with Google Maps integration
+- [x] Create Contact page with contact form
+- [ ] Create Loyalty Program page
+- [ ] Create Blog page/section
+- [x] Fix navigation to link all pages correctly
+- [x] Test all page transitions and links
+- [x] Ensure mobile responsiveness on all pages
