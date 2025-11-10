@@ -123,3 +123,12 @@
 - [x] Add "Edit Mode" toggle on frontend for admins
 - [x] Add visual indicator when Edit Mode is active
 - [x] Make edit buttons conditional on Edit Mode state
+
+## Extend Edit Mode to Other Pages
+- [x] Add Edit Mode toggle to Apartments page navigation
+- [x] Add inline edit buttons to apartment cards on Apartments page
+- [x] Add Edit Mode toggle to Gallery page navigation
+- [x] Add inline edit/delete buttons to gallery images
+- [ ] Add Edit Mode toggle to Blog page navigation (requires blog database integration first)
+- [ ] Add inline edit buttons to blog posts (requires blog database integration first)
+- [x] Test Edit Mode functionality on Apartments and Gallery pages

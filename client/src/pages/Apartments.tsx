@@ -3,12 +3,72 @@ import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, Users, Bed, Bath, Maximize, Star } from "lucide-react";
+import { Loader2, Users, Bed, Bath, Maximize, Star, Pencil } from "lucide-react";
 import { APP_LOGO } from "@/const";
+import { useAuth } from "@/_core/hooks/useAuth";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 export default function Apartments() {
+  const { user } = useAuth();
   const { data: apartments, isLoading } = trpc.apartments.list.useQuery();
   const [filter, setFilter] = useState<string>("all");
+  const [editMode, setEditMode] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingApartment, setEditingApartment] = useState<any>(null);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    description: "",
+    pricePerNight: 0,
+    maxGuests: 0,
+    bedrooms: 0,
+    bathrooms: 0,
+    area: 0,
+  });
+
+  const utils = trpc.useUtils();
+  const updateMutation = trpc.apartments.update.useMutation({
+    onSuccess: () => {
+      toast.success("Apartment updated successfully");
+      utils.apartments.list.invalidate();
+      setEditDialogOpen(false);
+    },
+    onError: (error) => {
+      toast.error(`Failed to update apartment: ${error.message}`);
+    },
+  });
+
+  const handleEditClick = (apt: any) => {
+    setEditingApartment(apt);
+    setEditForm({
+      name: apt.name,
+      description: apt.description,
+      pricePerNight: apt.pricePerNight,
+      maxGuests: apt.maxGuests,
+      bedrooms: apt.bedrooms,
+      bathrooms: apt.bathrooms,
+      area: apt.area,
+    });
+    setEditDialogOpen(true);
+  };
+
+  const handleEditSubmit = () => {
+    if (!editingApartment) return;
+    updateMutation.mutate({
+      id: editingApartment.id,
+      ...editForm,
+    });
+  };
 
   const filteredApartments = apartments?.filter((apt) => {
     if (filter === "all") return true;
@@ -42,9 +102,23 @@ export default function Apartments() {
             <Link href="/location"><a className="text-gray-600 hover:text-primary transition-colors">Location</a></Link>
             <Link href="/contact"><a className="text-gray-600 hover:text-primary transition-colors">Contact</a></Link>
           </nav>
-          <Link href="/#book">
-            <Button>Book Now</Button>
-          </Link>
+          <div className="flex items-center gap-4">
+            {user?.role === "admin" && (
+              <button
+                onClick={() => setEditMode(!editMode)}
+                className={`px-4 py-2 rounded font-medium transition-all ${
+                  editMode
+                    ? "bg-yellow-500 text-slate-900 hover:bg-yellow-600"
+                    : "border border-gray-300 text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {editMode ? "✓ Edit Mode" : "Edit Mode"}
+              </button>
+            )}
+            <Link href="/#book">
+              <Button>Book Now</Button>
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -108,6 +182,18 @@ export default function Apartments() {
                     alt={apartment.name}
                     className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+                  {user?.role === "admin" && editMode && (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleEditClick(apartment);
+                      }}
+                      className="absolute top-4 left-4 bg-yellow-500 hover:bg-yellow-600 text-slate-900 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 animate-pulse z-10"
+                      title="Edit Apartment"
+                    >
+                      <Pencil className="w-5 h-5" />
+                    </button>
+                  )}
                   <div className="absolute top-4 right-4 bg-yellow-400 text-gray-900 px-4 py-2 rounded-full font-bold text-lg shadow-lg">
                     ${apartment.pricePerNight / 100}/night
                   </div>
@@ -197,6 +283,100 @@ export default function Apartments() {
           </div>
         </div>
       </footer>
+
+      {/* Edit Apartment Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Apartment</DialogTitle>
+            <DialogDescription>
+              Update the apartment details below.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                value={editForm.name}
+                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                value={editForm.description}
+                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                rows={4}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="pricePerNight">Price per Night ($)</Label>
+                <Input
+                  id="pricePerNight"
+                  type="number"
+                  value={editForm.pricePerNight}
+                  onChange={(e) => setEditForm({ ...editForm, pricePerNight: Number(e.target.value) })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="maxGuests">Max Guests</Label>
+                <Input
+                  id="maxGuests"
+                  type="number"
+                  value={editForm.maxGuests}
+                  onChange={(e) => setEditForm({ ...editForm, maxGuests: Number(e.target.value) })}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="bedrooms">Bedrooms</Label>
+                <Input
+                  id="bedrooms"
+                  type="number"
+                  value={editForm.bedrooms}
+                  onChange={(e) => setEditForm({ ...editForm, bedrooms: Number(e.target.value) })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="bathrooms">Bathrooms</Label>
+                <Input
+                  id="bathrooms"
+                  type="number"
+                  value={editForm.bathrooms}
+                  onChange={(e) => setEditForm({ ...editForm, bathrooms: Number(e.target.value) })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="area">Area (m²)</Label>
+                <Input
+                  id="area"
+                  type="number"
+                  value={editForm.area}
+                  onChange={(e) => setEditForm({ ...editForm, area: Number(e.target.value) })}
+                />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setEditDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleEditSubmit}
+              disabled={updateMutation.isPending}
+            >
+              {updateMutation.isPending ? "Saving..." : "Save Changes"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

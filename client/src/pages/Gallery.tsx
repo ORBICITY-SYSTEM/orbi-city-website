@@ -1,30 +1,100 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react";
 import { APP_LOGO } from "@/const";
-
-const galleryImages = [
-  { id: 1, url: "/suite-sea-view.webp", category: "Apartments", title: "Suite with Sea View" },
-  { id: 2, url: "/delux-suite-sea-view.webp", category: "Apartments", title: "Delux Suite" },
-  { id: 3, url: "/superior-suite-sea-view.webp", category: "Apartments", title: "Superior Suite" },
-  { id: 4, url: "/superior-family-suite.webp", category: "Apartments", title: "Superior Family Suite" },
-  { id: 5, url: "/two-bedroom-panoramic.webp", category: "Apartments", title: "Two Bedroom Panoramic" },
-  { id: 6, url: "/360-suite-sea-view.jpg", category: "Interior", title: "Luxury Living Room" },
-  { id: 7, url: "/360-delux-suite.jpg", category: "Interior", title: "Delux Suite Interior" },
-  { id: 8, url: "/360-superior-suite.jpg", category: "Interior", title: "Superior Suite View" },
-  { id: 9, url: "/hero-bg.jpg", category: "Exterior", title: "Batumi Aerial View" },
-];
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 
 export default function Gallery() {
+  const { user } = useAuth();
+  const { data: galleryImages = [], isLoading } = trpc.gallery.list.useQuery();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [lightboxImage, setLightboxImage] = useState<number | null>(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingImage, setEditingImage] = useState<any>(null);
+  const [editForm, setEditForm] = useState({
+    title: "",
+    description: "",
+    category: "",
+  });
 
-  const categories = ["All", "Apartments", "Interior", "Exterior"];
+  const utils = trpc.useUtils();
+  const updateMutation = trpc.gallery.update.useMutation({
+    onSuccess: () => {
+      toast.success("Image updated successfully");
+      utils.gallery.list.invalidate();
+      setEditDialogOpen(false);
+    },
+    onError: (error) => {
+      toast.error(`Failed to update image: ${error.message}`);
+    },
+  });
+
+  const deleteMutation = trpc.gallery.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Image deleted successfully");
+      utils.gallery.list.invalidate();
+    },
+    onError: (error) => {
+      toast.error(`Failed to delete image: ${error.message}`);
+    },
+  });
+
+  const handleEditClick = (image: any) => {
+    setEditingImage(image);
+    setEditForm({
+      title: image.title,
+      description: image.description || "",
+      category: image.category,
+    });
+    setEditDialogOpen(true);
+  };
+
+  const handleEditSubmit = () => {
+    if (!editingImage) return;
+    updateMutation.mutate({
+      id: editingImage.id,
+      ...editForm,
+    });
+  };
+
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this image?")) {
+      deleteMutation.mutate({ id });
+    }
+  };
+
+  const categories = ["All", ...Array.from(new Set(galleryImages.map(img => img.category)))];
 
   const filteredImages = selectedCategory === "All"
     ? galleryImages
     : galleryImages.filter(img => img.category === selectedCategory);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading gallery...</p>
+        </div>
+      </div>
+    );
+  }
 
   const openLightbox = (id: number) => {
     setLightboxImage(id);
@@ -69,9 +139,23 @@ export default function Gallery() {
             <Link href="/location"><a className="text-gray-600 hover:text-primary transition-colors">Location</a></Link>
             <Link href="/contact"><a className="text-gray-600 hover:text-primary transition-colors">Contact</a></Link>
           </nav>
-          <Link href="/#book">
-            <Button>Book Now</Button>
-          </Link>
+          <div className="flex items-center gap-4">
+            {user?.role === "admin" && (
+              <button
+                onClick={() => setEditMode(!editMode)}
+                className={`px-4 py-2 rounded font-medium transition-all ${
+                  editMode
+                    ? "bg-yellow-500 text-slate-900 hover:bg-yellow-600"
+                    : "border border-gray-300 text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {editMode ? "✓ Edit Mode" : "Edit Mode"}
+              </button>
+            )}
+            <Link href="/#book">
+              <Button>Book Now</Button>
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -113,10 +197,34 @@ export default function Gallery() {
                 onClick={() => openLightbox(image.id)}
               >
                 <img
-                  src={image.url}
-                  alt={image.title}
+                  src={image.imageUrl}
+                  alt={image.title || "Gallery image"}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
+                {user?.role === "admin" && editMode && (
+                  <div className="absolute top-2 right-2 flex gap-2 z-10">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditClick(image);
+                      }}
+                      className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                      title="Edit Image"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(image.id);
+                      }}
+                      className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                      title="Delete Image"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                   <div className="p-4 text-white">
                     <h3 className="text-xl font-bold">{image.title}</h3>
@@ -152,8 +260,8 @@ export default function Gallery() {
           </button>
           <div className="max-w-6xl max-h-[90vh] p-4">
             <img
-              src={currentImage.url}
-              alt={currentImage.title}
+              src={currentImage.imageUrl}
+              alt={currentImage.title || "Gallery image"}
               className="max-w-full max-h-full object-contain"
             />
             <div className="text-center mt-4 text-white">
@@ -210,6 +318,70 @@ export default function Gallery() {
           </div>
         </div>
       </footer>
+
+      {/* Edit Image Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Edit Gallery Image</DialogTitle>
+            <DialogDescription>
+              Update the image details below.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                value={editForm.title}
+                onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                value={editForm.description}
+                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                rows={3}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="category">Category</Label>
+              <Select
+                value={editForm.category}
+                onValueChange={(value) => setEditForm({ ...editForm, category: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Rooms">Rooms</SelectItem>
+                  <SelectItem value="Views">Views</SelectItem>
+                  <SelectItem value="Facilities">Facilities</SelectItem>
+                  <SelectItem value="Exterior">Exterior</SelectItem>
+                  <SelectItem value="Amenities">Amenities</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setEditDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleEditSubmit}
+              disabled={updateMutation.isPending}
+            >
+              {updateMutation.isPending ? "Saving..." : "Save Changes"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
