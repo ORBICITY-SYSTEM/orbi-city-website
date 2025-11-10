@@ -42,6 +42,58 @@ export const appRouter = router({
           new Date(input.checkOut)
         );
       }),
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        type: z.string(),
+        description: z.string(),
+        shortDescription: z.string().optional(),
+        pricePerNight: z.number(),
+        maxGuests: z.number(),
+        bedrooms: z.number(),
+        bathrooms: z.number(),
+        area: z.number().optional(),
+        imageUrl: z.string(),
+        features: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new Error("Unauthorized");
+        }
+        const { createApartment } = await import("./db");
+        return createApartment(input);
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        type: z.string().optional(),
+        description: z.string().optional(),
+        shortDescription: z.string().optional(),
+        pricePerNight: z.number().optional(),
+        maxGuests: z.number().optional(),
+        bedrooms: z.number().optional(),
+        bathrooms: z.number().optional(),
+        area: z.number().optional(),
+        imageUrl: z.string().optional(),
+        features: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new Error("Unauthorized");
+        }
+        const { updateApartment } = await import("./db");
+        return updateApartment(input.id, input);
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new Error("Unauthorized");
+        }
+        const { deleteApartment } = await import("./db");
+        return deleteApartment(input.id);
+      }),
   }),
 
   bookings: router({

@@ -106,10 +106,11 @@ export async function getApartmentById(id: number): Promise<Apartment | undefine
   return result[0];
 }
 
-export async function createApartment(apartment: InsertApartment): Promise<void> {
+export async function createApartment(apartment: InsertApartment): Promise<any> {
   const db = await getDb();
-  if (!db) return;
-  await db.insert(apartments).values(apartment);
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(apartments).values(apartment);
+  return result;
 }
 
 // Bookings
@@ -194,4 +195,19 @@ export async function createTestimonial(testimonial: InsertTestimonial): Promise
   const db = await getDb();
   if (!db) return;
   await db.insert(testimonials).values(testimonial);
+}
+
+// Update and Delete Apartment operations
+export async function updateApartment(id: number, data: Partial<InsertApartment>): Promise<any> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.update(apartments).set(data).where(eq(apartments.id, id));
+  return result;
+}
+
+export async function deleteApartment(id: number): Promise<any> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.delete(apartments).where(eq(apartments.id, id));
+  return result;
 }

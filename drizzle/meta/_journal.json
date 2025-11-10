@@ -15,6 +15,13 @@
       "when": 1762765792736,
       "tag": "0001_shocking_pepper_potts",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1762782792014,
+      "tag": "0002_wandering_pete_wisdom",
+      "breakpoints": true
     }
   ]
 }

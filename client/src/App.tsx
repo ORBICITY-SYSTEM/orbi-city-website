@@ -18,6 +18,7 @@ import TermsConditions from "./pages/TermsConditions";
 import PurchaseConditions from "./pages/PurchaseConditions";
 import LoyaltyProgram from "./pages/LoyaltyProgram";
 import Blog from "./pages/Blog";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -37,7 +38,8 @@ function Router() {
       <Route path="/purchase-conditions" component={PurchaseConditions} />
       <Route path="/loyalty-program" component={LoyaltyProgram} />
       <Route path="/blog" component={Blog} />
-      <Route path={"/ 404"} component={NotFound} />
+      <Route path="/admin/:page?" component={AdminDashboard} />
+      <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
