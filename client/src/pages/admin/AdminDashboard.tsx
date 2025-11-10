@@ -17,7 +17,7 @@ import {
   X,
   LogOut,
 } from "lucide-react";
-import { APP_LOGO } from "@/const";
+import { APP_LOGO, getLoginUrl } from "@/const";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -29,7 +29,31 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const [, params] = useRoute("/admin/:page?");
   const currentPage = params?.page || "dashboard";
 
-  if (!user || user.role !== "admin") {
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Authentication Required</CardTitle>
+            <CardDescription>Please login to access the admin panel.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button 
+              className="w-full" 
+              onClick={() => window.location.href = getLoginUrl()}
+            >
+              Login
+            </Button>
+            <Link href="/">
+              <Button variant="outline" className="w-full">Go to Home</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (user.role !== "admin") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Card className="w-full max-w-md">

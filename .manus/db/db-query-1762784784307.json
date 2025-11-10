@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, openId, name, email, role, createdAt FROM users ORDER BY createdAt DESC LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3XYhkRCFNnYzEAg.92ee5a1fee46 --database 4w56Az3rzfp9tqC9C3imVD --execute SELECT id, openId, name, email, role, createdAt FROM users ORDER BY createdAt DESC LIMIT 10",
+  "rows": [
+    {
+      "id": "1",
+      "openId": "hDmANvt6c7KXg7wpT9VXZJ",
+      "name": "ORBI APARTMENTS",
+      "email": "orbi.apartments1@gmail.com",
+      "role": "admin",
+      "createdAt": "2025-11-10 09:18:26"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\topenId\tname\temail\trole\tcreatedAt\n1\thDmANvt6c7KXg7wpT9VXZJ\tORBI APARTMENTS\torbi.apartments1@gmail.com\tadmin\t2025-11-10 09:18:26\n",
+  "stderr": "",
+  "execution_time_ms": 100
+}
