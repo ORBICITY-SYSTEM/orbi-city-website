@@ -100,7 +100,6 @@ export default function Booking() {
       guestName: fullName,
       guestEmail: email,
       guestPhone: phone,
-      specialRequests,
     });
   };
 

@@ -20,7 +20,9 @@ import {
   UtensilsCrossed,
   Shield,
   Sparkles,
+  Eye,
 } from "lucide-react";
+import VirtualTour from "@/components/VirtualTour";
 import { useInView } from "react-intersection-observer";
 
 export default function ApartmentDetail() {
@@ -30,6 +32,7 @@ export default function ApartmentDetail() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(2);
+  const [showVirtualTour, setShowVirtualTour] = useState(false);
 
   const { data: apartment, isLoading } = trpc.apartments.getById.useQuery(
     { id: apartmentId },
@@ -135,6 +138,15 @@ export default function ApartmentDetail() {
                 />
                 <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full">
                   {selectedImage + 1} / {gallery.length}
+                </div>
+                <div className="absolute top-4 right-4">
+                  <Button
+                    onClick={() => setShowVirtualTour(true)}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold"
+                  >
+                    <Eye className="w-4 h-4 mr-2" />
+                    360° Virtual Tour
+                  </Button>
                 </div>
               </div>
             </div>
@@ -331,6 +343,26 @@ export default function ApartmentDetail() {
           </div>
         </div>
       </div>
+
+      {/* Virtual Tour Modal */}
+      {showVirtualTour && (
+        <VirtualTour
+          imageUrl={get360ImageForApartment(apartment.id)}
+          onClose={() => setShowVirtualTour(false)}
+        />
+      )}
     </div>
   );
+}
+
+// Helper function to map apartment IDs to 360 images
+function get360ImageForApartment(apartmentId: number): string {
+  const imageMap: Record<number, string> = {
+    1: "/360-suite-sea-view.jpg",
+    2: "/360-delux-suite.jpg",
+    3: "/360-superior-suite.jpg",
+    4: "/360-suite-sea-view.jpg", // Family suite uses same as suite
+    5: "/360-superior-suite.jpg", // Panoramic uses superior
+  };
+  return imageMap[apartmentId] || "/360-suite-sea-view.jpg";
 }

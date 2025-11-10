@@ -1,0 +1,48 @@
+{
+  "query": "SELECT * FROM apartments LIMIT 2;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3XYhkRCFNnYzEAg.92ee5a1fee46 --database 4w56Az3rzfp9tqC9C3imVD --execute SELECT * FROM apartments LIMIT 2;",
+  "rows": [
+    {
+      "id": "30006",
+      "name": "Suite with Sea View",
+      "type": "Suite",
+      "description": "An elegant suite offering breathtaking views of the sea, perfect for couples or solo travelers seeking a tranquil escape.",
+      "shortDescription": "NULL",
+      "pricePerNight": "5500",
+      "maxGuests": "3",
+      "bedrooms": "1",
+      "bathrooms": "1",
+      "area": "33",
+      "features": "[\"Sea View Balcony\",\"Fully equipped kitchen\",\"Free WiFi\",\"Air Conditioning\",\"Smart TV\",\"King Size Bed with Ceiling Mirrors\",\"SOFA BED\"]",
+      "imageUrl": "/suite-sea-view.webp",
+      "gallery": "[\"/suite-sea-view.webp\"]",
+      "model3dUrl": "NULL",
+      "isAvailable": "1",
+      "createdAt": "2025-11-10 10:25:43",
+      "updatedAt": "2025-11-10 10:25:43"
+    },
+    {
+      "id": "30007",
+      "name": "Delux Suite with Sea View",
+      "type": "Deluxe Suite",
+      "description": "A more spacious and luxurious suite with enhanced amenities and a prime sea view, designed for an indulgent stay.",
+      "shortDescription": "NULL",
+      "pricePerNight": "6500",
+      "maxGuests": "3",
+      "bedrooms": "1",
+      "bathrooms": "1",
+      "area": "42",
+      "features": "[\"Large Sea View Balcony\",\"Separate Living Area\",\"Fully equipped kitchen\",\"Free WiFi\",\"King Size Bed with Ceiling Mirrors\",\"SOFA BED\"]",
+      "imageUrl": "/delux-suite-sea-view.webp",
+      "gallery": "[\"/delux-suite-sea-view.webp\"]",
+      "model3dUrl": "NULL",
+      "isAvailable": "1",
+      "createdAt": "2025-11-10 10:25:44",
+      "updatedAt": "2025-11-10 10:25:44"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttype\tdescription\tshortDescription\tpricePerNight\tmaxGuests\tbedrooms\tbathrooms\tarea\tfeatures\timageUrl\tgallery\tmodel3dUrl\tisAvailable\tcreatedAt\tupdatedAt\n30006\tSuite with Sea View\tSuite\tAn elegant suite offering breathtaking views of the sea, perfect for couples or solo travelers seeking a tranquil escape.\tNULL\t5500\t3\t1\t1\t33\t[\"Sea View Balcony\",\"Fully equipped kitchen\",\"Free WiFi\",\"Air Conditioning\",\"Smart TV\",\"King Size Bed with Ceiling Mirrors\",\"SOFA BED\"]\t/suite-sea-view.webp\t[\"/suite-sea-view.webp\"]\tNULL\t1\t2025-11-10 10:25:43\t2025-11-10 10:25:43\n30007\tDelux Suite with Sea View\tDeluxe Suite\tA more spacious and luxurious suite with enhanced amenities and a prime sea view, designed for an indulgent stay.\tNULL\t6500\t3\t1\t1\t42\t[\"Large Sea View Balcony\",\"Separate Living Area\",\"Fully equipped kitchen\",\"Free WiFi\",\"King Size Bed with Ceiling Mirrors\",\"SOFA BED\"]\t/delux-suite-sea-view.webp\t[\"/delux-suite-sea-view.webp\"]\tNULL\t1\t2025-11-10 10:25:44\t2025-11-10 10:25:44\n",
+  "stderr": "",
+  "execution_time_ms": 80
+}
