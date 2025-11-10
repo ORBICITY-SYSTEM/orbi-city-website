@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   LogOut,
+  ExternalLink,
 } from "lucide-react";
 import { APP_LOGO, getLoginUrl } from "@/const";
 
@@ -158,6 +159,16 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               <Menu className="w-6 h-6" />
             </button>
             <div className="flex items-center space-x-4">
+              <Link href="/">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  View Site
+                </Button>
+              </Link>
               <span className="text-sm text-gray-700">Welcome, {user.name || user.email}</span>
             </div>
           </div>

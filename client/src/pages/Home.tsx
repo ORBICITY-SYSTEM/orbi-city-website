@@ -38,6 +38,7 @@ export default function Home() {
   const { user } = useAuth();
   const { data: apartments, isLoading } = trpc.apartments.list.useQuery();
   const [scrolled, setScrolled] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editingApartment, setEditingApartment] = useState<any>(null);
   const [editForm, setEditForm] = useState({
@@ -157,6 +158,18 @@ export default function Home() {
               <button className="px-4 py-2 border border-white/30 rounded text-white hover:bg-white/10 transition-colors">
                 EN
               </button>
+              {user?.role === "admin" && (
+                <button
+                  onClick={() => setEditMode(!editMode)}
+                  className={`px-4 py-2 rounded font-medium transition-all ${
+                    editMode
+                      ? "bg-yellow-500 text-slate-900 hover:bg-yellow-600"
+                      : "border border-white/30 text-white hover:bg-white/10"
+                  }`}
+                >
+                  {editMode ? "✓ Edit Mode" : "Edit Mode"}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -244,13 +257,13 @@ export default function Home() {
                         alt={apt.name}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                       />
-                      {user?.role === "admin" && (
+                      {user?.role === "admin" && editMode && (
                         <button
                           onClick={(e) => {
                             e.preventDefault();
                             handleEditClick(apt);
                           }}
-                          className="absolute top-4 right-4 bg-white/90 hover:bg-white text-slate-900 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                          className="absolute top-4 right-4 bg-yellow-500 hover:bg-yellow-600 text-slate-900 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 animate-pulse"
                           title="Edit Apartment"
                         >
                           <Pencil className="w-5 h-5" />

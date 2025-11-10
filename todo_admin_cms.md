@@ -117,3 +117,9 @@
 - [x] Add Edit button to apartment cards (visible only to admins)
 - [x] Create inline edit dialog for apartments
 - [x] Test inline editing functionality
+
+## Admin Panel Navigation
+- [x] Add "View Site" button to Admin Panel header
+- [x] Add "Edit Mode" toggle on frontend for admins
+- [x] Add visual indicator when Edit Mode is active
+- [x] Make edit buttons conditional on Edit Mode state
