@@ -110,3 +110,10 @@
 - [ ] Add error handling
 - [ ] Add success notifications
 - [ ] Add confirmation dialogs for delete actions
+
+## Frontend Inline Editing
+- [x] Remove prices from apartment cards on Home page
+- [ ] Remove prices from Apartments listing page
+- [x] Add Edit button to apartment cards (visible only to admins)
+- [x] Create inline edit dialog for apartments
+- [x] Test inline editing functionality
