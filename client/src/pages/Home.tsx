@@ -285,7 +285,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
               <h3 className="text-xl font-bold mb-4">Orbi City Batumi</h3>
               <p className="text-gray-400">
@@ -297,10 +297,24 @@ export default function Home() {
             <div>
               <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#home" className="hover:text-white transition">Home</a></li>
-                <li><a href="#apartments" className="hover:text-white transition">Apartments</a></li>
-                <li><a href="#amenities" className="hover:text-white transition">Amenities</a></li>
-                <li><a href="#contact" className="hover:text-white transition">Contact</a></li>
+                <li><a href="/" className="hover:text-white transition">Home</a></li>
+                <li><a href="/apartments" className="hover:text-white transition">Apartments</a></li>
+                <li><a href="/amenities" className="hover:text-white transition">Amenities</a></li>
+                <li><a href="/gallery" className="hover:text-white transition">Gallery</a></li>
+                <li><a href="/location" className="hover:text-white transition">Location</a></li>
+                <li><a href="/contact" className="hover:text-white transition">Contact</a></li>
+                <li><a href="/loyalty-program" className="hover:text-white transition">Loyalty Program</a></li>
+                <li><a href="/blog" className="hover:text-white transition">Blog</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold mb-4 text-yellow-500">Legal</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="/about-us" className="hover:text-white transition">About Us</a></li>
+                <li><a href="/purchase-conditions" className="hover:text-white transition">Purchase Conditions</a></li>
+                <li><a href="/privacy-policy" className="hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="/terms-conditions" className="hover:text-white transition">Terms and Conditions</a></li>
               </ul>
             </div>
             

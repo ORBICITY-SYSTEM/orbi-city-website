@@ -12,6 +12,12 @@ import Location from "./pages/Location";
 import Contact from "./pages/Contact";
 import ApartmentDetail from "./pages/ApartmentDetail";
 import Booking from "./pages/Booking";
+import AboutUs from "./pages/AboutUs";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+import PurchaseConditions from "./pages/PurchaseConditions";
+import LoyaltyProgram from "./pages/LoyaltyProgram";
+import Blog from "./pages/Blog";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -25,7 +31,13 @@ function Router() {
       <Route path="/location" component={Location} />
       <Route path="/contact" component={Contact} />
       <Route path="/booking/:id" component={Booking} />
-      <Route path={"/404"} component={NotFound} />
+      <Route path="/about-us" component={AboutUs} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/terms-conditions" component={TermsConditions} />
+      <Route path="/purchase-conditions" component={PurchaseConditions} />
+      <Route path="/loyalty-program" component={LoyaltyProgram} />
+      <Route path="/blog" component={Blog} />
+      <Route path={"/ 404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
