@@ -1,104 +1,143 @@
-import { useEffect, useRef } from "react";
-import { Link } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, MapPin, Phone, Mail, MessageCircle } from "lucide-react";
 import { trpc } from "@/lib/trpc";
-import { HERO_TITLE, HERO_SUBTITLE, CONTACT_INFO } from "@/const";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import {
+  Calendar,
+  MapPin,
+  Phone,
+  Mail,
+  Wifi,
+  UtensilsCrossed,
+  Shield,
+  Headphones,
+  Star,
+  Gift,
+  DollarSign,
+  Award,
+  ChevronUp,
+} from "lucide-react";
+import { Link } from "wouter";
+import { APP_LOGO } from "@/const";
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
   const { data: apartments, isLoading } = trpc.apartments.list.useQuery();
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    if (heroRef.current) {
-      gsap.from(heroRef.current.querySelector("h1"), {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        delay: 0.3
-      });
-      
-      gsap.from(heroRef.current.querySelector("p"), {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        delay: 0.6
-      });
-      
-      gsap.from(heroRef.current.querySelectorAll(".hero-btn"), {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        stagger: 0.2,
-        delay: 0.9
-      });
-    }
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             <Link href="/">
-              <div className="flex items-center gap-3 cursor-pointer">
-                <div className="w-12 h-12 bg-blue-600 rounded flex items-center justify-center text-white font-bold">
-                  OC
-                </div>
-                <span className="text-xl font-bold text-gray-900">ORBI CITY</span>
-              </div>
+              <a className="flex items-center gap-3">
+                <img
+                  src="/orbi-city-logo-real.webp"
+                  alt="Orbi City Logo"
+                  className="h-14 w-14 object-contain"
+                />
+                <span className="text-2xl font-bold text-white">ORBI CITY</span>
+              </a>
             </Link>
-            
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#home" className="text-gray-700 hover:text-blue-600 transition">Home</a>
-              <a href="#apartments" className="text-gray-700 hover:text-blue-600 transition">Apartments</a>
-              <a href="#amenities" className="text-gray-700 hover:text-blue-600 transition">Amenities</a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition">Contact</a>
+
+            <div className="hidden md:flex items-center gap-6">
+              <Link href="/">
+                <a className="text-white hover:text-yellow-500 transition-colors">
+                  Home
+                </a>
+              </Link>
+              <Link href="/apartments">
+                <a className="text-white hover:text-yellow-500 transition-colors">
+                  Apartments
+                </a>
+              </Link>
+              <Link href="/amenities">
+                <a className="text-white hover:text-yellow-500 transition-colors">
+                  Amenities
+                </a>
+              </Link>
+              <Link href="/gallery">
+                <a className="text-white hover:text-yellow-500 transition-colors">
+                  Gallery
+                </a>
+              </Link>
+              <Link href="/location">
+                <a className="text-white hover:text-yellow-500 transition-colors">
+                  Location
+                </a>
+              </Link>
+              <Link href="/contact">
+                <a className="text-white hover:text-yellow-500 transition-colors">
+                  Contact
+                </a>
+              </Link>
+              <Link href="/loyalty-program">
+                <a className="text-white hover:text-yellow-500 transition-colors">
+                  Loyalty Program
+                </a>
+              </Link>
+              <Link href="/blog">
+                <a className="text-white hover:text-yellow-500 transition-colors">
+                  Blog
+                </a>
+              </Link>
+              <button className="px-4 py-2 border border-white/30 rounded text-white hover:bg-white/10 transition-colors">
+                EN
+              </button>
             </div>
-            
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-              Book Now
-            </Button>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section 
-        ref={heroRef}
-        id="home"
-        className="relative h-screen flex items-center justify-center"
+      <section
+        className="relative h-screen flex items-center justify-center text-white"
         style={{
-          backgroundImage: "url('/hero-batumi-aerial.webp')",
+          backgroundImage: "url(/hero-batumi-real.webp)",
           backgroundSize: "cover",
-          backgroundPosition: "center"
+          backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-black/40" />
-        
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl">
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="relative z-10 text-center px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            {HERO_TITLE}
+            Your Perfect Seaside Escape
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-100">
-            {HERO_SUBTITLE}
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/booking">
-              <Button size="lg" className="hero-btn bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-8 py-6 text-lg font-semibold">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+            <Link href="/apartments">
+              <Button
+                size="lg"
+                className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold px-8 py-6 text-lg"
+              >
+                <Calendar className="mr-2 h-5 w-5" />
                 Book Now
               </Button>
             </Link>
-            <a href={`https://wa.me/${CONTACT_INFO.whatsapp}`} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="outline" className="hero-btn border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-6 text-lg font-semibold">
-                <MessageCircle className="mr-2 w-5 h-5" />
+            <a
+              href="https://wa.me/995555199090"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600 px-8 py-6 text-lg"
+              >
                 WhatsApp
               </Button>
             </a>
@@ -107,174 +146,480 @@ export default function Home() {
       </section>
 
       {/* Apartments Section */}
-      <section id="apartments" className="py-20 bg-gray-50">
+      <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
               Find Your Perfect Space
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Each of our apartments is thoughtfully designed to provide an unparalleled experience. 
-              Explore our offerings and find the one that speaks to you.
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Each of our apartments is thoughtfully designed to provide an
+              unparalleled experience. Explore our offerings and find the one
+              that speaks to you.
             </p>
           </div>
 
           {isLoading ? (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              <p className="text-slate-600">Loading apartments...</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {apartments?.map((apartment) => (
-                <Card key={apartment.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  <div className="relative h-64">
-                    <img 
-                      src={apartment.imageUrl} 
-                      alt={apartment.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                      {apartment.name}
-                    </h3>
-                    <p className="text-gray-600 mb-4 line-clamp-3">
-                      {apartment.description}
-                    </p>
-                    
-                    <div className="flex items-center justify-between mb-4 text-sm text-gray-500">
-                      <span>{apartment.maxGuests} Guests</span>
-                      <span>{apartment.bedrooms} Bed{apartment.bedrooms > 1 ? 's' : ''}</span>
-                      <span>{apartment.bathrooms} Bath{apartment.bathrooms > 1 ? 's' : ''}</span>
+              {apartments?.map((apt, index) => {
+                const imageMap: Record<number, string> = {
+                  30006: "/apt-suite-sea-view-real.webp",
+                  30007: "/apt-delux-suite-real.webp",
+                  30008: "/apt-superior-suite-real.webp",
+                  30009: "/apt-superior-family-real.webp",
+                  30010: "/apt-two-bedroom-real.webp",
+                };
+                const imageSrc = imageMap[apt.id] || "/hero-bg.jpg";
+
+                return (
+                  <Card
+                    key={apt.id}
+                    className="overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <img
+                        src={imageSrc}
+                        alt={apt.name}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                      />
+                      <div className="absolute top-4 right-4 bg-yellow-500 text-slate-900 px-4 py-2 rounded-full font-bold">
+                        ${apt.pricePerNight}/night
+                      </div>
                     </div>
-                    
-                    <Link href={`/apartment/${apartment.id}`}>
-                      <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold">
-                        View Details
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              ))}
+                    <CardContent className="p-6">
+                      <h3 className="text-2xl font-bold text-slate-900 mb-3">
+                        {apt.name}
+                      </h3>
+                      <p className="text-slate-600 mb-4 line-clamp-2">
+                        {apt.description}
+                      </p>
+                      <div className="flex items-center gap-4 text-sm text-slate-500 mb-4">
+                        <span>{apt.maxGuests} Guests</span>
+                        <span>•</span>
+                        <span>{apt.bedrooms} Bedroom{apt.bedrooms > 1 ? "s" : ""}</span>
+                        <span>•</span>
+                        <span>{apt.area} m²</span>
+                      </div>
+                      <Link href={`/apartment/${apt.id}`}>
+                        <Button
+                          className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                          variant="default"
+                        >
+                          View Details
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           )}
         </div>
       </section>
 
-      {/* Amenities Section */}
-      <section id="amenities" className="py-20 bg-white">
+      {/* Gallery Preview Section */}
+      <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              A Glimpse into Our World of Luxury
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="relative h-80 overflow-hidden rounded-lg group">
+              <img
+                src="/gallery-1-balcony-sea.webp"
+                alt="Stunning sea view from a balcony"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+            <div className="relative h-80 overflow-hidden rounded-lg group">
+              <img
+                src="/gallery-2-lobby.webp"
+                alt="Elegant hotel lobby"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+            <div className="relative h-80 overflow-hidden rounded-lg group">
+              <img
+                src="/gallery-3-bedroom.webp"
+                alt="Modern bedroom interior"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+            <div className="relative h-80 overflow-hidden rounded-lg group">
+              <img
+                src="/gallery-4-night-view.webp"
+                alt="Night view of Batumi coastline"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+            <div className="relative h-80 overflow-hidden rounded-lg group">
+              <img
+                src="/gallery-5-bedroom-2.webp"
+                alt="Comfortable apartment living area"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+            <div className="relative h-80 overflow-hidden rounded-lg group">
+              <img
+                src="/gallery-6-aerial-coast.webp"
+                alt="Aerial view of Batumi coast"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/gallery">
+              <Button
+                size="lg"
+                className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold"
+              >
+                View Full Gallery
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Loyalty Program Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              Loyalty Program
+            </h2>
+            <p className="text-xl text-slate-600">
+              Earn points with every stay and enjoy exclusive rewards.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+                <div className="flex justify-center mb-4">
+                  <Gift className="h-12 w-12 text-yellow-500" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Welcome Bonus
+                </h3>
+                <p className="text-slate-600">
+                  Get bonus points when you join our loyalty program
+                </p>
+              </Card>
+
+              <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+                <div className="flex justify-center mb-4">
+                  <Calendar className="h-12 w-12 text-yellow-500" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Exclusive Discounts
+                </h3>
+                <p className="text-slate-600">
+                  Enjoy special rates and early booking privileges
+                </p>
+              </Card>
+
+              <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+                <div className="flex justify-center mb-4">
+                  <DollarSign className="h-12 w-12 text-yellow-500" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Earn Points
+                </h3>
+                <p className="text-slate-600">
+                  Accumulate points with every booking and stay
+                </p>
+              </Card>
+
+              <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+                <div className="flex justify-center mb-4">
+                  <Award className="h-12 w-12 text-yellow-500" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  VIP Access
+                </h3>
+                <p className="text-slate-600">
+                  Priority service and exclusive amenities
+                </p>
+              </Card>
+            </div>
+
+            <div className="relative h-96 rounded-lg overflow-hidden">
+              <img
+                src="/loyalty-program-image.webp"
+                alt="Orbi City Luxury Interior"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/loyalty-program">
+              <Button
+                size="lg"
+                className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold"
+              >
+                Join Loyalty Program
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="py-20 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+                Discover Orbi City Batumi
+              </h2>
+              <p className="text-lg text-slate-600 mb-6 leading-relaxed">
+                Discover unparalleled luxury at Orbi City, where every apartment
+                offers breathtaking Black Sea views and five-star comfort.
+              </p>
+              <p className="text-lg text-slate-600 mb-6 leading-relaxed">
+                Located in the heart of Batumi, our serviced apartments combine
+                modern elegance with exceptional hospitality. Whether you're here
+                for business or leisure, experience the perfect blend of comfort,
+                convenience, and coastal beauty.
+              </p>
+              <div className="flex gap-4">
+                <Link href="/amenities">
+                  <Button
+                    size="lg"
+                    className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold"
+                  >
+                    Explore Amenities
+                  </Button>
+                </Link>
+                <Link href="/location">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                  >
+                    View Location
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative h-96 rounded-lg overflow-hidden">
+              <img
+                src="/about-orbi-city-image.webp"
+                alt="Orbi City Building"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-4 right-4 bg-yellow-500 text-slate-900 px-6 py-3 rounded-lg">
+                <div className="text-3xl font-bold">4.9</div>
+                <div className="flex gap-1 mt-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-current" />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Amenities Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
               World-Class Amenities
             </h2>
-            <p className="text-xl text-gray-600">
-              Everything you need for an unforgettable stay
+            <p className="text-xl text-slate-600">
+              Everything you need for a perfect stay
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { title: "Restaurant", desc: "Savor exquisite dishes prepared by our world-class chefs" },
-              { title: "Free WiFi", desc: "Stay connected with complimentary high-speed internet access" },
-              { title: "24/7 Security", desc: "Your safety is our priority with round-the-clock surveillance" },
-              { title: "Concierge", desc: "Our dedicated team is at your service for any request" }
-            ].map((amenity, idx) => (
-              <Card key={idx} className="text-center p-6 hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <div className="w-8 h-8 bg-blue-600 rounded-full"></div>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{amenity.title}</h3>
-                  <p className="text-gray-600">{amenity.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-20 bg-blue-900 text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">What Our Guests Say</h2>
-            <div className="flex items-center justify-center gap-1 mb-8">
-              {[1,2,3,4,5].map((star) => (
-                <span key={star} className="text-yellow-400 text-2xl">★</span>
-              ))}
-              <span className="ml-2 text-xl">4.9/5</span>
-            </div>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <Card className="bg-white text-gray-900 p-8">
-              <CardContent>
-                <div className="flex items-center gap-1 mb-4">
-                  {[1,2,3,4,5].map((star) => (
-                    <span key={star} className="text-yellow-400 text-xl">★</span>
-                  ))}
-                </div>
-                <p className="text-lg mb-6 italic">
-                  "Absolutely stunning views of the Black Sea! The apartment was luxurious and the staff 
-                  incredibly welcoming. The balcony breakfast was unforgettable."
-                </p>
-                <div>
-                  <p className="font-bold">Sarah Johnson</p>
-                  <p className="text-gray-600">United Kingdom</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Ready to Experience Luxury?
-            </h2>
-            <p className="text-xl text-gray-600">
-              Book your stay at Orbi City Batumi and discover the perfect blend of comfort, elegance, and breathtaking sea views
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <Card className="text-center p-6">
-              <CardContent className="pt-6">
-                <Phone className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <h3 className="font-bold text-lg mb-2">Phone</h3>
-                <a href={`tel:${CONTACT_INFO.phone}`} className="text-blue-600 hover:underline">
-                  {CONTACT_INFO.phone}
-                </a>
-              </CardContent>
+            <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+              <div className="flex justify-center mb-4">
+                <UtensilsCrossed className="h-16 w-16 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">
+                Restaurant
+              </h3>
+              <p className="text-slate-600">
+                Savor exquisite dishes prepared by our world-class chefs.
+              </p>
             </Card>
 
-            <Card className="text-center p-6">
-              <CardContent className="pt-6">
-                <Mail className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <h3 className="font-bold text-lg mb-2">Email</h3>
-                <a href={`mailto:${CONTACT_INFO.email}`} className="text-blue-600 hover:underline">
-                  {CONTACT_INFO.email}
-                </a>
-              </CardContent>
+            <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+              <div className="flex justify-center mb-4">
+                <Wifi className="h-16 w-16 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">
+                High-Speed WiFi
+              </h3>
+              <p className="text-slate-600">
+                Stay connected with complimentary high-speed internet access
+                throughout the hotel.
+              </p>
             </Card>
 
-            <Card className="text-center p-6">
-              <CardContent className="pt-6">
-                <MapPin className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                <h3 className="font-bold text-lg mb-2">Location</h3>
-                <p className="text-gray-600">{CONTACT_INFO.address}</p>
-              </CardContent>
+            <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+              <div className="flex justify-center mb-4">
+                <Shield className="h-16 w-16 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">
+                24/7 Security
+              </h3>
+              <p className="text-slate-600">
+                Your safety is our priority with round-the-clock security and
+                surveillance.
+              </p>
+            </Card>
+
+            <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+              <div className="flex justify-center mb-4">
+                <Headphones className="h-16 w-16 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">
+                Concierge Service
+              </h3>
+              <p className="text-slate-600">
+                Our dedicated concierge team is at your service upon request.
+              </p>
             </Card>
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/booking">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-6 text-lg">
-                <Calendar className="mr-2 w-5 h-5" />
+            <Link href="/amenities">
+              <Button
+                size="lg"
+                className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold"
+              >
+                Learn More
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              What Our Guests Say
+            </h2>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <Card className="p-8">
+              <div className="flex justify-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className="h-6 w-6 fill-yellow-500 text-yellow-500"
+                  />
+                ))}
+              </div>
+              <p className="text-xl text-slate-700 italic text-center mb-6">
+                "The loyalty program is fantastic! Earned points on my stay and
+                got a free welcome drink. The sea view from our balcony was
+                breathtaking every morning."
+              </p>
+              <div className="text-center">
+                <p className="font-bold text-slate-900">Sarah Johnson</p>
+                <p className="text-slate-600">United Kingdom</p>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section
+        className="relative py-32 text-white"
+        style={{
+          backgroundImage: "url(/cta-sunset-batumi.webp)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Ready to Experience Luxury?
+          </h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Book your stay at Orbi City Batumi and discover the perfect blend of
+            comfort, elegance, and breathtaking sea views.
+          </p>
+          <Link href="/contact">
+            <Button
+              size="lg"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 text-lg"
+            >
+              Contact Us
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="text-center p-8">
+              <div className="flex justify-center mb-4">
+                <Phone className="h-12 w-12 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Phone</h3>
+              <a
+                href="tel:+995555199090"
+                className="text-blue-600 hover:underline text-lg"
+              >
+                +995 555 19 90 90
+              </a>
+            </Card>
+
+            <Card className="text-center p-8">
+              <div className="flex justify-center mb-4">
+                <Mail className="h-12 w-12 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Email</h3>
+              <a
+                href="mailto:info@orbicitybatumi.com"
+                className="text-blue-600 hover:underline text-lg"
+              >
+                info@orbicitybatumi.com
+              </a>
+            </Card>
+
+            <Card className="text-center p-8">
+              <div className="flex justify-center mb-4">
+                <MapPin className="h-12 w-12 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">
+                Location
+              </h3>
+              <p className="text-slate-600 text-lg">
+                Orbi City, Block C, Khimshiashvili St, Batumi
+              </p>
+            </Card>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/apartments">
+              <Button
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg"
+              >
+                <Calendar className="mr-2 h-5 w-5" />
                 Book Now
               </Button>
             </Link>
@@ -283,56 +628,163 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-slate-900 text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">Orbi City Batumi</h3>
-              <p className="text-gray-400">
-                Discover unparalleled luxury at Orbi City, where every apartment offers breathtaking 
-                Black Sea views and five-star comfort.
+              <h3 className="text-2xl font-bold mb-4 text-yellow-500">
+                5 Star Aparthotel Orbi City
+              </h3>
+              <p className="text-slate-300">
+                Discover unparalleled luxury at Orbi City, where every apartment
+                offers breathtaking Black Sea views and five-star comfort.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="/" className="hover:text-white transition">Home</a></li>
-                <li><a href="/apartments" className="hover:text-white transition">Apartments</a></li>
-                <li><a href="/amenities" className="hover:text-white transition">Amenities</a></li>
-                <li><a href="/gallery" className="hover:text-white transition">Gallery</a></li>
-                <li><a href="/location" className="hover:text-white transition">Location</a></li>
-                <li><a href="/contact" className="hover:text-white transition">Contact</a></li>
-                <li><a href="/loyalty-program" className="hover:text-white transition">Loyalty Program</a></li>
-                <li><a href="/blog" className="hover:text-white transition">Blog</a></li>
+              <h4 className="text-lg font-semibold mb-4 text-yellow-500">
+                Quick Links
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Home
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/apartments">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Apartments
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/amenities">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Amenities
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/gallery">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Gallery
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/location">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Location
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Contact
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/loyalty-program">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Loyalty Program
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Blog
+                    </a>
+                  </Link>
+                </li>
               </ul>
             </div>
-            
+
             <div>
-              <h3 className="text-xl font-bold mb-4 text-yellow-500">Legal</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="/about-us" className="hover:text-white transition">About Us</a></li>
-                <li><a href="/purchase-conditions" className="hover:text-white transition">Purchase Conditions</a></li>
-                <li><a href="/privacy-policy" className="hover:text-white transition">Privacy Policy</a></li>
-                <li><a href="/terms-conditions" className="hover:text-white transition">Terms and Conditions</a></li>
+              <h4 className="text-lg font-semibold mb-4 text-yellow-500">
+                Legal
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/about-us">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      About Us
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/purchase-conditions">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Purchase Conditions
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy-policy">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Privacy Policy
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms-conditions">
+                    <a className="text-slate-300 hover:text-yellow-500 transition-colors">
+                      Terms and Conditions
+                    </a>
+                  </Link>
+                </li>
               </ul>
             </div>
-            
+
             <div>
-              <h3 className="text-xl font-bold mb-4">Contact</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>{CONTACT_INFO.address}</li>
-                <li>Email: {CONTACT_INFO.email}</li>
-                <li>Phone: {CONTACT_INFO.phone}</li>
+              <h4 className="text-lg font-semibold mb-4 text-yellow-500">
+                Contact
+              </h4>
+              <ul className="space-y-2 text-slate-300">
+                <li>Orbi City, Block C, Khimshiashvili St, Batumi</li>
+                <li>
+                  Email:{" "}
+                  <a
+                    href="mailto:info@orbicitybatumi.com"
+                    className="hover:text-yellow-500"
+                  >
+                    info@orbicitybatumi.com
+                  </a>
+                </li>
+                <li>
+                  Phone:{" "}
+                  <a
+                    href="tel:+995555199090"
+                    className="hover:text-yellow-500"
+                  >
+                    +995 555 19 90 90
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
-          
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-            <p>© 2025 Orbi City Batumi. All rights reserved.</p>
+
+          <div className="border-t border-slate-800 mt-8 pt-8 text-center text-slate-400">
+            <p>&copy; 2025 Orbi City Batumi. All rights reserved.</p>
           </div>
         </div>
       </footer>
+
+      {/* Scroll to Top Button */}
+      {scrolled && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all z-50"
+          aria-label="Scroll to top"
+        >
+          <ChevronUp className="h-6 w-6" />
+        </button>
+      )}
     </div>
   );
 }

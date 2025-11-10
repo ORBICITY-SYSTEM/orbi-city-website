@@ -65,7 +65,15 @@ export default function ApartmentDetail() {
     );
   }
 
-  const gallery = apartment.gallery ? JSON.parse(apartment.gallery as string) : [apartment.imageUrl];
+  // Map apartment IDs to real images
+  const imageMap: Record<number, string[]> = {
+    30006: ["/apt-suite-sea-view-real.webp", "/gallery-3-bedroom.webp", "/gallery-1-balcony-sea.webp"],
+    30007: ["/apt-delux-suite-real.webp", "/gallery-2-lobby.webp", "/gallery-5-bedroom-2.webp"],
+    30008: ["/apt-superior-suite-real.webp", "/gallery-3-bedroom.webp", "/gallery-1-balcony-sea.webp"],
+    30009: ["/apt-superior-family-real.webp", "/gallery-5-bedroom-2.webp", "/gallery-1-balcony-sea.webp"],
+    30010: ["/apt-two-bedroom-real.webp", "/gallery-6-aerial-coast.webp", "/gallery-1-balcony-sea.webp"],
+  };
+  const gallery = imageMap[apartment.id] || (apartment.gallery ? JSON.parse(apartment.gallery as string) : [apartment.imageUrl]);
   const features = apartment.features ? JSON.parse(apartment.features as string) : [];
 
   const calculateTotal = () => {
