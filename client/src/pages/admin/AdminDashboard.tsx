@@ -146,7 +146,23 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   );
 }
 
+import ApartmentsManagement from "./ApartmentsManagement";
+import GalleryManagement from "./GalleryManagement";
+
 export default function AdminDashboard() {
+  const [, params] = useRoute("/admin/:page?");
+  const currentPage = params?.page || "dashboard";
+
+  // Render different pages based on route
+  if (currentPage === "apartments") {
+    return <ApartmentsManagement />;
+  }
+
+  if (currentPage === "gallery") {
+    return <GalleryManagement />;
+  }
+
+  // Default dashboard view
   return (
     <AdminLayout>
       <div className="space-y-6">

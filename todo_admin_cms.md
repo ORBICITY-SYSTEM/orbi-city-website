@@ -26,13 +26,13 @@
 - [ ] Add apartment image gallery management
 
 ## Phase 4: Gallery Management
-- [ ] Create gallery images list with categories
-- [ ] Build image upload component (drag & drop)
-- [ ] Add image edit (title, description, category)
-- [ ] Add image delete functionality
+- [x] Create gallery images list with categories
+- [x] Build image upload component (drag & drop)
+- [x] Add image edit (title, description, category)
+- [x] Add image delete functionality
 - [ ] Implement image reordering (drag & drop)
-- [ ] Add bulk image upload
-- [ ] Add image categories management
+- [x] Add bulk image upload
+- [x] Add image categories management
 
 ## Phase 5: Blog Management
 - [ ] Create blog posts list page

@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, sql, inArray, and, gte, lte, ne } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, apartments, InsertApartment, Apartment, bookings, Booking, InsertBooking, amenities, Amenity, InsertAmenity, gallery, GalleryItem, InsertGalleryItem, testimonials, Testimonial, InsertTestimonial } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -90,9 +90,6 @@ export async function getUserByOpenId(openId: string) {
 }
 
 // Apartments
-import { apartments, amenities, gallery, bookings, testimonials, Apartment, InsertApartment, Booking, InsertBooking, Amenity, InsertAmenity, GalleryItem, InsertGalleryItem, Testimonial, InsertTestimonial } from "../drizzle/schema";
-import { and, gte, lte, ne } from "drizzle-orm";
-
 export async function getAllApartments(): Promise<Apartment[]> {
   const db = await getDb();
   if (!db) return [];
@@ -209,5 +206,39 @@ export async function deleteApartment(id: number): Promise<any> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   const result = await db.delete(apartments).where(eq(apartments.id, id));
+  return result;
+}
+
+// Gallery Management Functions
+export async function getAllGalleryItems(): Promise<GalleryItem[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(gallery).orderBy(gallery.order, gallery.createdAt);
+}
+
+export async function getGalleryItemsByCategory(category: string): Promise<GalleryItem[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(gallery).where(eq(gallery.category, category)).orderBy(gallery.order);
+}
+
+export async function updateGalleryItem(id: number, data: Partial<InsertGalleryItem>): Promise<any> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.update(gallery).set(data).where(eq(gallery.id, id));
+  return result;
+}
+
+export async function deleteGalleryItem(id: number): Promise<any> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.delete(gallery).where(eq(gallery.id, id));
+  return result;
+}
+
+export async function deleteMultipleGalleryItems(ids: number[]): Promise<any> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.delete(gallery).where(inArray(gallery.id, ids));
   return result;
 }

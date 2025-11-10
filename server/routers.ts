@@ -96,6 +96,69 @@ export const appRouter = router({
       }),
   }),
 
+  gallery: router({
+    list: publicProcedure.query(async () => {
+      const { getAllGalleryItems } = await import("./db");
+      return getAllGalleryItems();
+    }),
+    listByCategory: publicProcedure
+      .input(z.object({ category: z.string() }))
+      .query(async ({ input }) => {
+        const { getGalleryItemsByCategory } = await import("./db");
+        return getGalleryItemsByCategory(input.category);
+      }),
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string().optional(),
+        description: z.string().optional(),
+        imageUrl: z.string(),
+        category: z.string(),
+        order: z.number().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new Error("Unauthorized");
+        }
+        const { createGalleryItem } = await import("./db");
+        return createGalleryItem(input);
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        imageUrl: z.string().optional(),
+        category: z.string().optional(),
+        order: z.number().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new Error("Unauthorized");
+        }
+        const { updateGalleryItem } = await import("./db");
+        const { id, ...data } = input;
+        return updateGalleryItem(id, data);
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new Error("Unauthorized");
+        }
+        const { deleteGalleryItem } = await import("./db");
+        return deleteGalleryItem(input.id);
+      }),
+    deleteMultiple: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new Error("Unauthorized");
+        }
+        const { deleteMultipleGalleryItems } = await import("./db");
+        return deleteMultipleGalleryItems(input.ids);
+      }),
+  }),
+
   bookings: router({
     create: protectedProcedure
       .input(z.object({
