@@ -89,4 +89,109 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Apartments
+import { apartments, amenities, gallery, bookings, testimonials, Apartment, InsertApartment, Booking, InsertBooking, Amenity, InsertAmenity, GalleryItem, InsertGalleryItem, Testimonial, InsertTestimonial } from "../drizzle/schema";
+import { and, gte, lte, ne } from "drizzle-orm";
+
+export async function getAllApartments(): Promise<Apartment[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(apartments).where(eq(apartments.isAvailable, 1));
+}
+
+export async function getApartmentById(id: number): Promise<Apartment | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(apartments).where(eq(apartments.id, id)).limit(1);
+  return result[0];
+}
+
+export async function createApartment(apartment: InsertApartment): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(apartments).values(apartment);
+}
+
+// Bookings
+export async function createBooking(booking: InsertBooking): Promise<number> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(bookings).values(booking);
+  return result[0].insertId;
+}
+
+export async function getUserBookings(userId: number): Promise<Booking[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(bookings).where(eq(bookings.userId, userId));
+}
+
+export async function getBookingById(id: number): Promise<Booking | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(bookings).where(eq(bookings.id, id)).limit(1);
+  return result[0];
+}
+
+export async function checkAvailability(apartmentId: number, checkIn: Date, checkOut: Date): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  // Check if there are any overlapping bookings
+  const overlapping = await db
+    .select()
+    .from(bookings)
+    .where(
+      and(
+        eq(bookings.apartmentId, apartmentId),
+        ne(bookings.status, "cancelled"),
+        // Check for date overlap
+        lte(bookings.checkIn, checkOut),
+        gte(bookings.checkOut, checkIn)
+      )
+    );
+  
+  return overlapping.length === 0;
+}
+
+// Amenities
+export async function getAllAmenities(): Promise<Amenity[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(amenities);
+}
+
+export async function createAmenity(amenity: InsertAmenity): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(amenities).values(amenity);
+}
+
+// Gallery
+export async function getGalleryByCategory(category?: string): Promise<GalleryItem[]> {
+  const db = await getDb();
+  if (!db) return [];
+  if (category) {
+    return db.select().from(gallery).where(eq(gallery.category, category));
+  }
+  return db.select().from(gallery);
+}
+
+export async function createGalleryItem(item: InsertGalleryItem): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(gallery).values(item);
+}
+
+// Testimonials
+export async function getApprovedTestimonials(): Promise<Testimonial[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(testimonials).where(eq(testimonials.isApproved, 1));
+}
+
+export async function createTestimonial(testimonial: InsertTestimonial): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(testimonials).values(testimonial);
+}
