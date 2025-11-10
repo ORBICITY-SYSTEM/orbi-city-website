@@ -2,7 +2,7 @@ export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 
 export const APP_TITLE = import.meta.env.VITE_APP_TITLE || "App";
 
-export const APP_LOGO = "https://placehold.co/128x128/E1E7EF/1F2937?text=App";
+export const APP_LOGO = "/logo-orbi-city.webp";
 
 // Generate login URL at runtime so redirect URI reflects the current origin.
 export const getLoginUrl = () => {
@@ -19,3 +19,15 @@ export const getLoginUrl = () => {
 
   return url.toString();
 };
+
+// Contact Information
+export const CONTACT_INFO = {
+  phone: "+995 555 19 90 90",
+  email: "info@orbicitybatumi.com",
+  address: "Orbi City, Block C, Khimshiashvili St, Batumi",
+  whatsapp: "+995555199090"
+};
+
+// Hero Section
+export const HERO_TITLE = "Your Perfect Seaside Escape";
+export const HERO_SUBTITLE = "Experience luxury at Orbi City Batumi aparthotel with stunning Black Sea views, private balconies, and premium amenities";

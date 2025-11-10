@@ -1,174 +1,192 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Calendar, MapPin, Phone, Mail, MessageCircle } from "lucide-react";
 import { trpc } from "@/lib/trpc";
-import { 
-  Building2, 
-  Waves, 
-  Wifi, 
-  Shield, 
-  UtensilsCrossed, 
-  Sparkles,
-  ChevronRight,
-  Star,
-  MapPin,
-  Calendar
-} from "lucide-react";
-import { useInView } from "react-intersection-observer";
+import { HERO_TITLE, HERO_SUBTITLE, CONTACT_INFO } from "@/const";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const [scrollY, setScrollY] = useState(0);
-  
-  // Fetch apartments
-  const { data: apartments, isLoading: apartmentsLoading } = trpc.apartments.list.useQuery();
-  const { data: testimonials } = trpc.testimonials.list.useQuery();
+  const { data: apartments, isLoading } = trpc.apartments.list.useQuery();
 
-  // Parallax effect
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Hero animation
   useEffect(() => {
     if (heroRef.current) {
-      gsap.from(heroRef.current.querySelectorAll(".hero-text"), {
+      gsap.from(heroRef.current.querySelector("h1"), {
         opacity: 0,
         y: 50,
         duration: 1,
+        delay: 0.3
+      });
+      
+      gsap.from(heroRef.current.querySelector("p"), {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        delay: 0.6
+      });
+      
+      gsap.from(heroRef.current.querySelectorAll(".hero-btn"), {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
         stagger: 0.2,
-        ease: "power3.out",
+        delay: 0.9
       });
     }
   }, []);
 
-  const { ref: featuresRef, inView: featuresInView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const { ref: apartmentsRef, inView: apartmentsInView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-            <div className="flex items-center space-x-2">
-              <Building2 className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold text-primary">ORBI CITY</span>
+            <Link href="/">
+              <div className="flex items-center gap-3 cursor-pointer">
+                <div className="w-12 h-12 bg-blue-600 rounded flex items-center justify-center text-white font-bold">
+                  OC
+                </div>
+                <span className="text-xl font-bold text-gray-900">ORBI CITY</span>
+              </div>
+            </Link>
+            
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#home" className="text-gray-700 hover:text-blue-600 transition">Home</a>
+              <a href="#apartments" className="text-gray-700 hover:text-blue-600 transition">Apartments</a>
+              <a href="#amenities" className="text-gray-700 hover:text-blue-600 transition">Amenities</a>
+              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition">Contact</a>
             </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#apartments" className="text-foreground hover:text-primary transition-colors">Apartments</a>
-              <a href="#amenities" className="text-foreground hover:text-primary transition-colors">Amenities</a>
-              <a href="#location" className="text-foreground hover:text-primary transition-colors">Location</a>
-              <a href="#contact" className="text-foreground hover:text-primary transition-colors">Contact</a>
-            </div>
-            <Link href="/booking"><Button className="bg-primary hover:bg-primary/90">Book Now</Button></Link>
+            
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+              Book Now
+            </Button>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section with Parallax */}
+      {/* Hero Section */}
       <section 
         ref={heroRef}
-        className="relative h-screen flex items-center justify-center overflow-hidden"
+        id="home"
+        className="relative h-screen flex items-center justify-center"
+        style={{
+          backgroundImage: "url('/hero-batumi-aerial.webp')",
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }}
       >
-        {/* Background Image with Parallax */}
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            transform: `translateY(${scrollY * 0.5}px)`,
-            transition: "transform 0.1s ease-out",
-          }}
-        >
-          <img
-            src="/hero-bg.jpg"
-            alt="Orbi City Batumi"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
-          <div className="hero-text">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-              Your Perfect
-              <span className="block text-accent">Seaside Escape</span>
-            </h1>
-          </div>
-          <div className="hero-text">
-            <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto">
-              Experience luxury at Orbi City Batumi aparthotel with stunning Black Sea views, 
-              private balconies, and premium amenities
-            </p>
-          </div>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <div className="absolute inset-0 bg-black/40" />
+        
+        <div className="relative z-10 text-center text-white px-4 max-w-4xl">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            {HERO_TITLE}
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 text-gray-100">
+            {HERO_SUBTITLE}
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/booking">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg">
-                <Calendar className="mr-2 w-5 h-5" />
-                Book Your Stay
+              <Button size="lg" className="hero-btn bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-8 py-6 text-lg font-semibold">
+                Book Now
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary px-8 py-6 text-lg">
-              <Waves className="mr-2 w-5 h-5" />
-              Virtual Tour
-            </Button>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-3 bg-white rounded-full" />
+            <a href={`https://wa.me/${CONTACT_INFO.whatsapp}`} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="outline" className="hero-btn border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-6 text-lg font-semibold">
+                <MessageCircle className="mr-2 w-5 h-5" />
+                WhatsApp
+              </Button>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section 
-        ref={featuresRef}
-        className="py-20 bg-muted"
-      >
+      {/* Apartments Section */}
+      <section id="apartments" className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Find Your Perfect Space
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Each of our apartments is thoughtfully designed to provide an unparalleled experience. 
+              Explore our offerings and find the one that speaks to you.
+            </p>
+          </div>
+
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {apartments?.map((apartment) => (
+                <Card key={apartment.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                  <div className="relative h-64">
+                    <img 
+                      src={apartment.imageUrl} 
+                      alt={apartment.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <CardContent className="p-6">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                      {apartment.name}
+                    </h3>
+                    <p className="text-gray-600 mb-4 line-clamp-3">
+                      {apartment.description}
+                    </p>
+                    
+                    <div className="flex items-center justify-between mb-4 text-sm text-gray-500">
+                      <span>{apartment.maxGuests} Guests</span>
+                      <span>{apartment.bedrooms} Bed{apartment.bedrooms > 1 ? 's' : ''}</span>
+                      <span>{apartment.bathrooms} Bath{apartment.bathrooms > 1 ? 's' : ''}</span>
+                    </div>
+                    
+                    <Link href={`/apartment/${apartment.id}`}>
+                      <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold">
+                        View Details
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Amenities Section */}
+      <section id="amenities" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               World-Class Amenities
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600">
               Everything you need for an unforgettable stay
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: UtensilsCrossed, title: "Fine Dining", desc: "World-class chefs" },
-              { icon: Wifi, title: "High-Speed WiFi", desc: "Stay connected" },
-              { icon: Shield, title: "24/7 Security", desc: "Your safety first" },
-              { icon: Sparkles, title: "Concierge", desc: "At your service" },
-            ].map((feature, index) => (
-              <Card 
-                key={index}
-                className={`border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 ${
-                  featuresInView ? "animate-in fade-in slide-in-from-bottom-4" : "opacity-0"
-                }`}
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <feature.icon className="w-8 h-8 text-primary" />
+              { title: "Restaurant", desc: "Savor exquisite dishes prepared by our world-class chefs" },
+              { title: "Free WiFi", desc: "Stay connected with complimentary high-speed internet access" },
+              { title: "24/7 Security", desc: "Your safety is our priority with round-the-clock surveillance" },
+              { title: "Concierge", desc: "Our dedicated team is at your service for any request" }
+            ].map((amenity, idx) => (
+              <Card key={idx} className="text-center p-6 hover:shadow-lg transition-shadow">
+                <CardContent className="pt-6">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-8 h-8 bg-blue-600 rounded-full"></div>
                   </div>
-                  <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.desc}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{amenity.title}</h3>
+                  <p className="text-gray-600">{amenity.desc}</p>
                 </CardContent>
               </Card>
             ))}
@@ -176,192 +194,128 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Apartments Section */}
-      <section 
-        id="apartments"
-        ref={apartmentsRef}
-        className="py-20 bg-background"
-      >
+      {/* Testimonials */}
+      <section className="py-20 bg-blue-900 text-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Find Your Perfect Space
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Each apartment is thoughtfully designed to provide an unparalleled experience
-            </p>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">What Our Guests Say</h2>
+            <div className="flex items-center justify-center gap-1 mb-8">
+              {[1,2,3,4,5].map((star) => (
+                <span key={star} className="text-yellow-400 text-2xl">★</span>
+              ))}
+              <span className="ml-2 text-xl">4.9/5</span>
+            </div>
           </div>
 
-          {apartmentsLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3].map((i) => (
-                <Card key={i} className="animate-pulse">
-                  <div className="h-64 bg-muted" />
-                  <CardContent className="p-6">
-                    <div className="h-6 bg-muted rounded mb-2" />
-                    <div className="h-4 bg-muted rounded" />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : apartments && apartments.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {apartments.slice(0, 6).map((apartment, index) => (
-                <Card 
-                  key={apartment.id}
-                  className={`group overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-500 ${
-                    apartmentsInView ? "animate-in fade-in slide-in-from-bottom-4" : "opacity-0"
-                  }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="relative h-64 overflow-hidden">
-                    <img
-                      src={apartment.imageUrl}
-                      alt={apartment.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 right-4 bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
-                      ${apartment.pricePerNight / 100}/night
-                    </div>
-                  </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-2xl font-bold mb-2">{apartment.name}</h3>
-                    <p className="text-muted-foreground mb-4 line-clamp-2">
-                      {apartment.shortDescription || apartment.description}
-                    </p>
-                    <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                      <span>{apartment.maxGuests} Guests</span>
-                      <span>{apartment.bedrooms} Bedrooms</span>
-                      <span>{apartment.area}m²</span>
-                    </div>
-                    <Link href={`/apartment/${apartment.id}`}>
-                      <Button className="w-full group-hover:bg-primary group-hover:text-primary-foreground">
-                        View Details
-                        <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-xl text-muted-foreground">No apartments available at the moment</p>
-            </div>
-          )}
+          <div className="max-w-4xl mx-auto">
+            <Card className="bg-white text-gray-900 p-8">
+              <CardContent>
+                <div className="flex items-center gap-1 mb-4">
+                  {[1,2,3,4,5].map((star) => (
+                    <span key={star} className="text-yellow-400 text-xl">★</span>
+                  ))}
+                </div>
+                <p className="text-lg mb-6 italic">
+                  "Absolutely stunning views of the Black Sea! The apartment was luxurious and the staff 
+                  incredibly welcoming. The balcony breakfast was unforgettable."
+                </p>
+                <div>
+                  <p className="font-bold">Sarah Johnson</p>
+                  <p className="text-gray-600">United Kingdom</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      {testimonials && testimonials.length > 0 && (
-        <section className="py-20 bg-primary text-primary-foreground">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                What Our Guests Say
-              </h2>
-              <div className="flex items-center justify-center gap-1 mb-4">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="w-6 h-6 fill-secondary text-secondary" />
-                ))}
-                <span className="ml-2 text-xl font-semibold">4.9/5</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.slice(0, 3).map((testimonial) => (
-                <Card key={testimonial.id} className="bg-white text-foreground">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-1 mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-secondary text-secondary" />
-                      ))}
-                    </div>
-                    <p className="text-muted-foreground mb-4 italic">
-                      "{testimonial.comment}"
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold text-lg">
-                        {testimonial.guestName.charAt(0)}
-                      </div>
-                      <div>
-                        <p className="font-semibold">{testimonial.guestName}</p>
-                        <p className="text-sm text-muted-foreground">{testimonial.guestCountry}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Ready to Experience Luxury?
+            </h2>
+            <p className="text-xl text-gray-600">
+              Book your stay at Orbi City Batumi and discover the perfect blend of comfort, elegance, and breathtaking sea views
+            </p>
           </div>
-        </section>
-      )}
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-primary to-accent text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Experience Luxury?
-          </h2>
-          <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
-            Book your stay at Orbi City Batumi and discover the perfect blend of comfort, 
-            elegance, and breathtaking sea views
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <Card className="text-center p-6">
+              <CardContent className="pt-6">
+                <Phone className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                <h3 className="font-bold text-lg mb-2">Phone</h3>
+                <a href={`tel:${CONTACT_INFO.phone}`} className="text-blue-600 hover:underline">
+                  {CONTACT_INFO.phone}
+                </a>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6">
+              <CardContent className="pt-6">
+                <Mail className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                <h3 className="font-bold text-lg mb-2">Email</h3>
+                <a href={`mailto:${CONTACT_INFO.email}`} className="text-blue-600 hover:underline">
+                  {CONTACT_INFO.email}
+                </a>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6">
+              <CardContent className="pt-6">
+                <MapPin className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                <h3 className="font-bold text-lg mb-2">Location</h3>
+                <p className="text-gray-600">{CONTACT_INFO.address}</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="text-center mt-12">
             <Link href="/booking">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 px-8 py-6 text-lg">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-6 text-lg">
                 <Calendar className="mr-2 w-5 h-5" />
                 Book Now
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg">
-              <MapPin className="mr-2 w-5 h-5" />
-              View Location
-            </Button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-foreground text-background py-12">
+      <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Building2 className="w-6 h-6" />
-                <span className="text-xl font-bold">ORBI CITY</span>
-              </div>
-              <p className="text-background/80">
-                Luxury aparthotel in the heart of Batumi
+              <h3 className="text-xl font-bold mb-4">Orbi City Batumi</h3>
+              <p className="text-gray-400">
+                Discover unparalleled luxury at Orbi City, where every apartment offers breathtaking 
+                Black Sea views and five-star comfort.
               </p>
             </div>
+            
             <div>
-              <h3 className="font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-background/80">
-                <li><a href="#apartments" className="hover:text-background">Apartments</a></li>
-                <li><a href="#amenities" className="hover:text-background">Amenities</a></li>
-                <li><a href="#location" className="hover:text-background">Location</a></li>
-                <li><a href="#contact" className="hover:text-background">Contact</a></li>
+              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#home" className="hover:text-white transition">Home</a></li>
+                <li><a href="#apartments" className="hover:text-white transition">Apartments</a></li>
+                <li><a href="#amenities" className="hover:text-white transition">Amenities</a></li>
+                <li><a href="#contact" className="hover:text-white transition">Contact</a></li>
               </ul>
             </div>
+            
             <div>
-              <h3 className="font-bold mb-4">Contact</h3>
-              <ul className="space-y-2 text-background/80">
-                <li>Khimshiashvili St, Block C</li>
-                <li>Batumi, Georgia</li>
-                <li>+995 555 19 90 90</li>
-                <li>info@orbicitybatumi.com</li>
+              <h3 className="text-xl font-bold mb-4">Contact</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li>{CONTACT_INFO.address}</li>
+                <li>Email: {CONTACT_INFO.email}</li>
+                <li>Phone: {CONTACT_INFO.phone}</li>
               </ul>
-            </div>
-            <div>
-              <h3 className="font-bold mb-4">Follow Us</h3>
-              <div className="flex gap-4">
-                {/* Add social media icons here */}
-              </div>
             </div>
           </div>
-          <div className="border-t border-background/20 pt-8 text-center text-background/60">
-            <p>&copy; 2025 Orbi City Batumi. All rights reserved.</p>
+          
+          <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
+            <p>© 2025 Orbi City Batumi. All rights reserved.</p>
           </div>
         </div>
       </footer>
