@@ -51,7 +51,7 @@ export default function Home() {
                   alt="Orbi City Logo"
                   className="h-14 w-14 object-contain"
                 />
-                <span className="text-2xl font-bold text-white">ORBI CITY</span>
+                <span className="text-2xl font-bold text-white">ORBI CITY </span>
               </a>
             </Link>
 
