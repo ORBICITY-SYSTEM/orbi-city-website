@@ -259,3 +259,74 @@
 - [x] Document DNS settings for ORBICITYBATUMI.COM
 - [x] Prepare environment variable updates
 - [x] Create pre-launch checklist
+
+
+---
+
+## 🔍 WEBSITE AUDIT FINDINGS & FIXES
+
+### Critical Issues (Must Fix Today)
+
+- [x] Replace Rick Astley fake videos in Virtual Tours with real Orbi City property videos
+- [ ] Add unique apartment photos for each of the 5 apartment types (currently all duplicate)
+- [ ] Replace gallery placeholder images with real Orbi City photos
+- [ ] Add Google Maps integration showing Orbi City location
+- [ ] Fix footer carousel to display videos/images properly
+
+### Four Seasons Styling (Apply to ALL Pages)
+
+- [x] Navigation bar - Add gold accents, serif fonts, elegant spacing
+- [x] Hero CTA buttons - Apply gold gradient to "Contact Concierge"
+- [x] Testimonials section - Gold borders, serif typography, luxury card design
+- [x] Amenities icons - Change to gold with elegant backgrounds
+- [x] Footer - Add gold dividers, serif fonts, luxury layout
+- [ ] Contact page - Apply Four Seasons luxury styling
+- [ ] Loyalty Program page - Apply Four Seasons luxury styling
+
+### Missing Pages (Create)
+
+- [ ] Apartments listing page with filters and detailed views
+- [ ] Amenities detail page with photos and descriptions
+- [ ] Gallery page with categorized photo collections
+- [ ] Location page with Google Maps, directions, nearby POIs
+- [ ] Blog page or remove from navigation
+
+### Missing Features
+
+- [ ] Multi-language support (Georgian/English) using react-i18next
+- [ ] Apartment search/filter by date, price, features
+- [ ] Reviews section with multiple testimonials
+- [ ] FAQ accordion section
+- [ ] Pricing display on apartment cards ("From $XX/night")
+- [ ] Availability calendar showing open dates
+
+### Content Improvements
+
+- [ ] Write unique, specific content about Orbi City (not generic)
+- [ ] Add property manager/team bio section
+- [ ] Add clear cancellation policy
+- [ ] Add check-in/check-out times information
+- [ ] Add accepted payment methods icons
+- [ ] Add trust badges (SSL, security, certifications)
+
+### SEO & Performance
+
+- [ ] Add unique meta descriptions to all pages
+- [ ] Implement JSON-LD structured data for hotel/apartments
+- [ ] Compress and optimize all images
+- [ ] Create mobile-optimized version of hero video
+- [ ] Add alt text to all images
+
+### Mobile Optimization
+
+- [ ] Test hero video playback on mobile devices
+- [ ] Apply Four Seasons styling to mobile menu
+- [ ] Ensure all phone numbers are clickable (tel: links)
+- [ ] Test booking modal on mobile
+
+### Functional Fixes
+
+- [ ] Test booking flow for each apartment type
+- [ ] Customize WhatsApp pre-filled message per page context
+- [ ] Add subject line to email mailto links
+- [ ] Implement language switcher functionality (EN button currently non-functional)

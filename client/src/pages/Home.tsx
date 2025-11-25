@@ -110,7 +110,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-navy-900/98 backdrop-blur-md border-b border-gold-500/20 shadow-xl">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             <Link href="/">
@@ -120,52 +120,52 @@ export default function Home() {
                   alt="Orbi City Logo"
                   className="h-14 w-14 object-contain"
                 />
-                <span className="text-2xl font-bold text-white">ORBI CITY </span>
+                <span className="text-2xl font-serif font-light text-gold-400 tracking-wider">ORBI CITY</span>
               </span>
             </Link>
 
             <div className="hidden md:flex items-center gap-6">
               <Link href="/">
-                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
+                <span className="text-gray-100 hover:text-gold-400 transition-all duration-300 font-light tracking-wide cursor-pointer">
                   Home
                 </span>
               </Link>
               <Link href="/apartments">
-                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
+                <span className="text-gray-100 hover:text-gold-400 transition-all duration-300 font-light tracking-wide cursor-pointer">
                   Apartments
                 </span>
               </Link>
               <Link href="/amenities">
-                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
+                <span className="text-gray-100 hover:text-gold-400 transition-all duration-300 font-light tracking-wide cursor-pointer">
                   Amenities
                 </span>
               </Link>
               <Link href="/gallery">
-                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
+                <span className="text-gray-100 hover:text-gold-400 transition-all duration-300 font-light tracking-wide cursor-pointer">
                   Gallery
                 </span>
               </Link>
               <Link href="/location">
-                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
+                <span className="text-gray-100 hover:text-gold-400 transition-all duration-300 font-light tracking-wide cursor-pointer">
                   Location
                 </span>
               </Link>
               <Link href="/contact">
-                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
+                <span className="text-gray-100 hover:text-gold-400 transition-all duration-300 font-light tracking-wide cursor-pointer">
                   Contact
                 </span>
               </Link>
               <Link href="/loyalty-program">
-                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
+                <span className="text-gray-100 hover:text-gold-400 transition-all duration-300 font-light tracking-wide cursor-pointer">
                   Loyalty Program
                 </span>
               </Link>
               <Link href="/blog">
-                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
+                <span className="text-gray-100 hover:text-gold-400 transition-all duration-300 font-light tracking-wide cursor-pointer">
                   Blog
                 </span>
               </Link>
-              <button className="px-4 py-2 border border-white/30 rounded text-white hover:bg-white/10 transition-colors">
+              <button className="px-5 py-2 border border-gold-400/40 rounded-md text-gold-400 hover:bg-gold-400/10 hover:border-gold-400 transition-all duration-300 font-light tracking-wider">
                 EN
               </button>
               {user?.role === "admin" && (
@@ -237,8 +237,7 @@ export default function Home() {
             >
               <Button
                 size="lg"
-                variant="outline"
-                className="bg-transparent hover:bg-white/10 text-white border-2 border-white/50 hover:border-white px-10 py-7 text-lg backdrop-blur-sm transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-gold-400/20 to-gold-600/20 hover:from-gold-400/30 hover:to-gold-600/30 text-gold-300 border-2 border-gold-400/60 hover:border-gold-300 px-10 py-7 text-lg backdrop-blur-md transition-all duration-300 hover:scale-105 font-light tracking-wide"
               >
                 Contact Concierge
               </Button>
@@ -606,64 +605,65 @@ export default function Home() {
       </section>
 
       {/* Amenities Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-gradient-to-b from-white via-cream-50/30 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+            <p className="text-sm text-gold-600 tracking-[0.3em] uppercase mb-3 font-light">PREMIUM SERVICES</p>
+            <h2 className="text-5xl md:text-6xl font-serif font-light text-navy-900 mb-4">
               World-Class Amenities
             </h2>
-            <p className="text-xl text-slate-600">
+            <p className="text-xl text-gray-600 font-light">
               Everything you need for a perfect stay
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+            <Card className="text-center p-10 border-2 border-gold-200/30 hover:border-gold-400/50 bg-white hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
               <div className="flex justify-center mb-4">
-                <UtensilsCrossed className="h-16 w-16 text-blue-600" />
+                <UtensilsCrossed className="h-16 w-16 text-gold-500" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
+              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
                 Restaurant
               </h3>
-              <p className="text-slate-600">
+              <p className="text-gray-600 font-light leading-relaxed">
                 Savor exquisite dishes prepared by our world-class chefs.
               </p>
             </Card>
 
-            <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+            <Card className="text-center p-10 border-2 border-gold-200/30 hover:border-gold-400/50 bg-white hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
               <div className="flex justify-center mb-4">
-                <Wifi className="h-16 w-16 text-blue-600" />
+                <Wifi className="h-16 w-16 text-gold-500" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
+              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
                 High-Speed WiFi
               </h3>
-              <p className="text-slate-600">
+              <p className="text-gray-600 font-light leading-relaxed">
                 Stay connected with complimentary high-speed internet access
                 throughout the hotel.
               </p>
             </Card>
 
-            <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+            <Card className="text-center p-10 border-2 border-gold-200/30 hover:border-gold-400/50 bg-white hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
               <div className="flex justify-center mb-4">
-                <Shield className="h-16 w-16 text-blue-600" />
+                <Shield className="h-16 w-16 text-gold-500" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
+              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
                 24/7 Security
               </h3>
-              <p className="text-slate-600">
+              <p className="text-gray-600 font-light leading-relaxed">
                 Your safety is our priority with round-the-clock security and
                 surveillance.
               </p>
             </Card>
 
-            <Card className="text-center p-8 hover:shadow-xl transition-shadow">
+            <Card className="text-center p-10 border-2 border-gold-200/30 hover:border-gold-400/50 bg-white hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
               <div className="flex justify-center mb-4">
-                <Headphones className="h-16 w-16 text-blue-600" />
+                <Headphones className="h-16 w-16 text-gold-500" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
+              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
                 Concierge Service
               </h3>
-              <p className="text-slate-600">
+              <p className="text-gray-600 font-light leading-relaxed">
                 Our dedicated concierge team is at your service upon request.
               </p>
             </Card>
@@ -673,7 +673,7 @@ export default function Home() {
             <Link href="/amenities">
               <Button
                 size="lg"
-                className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold"
+                className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-light tracking-wide px-10 py-6 text-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-gold-500/50"
               >
                 Learn More
               </Button>
@@ -700,13 +700,15 @@ export default function Home() {
             {/* Video 1 - Orbi City Tour */}
             <div className="luxury-card rounded-2xl overflow-hidden bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500 group">
               <div className="relative" style={{ paddingBottom: '56.25%', height: '400px' }}>
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                  title="Orbi City Batumi - Full Tour"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                <video
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source src="/lobby-video.mp4" type="video/mp4" />
+                </video>
               </div>
               <div className="p-6 bg-white">
                 <h3 className="text-2xl font-serif font-light text-navy-900 mb-3 group-hover:text-gold-600 transition-colors duration-300">
@@ -722,13 +724,15 @@ export default function Home() {
             {/* Video 2 - Apartment Interior */}
             <div className="luxury-card rounded-2xl overflow-hidden bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500 group">
               <div className="relative" style={{ paddingBottom: '56.25%', height: '400px' }}>
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                  title="Luxury Apartment Interior Tour"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                <video
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source src="/bedroom-luxury.mp4" type="video/mp4" />
+                </video>
               </div>
               <div className="p-6 bg-white">
                 <h3 className="text-2xl font-serif font-light text-navy-900 mb-3 group-hover:text-gold-600 transition-colors duration-300">
@@ -744,13 +748,15 @@ export default function Home() {
             {/* Video 3 - Batumi Location */}
             <div className="luxury-card rounded-2xl overflow-hidden bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500 group">
               <div className="relative" style={{ paddingBottom: '56.25%', height: '400px' }}>
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                  title="Batumi City & Beach Tour"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                <video
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source src="/hero-city-timelapse.mp4" type="video/mp4" />
+                </video>
               </div>
               <div className="p-6 bg-white">
                 <h3 className="text-2xl font-serif font-light text-navy-900 mb-3 group-hover:text-gold-600 transition-colors duration-300">
@@ -766,13 +772,15 @@ export default function Home() {
             {/* Video 4 - Amenities */}
             <div className="luxury-card rounded-2xl overflow-hidden bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500 group">
               <div className="relative" style={{ paddingBottom: '56.25%', height: '400px' }}>
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                  title="Orbi City Amenities & Facilities"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                <video
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source src="/pool-video.mp4" type="video/mp4" />
+                </video>
               </div>
               <div className="p-6 bg-white">
                 <h3 className="text-2xl font-serif font-light text-navy-900 mb-3 group-hover:text-gold-600 transition-colors duration-300">
@@ -789,32 +797,33 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-24 bg-gradient-to-b from-white via-cream-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+            <p className="text-sm text-gold-600 tracking-[0.3em] uppercase mb-3 font-light">GUEST EXPERIENCES</p>
+            <h2 className="text-5xl md:text-6xl font-serif font-light text-navy-900 mb-4">
               What Our Guests Say
             </h2>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <Card className="p-8">
-              <div className="flex justify-center mb-4">
+            <Card className="p-12 border-2 border-gold-200/40 bg-white shadow-2xl hover:shadow-gold-500/20 transition-all duration-500">
+              <div className="flex justify-center mb-6">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className="h-6 w-6 fill-yellow-500 text-yellow-500"
+                    className="h-7 w-7 fill-gold-500 text-gold-500 mx-1"
                   />
                 ))}
               </div>
-              <p className="text-xl text-slate-700 italic text-center mb-6">
+              <p className="text-2xl text-navy-800 font-serif font-light italic text-center mb-8 leading-relaxed">
                 "The loyalty program is fantastic! Earned points on my stay and
                 got a free welcome drink. The sea view from our balcony was
                 breathtaking every morning."
               </p>
-              <div className="text-center">
-                <p className="font-bold text-slate-900">Sarah Johnson</p>
-                <p className="text-slate-600">United Kingdom</p>
+              <div className="text-center border-t border-gold-200/30 pt-6">
+                <p className="font-serif text-lg text-navy-900 mb-1">Sarah Johnson</p>
+                <p className="text-gray-600 font-light tracking-wide">United Kingdom</p>
               </div>
             </Card>
           </div>
@@ -858,7 +867,7 @@ export default function Home() {
               <div className="flex justify-center mb-4">
                 <Phone className="h-12 w-12 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Phone</h3>
+              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">Phone</h3>
               <a
                 href="tel:+995555199090"
                 className="text-blue-600 hover:underline text-lg"
@@ -871,7 +880,7 @@ export default function Home() {
               <div className="flex justify-center mb-4">
                 <Mail className="h-12 w-12 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Email</h3>
+              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">Email</h3>
               <a
                 href="mailto:info@orbicitybatumi.com"
                 className="text-blue-600 hover:underline text-lg"
@@ -884,7 +893,7 @@ export default function Home() {
               <div className="flex justify-center mb-4">
                 <MapPin className="h-12 w-12 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
+              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
                 Location
               </h3>
               <p className="text-slate-600 text-lg">
@@ -911,76 +920,76 @@ export default function Home() {
       <FooterCarousel />
 
       {/* Footer */}
-      <footer className="bg-navy-900 text-white py-16">
+      <footer className="bg-navy-950 text-white py-20 border-t-2 border-gold-500/20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-2xl font-bold mb-4 text-yellow-500">
+              <h3 className="text-3xl font-serif font-light mb-4 text-gold-400 tracking-wide">
                 5 Star Aparthotel Orbi City
               </h3>
-              <p className="text-slate-300">
+              <p className="text-gray-300 font-light leading-relaxed">
                 Discover unparalleled luxury at Orbi City, where every apartment
                 offers breathtaking Black Sea views and five-star comfort.
               </p>
             </div>
 
             <div>
-              <h4 className="text-lg font-semibold mb-4 text-yellow-500">
+              <h4 className="text-xl font-serif font-light mb-6 text-gold-400 tracking-wide">
                 Quick Links
               </h4>
               <ul className="space-y-2">
                 <li>
                   <Link href="/">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Home
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/apartments">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Apartments
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/amenities">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Amenities
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/gallery">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Gallery
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/location">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Location
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/contact">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Contact
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/loyalty-program">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Loyalty Program
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/blog">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Blog
                     </span>
                   </Link>
@@ -989,34 +998,34 @@ export default function Home() {
             </div>
 
             <div>
-              <h4 className="text-lg font-semibold mb-4 text-yellow-500">
+              <h4 className="text-xl font-serif font-light mb-6 text-gold-400 tracking-wide">
                 Legal
               </h4>
               <ul className="space-y-2">
                 <li>
                   <Link href="/about-us">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       About Us
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/purchase-conditions">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Purchase Conditions
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/privacy-policy">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Privacy Policy
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link href="/terms-conditions">
-                    <span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">
+                    <span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">
                       Terms and Conditions
                     </span>
                   </Link>
@@ -1025,16 +1034,16 @@ export default function Home() {
             </div>
 
             <div>
-              <h4 className="text-lg font-semibold mb-4 text-yellow-500">
+              <h4 className="text-xl font-serif font-light mb-6 text-gold-400 tracking-wide">
                 Contact
               </h4>
-              <ul className="space-y-2 text-slate-300">
+              <ul className="space-y-3 text-gray-300 font-light">
                 <li>Orbi City, Block C, Khimshiashvili St, Batumi</li>
                 <li>
                   Email:{" "}
                   <a
                     href="mailto:info@orbicitybatumi.com"
-                    className="hover:text-yellow-500"
+                    className="hover:text-gold-400 transition-colors duration-300"
                   >
                     info@orbicitybatumi.com
                   </a>
@@ -1043,7 +1052,7 @@ export default function Home() {
                   Phone:{" "}
                   <a
                     href="tel:+995555199090"
-                    className="hover:text-yellow-500"
+                    className="hover:text-gold-400 transition-colors duration-300"
                   >
                     +995 555 19 90 90
                   </a>
@@ -1052,7 +1061,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="border-t border-slate-800 mt-8 pt-8 text-center text-slate-400">
+          <div className="border-t border-gold-500/20 mt-12 pt-8 text-center text-gray-400 font-light">
             <p>&copy; 2025 Orbi City Batumi. All rights reserved.</p>
           </div>
         </div>
@@ -1062,7 +1071,7 @@ export default function Home() {
       {scrolled && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all z-50"
+          className="fixed bottom-8 right-8 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white p-4 rounded-full shadow-2xl hover:shadow-gold-500/50 transition-all duration-300 hover:scale-110 z-50"
           aria-label="Scroll to top"
         >
           <ChevronUp className="h-6 w-6" />
