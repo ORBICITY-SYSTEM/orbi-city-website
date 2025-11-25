@@ -243,10 +243,18 @@ export default function Home() {
               rel="noopener noreferrer"
             >
               <Button
+                onClick={() => setBookingModalOpen(true)}
                 size="lg"
-                className="bg-gradient-to-r from-gold-400/20 to-gold-600/20 hover:from-gold-400/30 hover:to-gold-600/30 text-gold-300 border-2 border-gold-400/60 hover:border-gold-300 px-10 py-7 text-lg backdrop-blur-md transition-all duration-300 hover:scale-105 font-light tracking-wide"
+                className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-12 py-7 text-lg shadow-2xl hover:shadow-gold-500/50 transition-all duration-300 hover:scale-105 font-serif font-light tracking-wide"
               >
-                Contact Concierge
+                Book Now
+              </Button>
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-2 border-green-400 px-10 py-7 text-lg shadow-2xl hover:shadow-green-500/50 transition-all duration-300 hover:scale-105 font-serif font-light tracking-wide"
+                onClick={() => window.open('https://wa.me/995555199090?text=Hello, I would like to book an apartment at Orbi City Batumi', '_blank')}
+              >
+                WhatsApp
               </Button>
             </a>
           </div>
@@ -855,14 +863,13 @@ export default function Home() {
             Book your stay at Orbi City Batumi and discover the perfect blend of
             comfort, elegance, and breathtaking sea views.
           </p>
-          <Link href="/contact">
-            <Button
-              size="lg"
-              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 text-lg"
-            >
-              Contact Us
-            </Button>
-          </Link>
+          <Button
+            onClick={() => setBookingModalOpen(true)}
+            size="lg"
+            className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-12 py-7 text-lg shadow-2xl hover:shadow-gold-500/50 transition-all duration-300 hover:scale-105 font-serif font-light tracking-wide"
+          >
+            Book Now
+          </Button>
         </div>
       </section>
 

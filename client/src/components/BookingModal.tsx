@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CalendarIcon, CheckCircle2, Phone, Mail, MessageCircle } from "lucide-react";
+import { BookingConfirmation } from "./BookingConfirmation";
 import { format, differenceInDays } from "date-fns";
 import { toast } from "sonner";
 
@@ -111,41 +112,28 @@ ${specialRequests || "არ არის"}
     }
   };
 
-  if (showConfirmation) {
+  if (showConfirmation && checkIn && checkOut) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-md bg-white border-2 border-gold-400">
-          <div className="text-center py-8">
-            <CheckCircle2 className="w-20 h-20 text-gold-500 mx-auto mb-6" />
-            <h3 className="text-3xl font-serif font-light text-navy-900 mb-4">
-              ჯავშანი მიღებულია!
-            </h3>
-            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              რამოდენიმე წუთში დაგირეკავთ რეზერვაციების მენეჯერი
-              <br />
-              სასურველი სართულისა და ბლოკის არჩევისთვის.
-            </p>
-            <div className="bg-gold-50 border-2 border-gold-200 rounded-xl p-6 mb-6">
-              <p className="text-sm text-gray-700 mb-2">
-                <strong>ბინა:</strong> {apartmentName}
-              </p>
-              <p className="text-sm text-gray-700 mb-2">
-                <strong>თარიღები:</strong> {checkIn && format(checkIn, "PPP")} - {checkOut && format(checkOut, "PPP")}
-              </p>
-              <p className="text-sm text-gray-700">
-                <strong>სრული ფასი:</strong> ${totalPrice}
-              </p>
-            </div>
-            <Button
-              onClick={() => {
-                setShowConfirmation(false);
-                onClose();
-              }}
-              className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-8 py-6 text-lg"
-            >
-              დახურვა
-            </Button>
-          </div>
+        <DialogContent className="max-w-4xl bg-navy-950 border-2 border-gold-500/30 max-h-[90vh] overflow-y-auto">
+          <BookingConfirmation
+            bookingDetails={{
+              apartmentName,
+              checkIn,
+              checkOut,
+              guests: 2, // You can add a guests field to the form
+              fullName: guestName,
+              email: guestEmail,
+              phone: guestPhone,
+              totalPrice,
+              nights,
+              preferredContact: contactMethod.charAt(0).toUpperCase() + contactMethod.slice(1),
+            }}
+            onClose={() => {
+              setShowConfirmation(false);
+              onClose();
+            }}
+          />
         </DialogContent>
       </Dialog>
     );
