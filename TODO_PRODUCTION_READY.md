@@ -88,3 +88,33 @@
 - [x] Create Messages Management page in Admin Panel
 - [x] Add message status tracking (new/read/replied)
 - [x] Test end-to-end contact form flow
+
+
+## 🏆 Best Practices from GitHub & Hostinger (NEW)
+
+### Phase 1: Quick Wins (Priority: HIGH)
+- [x] Add WhatsApp floating button with pre-filled message
+- [x] Create promotional popup component (20% discount voucher)
+- [x] Add localStorage to track popup "seen" status
+- [x] Create Video Tours section on homepage
+- [x] Embed YouTube videos with thumbnail previews
+
+### Phase 2: Medium Effort (Priority: MEDIUM)
+- [ ] Install and configure react-i18next
+- [ ] Create translation files (en.json, ka.json)
+- [ ] Add language switcher to navigation
+- [ ] Translate all content to Georgian
+- [ ] Persist language preference in localStorage
+
+### Phase 3: Content & Legal (Priority: MEDIUM)
+- [ ] Create About Us page
+- [ ] Create Purchase Conditions page
+- [ ] Update Privacy Policy page
+- [ ] Update Terms and Conditions page
+- [ ] Add guest testimonials section with ratings
+
+### Phase 4: Future Considerations (Priority: LOW)
+- [ ] Research Supabase migration benefits
+- [ ] Evaluate real-time features need
+- [ ] Consider Supabase Auth vs Manus OAuth
+- [ ] Plan Supabase Storage for images

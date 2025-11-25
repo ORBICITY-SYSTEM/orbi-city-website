@@ -20,6 +20,10 @@ import {
   Mail,
 } from "lucide-react";
 import { APP_LOGO, getLoginUrl } from "@/const";
+import ApartmentsManagement from "./ApartmentsManagement";
+import GalleryManagement from "./GalleryManagement";
+import BlogManagement from "./BlogManagement";
+import { MessagesManagement } from "./MessagesManagement";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -183,10 +187,6 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   );
 }
 
-import ApartmentsManagement from "./ApartmentsManagement";
-import GalleryManagement from "./GalleryManagement";
-import BlogManagement from "./BlogManagement";
-import { MessagesManagement } from "./MessagesManagement";
 export default function AdminDashboard() {
   const [, params] = useRoute("/admin/:page?");
   const currentPage = params?.page || "dashboard";

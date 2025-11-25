@@ -19,6 +19,8 @@ import PurchaseConditions from "./pages/PurchaseConditions";
 import LoyaltyProgram from "./pages/LoyaltyProgram";
 import Blog from "./pages/Blog";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import { WhatsAppButton } from "./components/WhatsAppButton";
+import { PromoPopup } from "./components/PromoPopup";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -61,6 +63,8 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <WhatsAppButton />
+          <PromoPopup />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

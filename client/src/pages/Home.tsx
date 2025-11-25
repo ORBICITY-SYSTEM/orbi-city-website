@@ -608,6 +608,106 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Video Tours Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              Virtual Tours
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Take a virtual tour of Orbi City Batumi and explore our stunning apartments and facilities from the comfort of your home.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {/* Video 1 - Orbi City Tour */}
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  title="Orbi City Batumi - Full Tour"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <div className="p-4 bg-slate-50">
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Orbi City Batumi - Full Tour
+                </h3>
+                <p className="text-slate-600">
+                  Explore the entire Orbi City complex, including apartments, amenities, and stunning sea views.
+                </p>
+              </div>
+            </div>
+
+            {/* Video 2 - Apartment Interior */}
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  title="Luxury Apartment Interior Tour"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <div className="p-4 bg-slate-50">
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Luxury Apartment Interior
+                </h3>
+                <p className="text-slate-600">
+                  Step inside our beautifully designed apartments with modern furnishings and panoramic views.
+                </p>
+              </div>
+            </div>
+
+            {/* Video 3 - Batumi Location */}
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  title="Batumi City & Beach Tour"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <div className="p-4 bg-slate-50">
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Batumi City & Beach
+                </h3>
+                <p className="text-slate-600">
+                  Discover the vibrant city of Batumi, its beautiful beaches, and nearby attractions.
+                </p>
+              </div>
+            </div>
+
+            {/* Video 4 - Amenities */}
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  title="Orbi City Amenities & Facilities"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <div className="p-4 bg-slate-50">
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  Amenities & Facilities
+                </h3>
+                <p className="text-slate-600">
+                  Tour our world-class amenities including pools, gym, restaurant, and entertainment areas.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials Section */}
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
