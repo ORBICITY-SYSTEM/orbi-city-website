@@ -27,6 +27,7 @@ import { APP_LOGO } from "@/const";
 import { MobileMenu } from "@/components/MobileMenu";
 import { trackBookingClick } from "@/components/GoogleAnalytics";
 import { FooterCarousel } from "@/components/FooterCarousel";
+import { BookingModal } from "@/components/BookingModal";
 import { useState, useEffect } from "react";
 import {
   Dialog,
@@ -48,6 +49,8 @@ export default function Home() {
   const [editMode, setEditMode] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editingApartment, setEditingApartment] = useState<any>(null);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
+  const [selectedApartment, setSelectedApartment] = useState<any>(null);
   const [editForm, setEditForm] = useState({
     name: "",
     description: "",
@@ -346,15 +349,17 @@ export default function Home() {
                           {apt.area}m²
                         </span>
                       </div>
-                      <Link href={`/apartment/${apt.id}`}>
-                        <Button
-                          className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-medium py-6 transition-all duration-300 hover:shadow-lg border-0"
-                          variant="default"
-                          onClick={() => trackBookingClick(apt.name)}
-                        >
-                          Discover Residence
-                        </Button>
-                      </Link>
+                      <Button
+                        className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-medium py-6 transition-all duration-300 hover:shadow-lg border-0"
+                        variant="default"
+                        onClick={() => {
+                          setSelectedApartment(apt);
+                          setBookingModalOpen(true);
+                          trackBookingClick(apt.name);
+                        }}
+                      >
+                        Book Now
+                      </Button>
                     </CardContent>
                   </Card>
                 );
@@ -442,83 +447,98 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Loyalty Program Section */}
-      <section className="py-20 bg-white">
+      {/* Loyalty Program Section - Four Seasons Luxury */}
+      <section className="py-32 bg-gradient-to-b from-cream to-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Loyalty Program
+          <div className="text-center mb-20 animate-fade-in-up">
+            <p className="text-gold-600 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+              Exclusive Benefits
+            </p>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light text-navy-900 mb-6">
+              Loyalty
+              <br />
+              <span className="text-gold-gradient">Program</span>
             </h2>
-            <p className="text-xl text-slate-600">
-              Earn points with every stay and enjoy exclusive rewards.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
+              Earn points with every stay and enjoy exclusive rewards crafted for our most
+              valued guests.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <Card className="text-center p-8 hover:shadow-xl transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <Gift className="h-12 w-12 text-yellow-500" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <Card className="luxury-card text-center p-10 bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500">
+                <div className="flex justify-center mb-6">
+                  <div className="p-4 bg-gold-50 rounded-full">
+                    <Gift className="h-10 w-10 text-gold-600" />
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
                   Welcome Bonus
                 </h3>
-                <p className="text-slate-600">
+                <p className="text-gray-600 font-light leading-relaxed">
                   Get bonus points when you join our loyalty program
                 </p>
               </Card>
 
-              <Card className="text-center p-8 hover:shadow-xl transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <Calendar className="h-12 w-12 text-yellow-500" />
+              <Card className="luxury-card text-center p-10 bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500">
+                <div className="flex justify-center mb-6">
+                  <div className="p-4 bg-gold-50 rounded-full">
+                    <Calendar className="h-10 w-10 text-gold-600" />
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
                   Exclusive Discounts
                 </h3>
-                <p className="text-slate-600">
+                <p className="text-gray-600 font-light leading-relaxed">
                   Enjoy special rates and early booking privileges
                 </p>
               </Card>
 
-              <Card className="text-center p-8 hover:shadow-xl transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <DollarSign className="h-12 w-12 text-yellow-500" />
+              <Card className="luxury-card text-center p-10 bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500">
+                <div className="flex justify-center mb-6">
+                  <div className="p-4 bg-gold-50 rounded-full">
+                    <DollarSign className="h-10 w-10 text-gold-600" />
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
                   Earn Points
                 </h3>
-                <p className="text-slate-600">
+                <p className="text-gray-600 font-light leading-relaxed">
                   Accumulate points with every booking and stay
                 </p>
               </Card>
 
-              <Card className="text-center p-8 hover:shadow-xl transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <Award className="h-12 w-12 text-yellow-500" />
+              <Card className="luxury-card text-center p-10 bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500">
+                <div className="flex justify-center mb-6">
+                  <div className="p-4 bg-gold-50 rounded-full">
+                    <Award className="h-10 w-10 text-gold-600" />
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
                   VIP Access
                 </h3>
-                <p className="text-slate-600">
+                <p className="text-gray-600 font-light leading-relaxed">
                   Priority service and exclusive amenities
                 </p>
               </Card>
             </div>
 
-            <div className="relative h-96 rounded-lg overflow-hidden">
+            <div className="relative h-[600px] rounded-2xl overflow-hidden border-2 border-gold-200/30">
               <img
                 src="/loyalty-program-image.webp"
                 alt="Orbi City Luxury Interior"
                 className="w-full h-full object-cover"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-900/40 to-transparent" />
             </div>
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <Link href="/loyalty-program">
               <Button
                 size="lg"
-                className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold"
+                className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-medium px-12 py-7 text-lg transition-all duration-300 hover:shadow-xl border-0"
               >
                 Join Loyalty Program
               </Button>
@@ -1142,6 +1162,20 @@ export default function Home() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Booking Modal */}
+      {selectedApartment && (
+        <BookingModal
+          isOpen={bookingModalOpen}
+          onClose={() => {
+            setBookingModalOpen(false);
+            setSelectedApartment(null);
+          }}
+          apartmentName={selectedApartment.name}
+          apartmentId={selectedApartment.id}
+          pricePerNight={selectedApartment.pricePerNight}
+        />
+      )}
     </div>
   );
 }
