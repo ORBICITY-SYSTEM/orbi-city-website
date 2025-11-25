@@ -453,3 +453,34 @@
 - [x] Set up Email notification (SMTP/SendGrid) - Using built-in notifyOwner()
 - [x] Create notification templates - WhatsApp response template created
 - [x] Test all notification channels - Vitest tests passed (11/11 tests)
+
+
+---
+
+## Phase 7: Domain Connection & Self-Management Setup
+
+### Domain Connection (ORBICITYBATUMI.COM)
+- [x] Create DNS records (A, CNAME) for ORBICITYBATUMI.COM
+- [ ] Configure custom domain in Management UI → Settings → Domains
+- [ ] Enable SSL certificate (automatic via Manus)
+- [ ] Test domain connection and redirects
+- [ ] Update Google Business Profile website URL
+- [ ] Update sitemap.xml with production domain
+- [ ] Submit sitemap to Google Search Console
+
+### Self-Management Documentation
+- [x] Create GitHub workflow guide for code editing
+- [x] Create Management UI usage guide (Code, Database, Settings)
+- [x] Create content update guide (images, text, videos)
+- [x] Create database management guide (CRUD operations)
+- [x] Create deployment guide (checkpoints, publish, rollback)
+
+### Production Readiness
+- [ ] Test all pages on production domain
+- [ ] Verify Google Analytics tracking
+- [ ] Verify Google Tag Manager events
+- [ ] Test booking system end-to-end
+- [ ] Test all notification channels
+- [ ] Verify mobile responsiveness
+- [ ] Run Lighthouse performance audit
+- [ ] Create backup/rollback plan
