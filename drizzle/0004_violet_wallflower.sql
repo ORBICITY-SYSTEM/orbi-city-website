@@ -1,0 +1,1 @@
+ALTER TABLE `bookings` ADD `contactMethod` enum('whatsapp','telegram','email','phone') DEFAULT 'whatsapp' NOT NULL;

@@ -63,6 +63,7 @@ export const bookings = mysqlTable("bookings", {
   totalPrice: int("totalPrice").notNull(), // Total price in USD cents
   status: mysqlEnum("status", ["pending", "confirmed", "cancelled", "completed"]).default("pending").notNull(),
   specialRequests: text("specialRequests"),
+  contactMethod: mysqlEnum("contactMethod", ["whatsapp", "telegram", "email", "phone"]).default("whatsapp").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

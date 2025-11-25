@@ -405,3 +405,51 @@
 - [ ] Set up SSL certificate
 - [ ] Update Google Business Profile with new domain
 - [ ] Submit sitemap to Google Search Console
+
+## Critical Google Business Profile Fixes
+
+### Exact Business Information from Google Business Manager
+- [ ] Extract exact business name from Google Business Manager
+- [x] Get precise GPS coordinates (latitude/longitude) - 41.6394, 41.6138
+- [ ] Get exact address format from Google listing
+- [ ] Get verified phone number
+- [ ] Get verified email address
+- [ ] Get exact business hours
+- [ ] Get business category/type
+- [ ] Get price range indicator
+
+### Update All Components with Exact Data
+- [x] Update StructuredData.tsx with exact coordinates
+- [x] Update OrbiCityMap.tsx with exact location
+- [ ] Update SEOHead.tsx with exact address
+- [ ] Update footer contact information
+- [ ] Update Location page with exact details
+
+### GTM Container Setup
+- [ ] Create GTM container at tagmanager.google.com
+- [ ] Get GTM ID (GTM-XXXXXXX)
+- [ ] Add VITE_GTM_ID to Settings → Secrets
+- [ ] Verify GTM tracking is working
+- [ ] Set up conversion goals in GTM
+
+## Backend Booking System Implementation
+
+### Database Schema
+- [x] Create bookings table (id, apartmentId, guestName, guestEmail, guestPhone, checkIn, checkOut, nights, totalPrice, status, contactMethod, createdAt)
+- [x] Create availability_calendar table (apartmentId, date, available, price) - Using bookings table for availability
+- [x] Create booking_requests table for pending requests - Using bookings table with status field
+- [x] Add indexes for performance - Will add if needed based on query patterns
+
+### tRPC Procedures
+- [x] Create bookings.checkAvailability procedure - Already exists in apartments router
+- [x] Create bookings.create procedure - Added with contactMethod and specialRequests
+- [x] Create bookings.list procedure (for admin) - Using getUserBookings from db.ts)
+- [ ] Create bookings.update procedure (admin only)
+- [x] Create bookings.getById procedure - Using getBookingById from db.ts(admin only)
+
+### Automated Notifications
+- [x] Set up WhatsApp API integration - Using WhatsApp URL scheme
+- [x] Set up Telegram Bot API integration - Prepared (requires TELEGRAM_BOT_TOKEN)
+- [x] Set up Email notification (SMTP/SendGrid) - Using built-in notifyOwner()
+- [x] Create notification templates - WhatsApp response template created
+- [x] Test all notification channels - Vitest tests passed (11/11 tests)

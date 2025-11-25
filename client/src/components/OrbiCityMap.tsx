@@ -4,10 +4,10 @@ import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { MapPin, Navigation, Phone } from "lucide-react";
 
-// Orbi City Batumi coordinates
+// Orbi City Batumi coordinates (Exact from Google Business Profile)
 const ORBI_CITY_LOCATION = {
-  lat: 41.6415,
-  lng: 41.6368,
+  lat: 41.6394,
+  lng: 41.6138,
 };
 
 const NEARBY_ATTRACTIONS = [

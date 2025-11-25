@@ -60,8 +60,8 @@ export function StructuredData({ page = 'home', apartmentData }: StructuredDataP
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: '41.6423',
-      longitude: '41.6344',
+      latitude: '41.6394',
+      longitude: '41.6138',
     },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',

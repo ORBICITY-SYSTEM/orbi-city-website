@@ -174,6 +174,8 @@ export const appRouter = router({
         guests: z.number().positive("Number of guests must be positive").int("Number of guests must be an integer"),
         totalPrice: z.number().positive("Total price must be positive").int("Total price must be an integer"),
         guestPhone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format").optional(),
+        contactMethod: z.enum(["whatsapp", "telegram", "email", "phone"]).default("whatsapp"),
+        specialRequests: z.string().optional(),
       }))
       .mutation(async ({ input, ctx }) => {
         // Validate check-in and check-out dates
@@ -195,8 +197,10 @@ export const appRouter = router({
           });
         }
         
-        const { createBooking } = await import("./db");
-        return createBooking({
+        const { createBooking, getApartmentById } = await import("./db");
+        const { sendBookingNotification } = await import("./_core/bookingNotifications");
+        
+        const bookingId = await createBooking({
           apartmentId: input.apartmentId,
           userId: ctx.user.id,
           checkIn,
@@ -207,7 +211,32 @@ export const appRouter = router({
           guestName: input.guestName,
           guestEmail: input.guestEmail,
           guestPhone: input.guestPhone || null,
+          contactMethod: input.contactMethod,
+          specialRequests: input.specialRequests || null,
         });
+        
+        // Send notification to property manager
+        const apartment = await getApartmentById(input.apartmentId);
+        if (apartment) {
+          await sendBookingNotification({
+            booking: {
+              id: bookingId,
+              ...input,
+              userId: ctx.user.id,
+              checkIn,
+              checkOut,
+              status: "pending" as const,
+              guestPhone: input.guestPhone || null,
+              specialRequests: input.specialRequests || null,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+            apartmentName: apartment.name,
+            contactMethod: input.contactMethod,
+          });
+        }
+        
+        return bookingId;
       }),
   }),
 
