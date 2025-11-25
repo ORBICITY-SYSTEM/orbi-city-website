@@ -1,5 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { trackWhatsAppClick } from "./GoogleAnalytics";
 
 export function WhatsAppButton() {
   const phoneNumber = "995555199090"; // +995 555 19 90 90
@@ -15,6 +16,7 @@ export function WhatsAppButton() {
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 group"
       aria-label="Contact us on WhatsApp"
+      onClick={() => trackWhatsAppClick()}
     >
       <Button
         size="lg"

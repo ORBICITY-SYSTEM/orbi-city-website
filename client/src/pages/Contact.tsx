@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { trpc } from "@/lib/trpc";
 import { MobileMenu } from "@/components/MobileMenu";
+import { trackContactFormSubmit } from "@/components/GoogleAnalytics";
 
 const contactFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -36,6 +37,7 @@ export default function Contact() {
   const createMessage = trpc.contactMessages.create.useMutation({
     onSuccess: () => {
       toast.success("Message sent successfully! We'll get back to you soon.");
+      trackContactFormSubmit();
       reset();
     },
     onError: (error) => {

@@ -118,3 +118,25 @@
 - [ ] Evaluate real-time features need
 - [ ] Consider Supabase Auth vs Manus OAuth
 - [ ] Plan Supabase Storage for images
+
+
+## 📊 Google Analytics 4 Integration (NEW)
+
+### Setup & Configuration
+- [x] Install react-ga4 package for Google Analytics
+- [x] Create GA4 component with tracking initialization
+- [x] Add GA4 Measurement ID to environment variables
+- [x] Integrate GA4 component into App.tsx
+
+### Event Tracking
+- [x] Track page views automatically on route changes
+- [x] Track booking button clicks (conversion event)
+- [x] Track contact form submissions (conversion event)
+- [x] Track WhatsApp button clicks
+- [x] Track apartment detail page views
+- [x] Track virtual tour interactions
+
+### Testing & Verification
+- [x] Test GA4 tracking in development
+- [x] Verify events in GA4 debug mode
+- [x] Document GA4 setup for production deployment

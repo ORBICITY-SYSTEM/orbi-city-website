@@ -21,6 +21,7 @@ import Blog from "./pages/Blog";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import { PromoPopup } from "./components/PromoPopup";
+import { GoogleAnalytics } from "./components/GoogleAnalytics";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -62,6 +63,7 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
+          <GoogleAnalytics />
           <Router />
           <WhatsAppButton />
           <PromoPopup />

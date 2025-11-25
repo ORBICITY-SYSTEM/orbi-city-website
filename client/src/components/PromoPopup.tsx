@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { X, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { trackPromoCodeCopy } from "./GoogleAnalytics";
 import {
   Dialog,
   DialogContent,
@@ -38,6 +39,7 @@ export function PromoPopup() {
     try {
       await navigator.clipboard.writeText(promoCode);
       setCopied(true);
+      trackPromoCodeCopy(promoCode);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy:", err);

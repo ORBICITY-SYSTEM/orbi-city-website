@@ -22,6 +22,7 @@ import {
 import { Link } from "wouter";
 import { APP_LOGO } from "@/const";
 import { MobileMenu } from "@/components/MobileMenu";
+import { trackBookingClick } from "@/components/GoogleAnalytics";
 import { useState, useEffect } from "react";
 import {
   Dialog,
@@ -308,6 +309,7 @@ export default function Home() {
                         <Button
                           className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                           variant="default"
+                          onClick={() => trackBookingClick(apt.name)}
                         >
                           View Details
                         </Button>

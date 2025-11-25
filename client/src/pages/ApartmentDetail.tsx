@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import VirtualTour from "@/components/VirtualTour";
 import { useInView } from "react-intersection-observer";
+import { trackApartmentView } from "@/components/GoogleAnalytics";
 
 export default function ApartmentDetail() {
   const [, params] = useRoute("/apartment/:id");
@@ -38,6 +39,13 @@ export default function ApartmentDetail() {
     { id: apartmentId },
     { enabled: apartmentId > 0 }
   );
+
+  // Track apartment view when data loads
+  useEffect(() => {
+    if (apartment) {
+      trackApartmentView(apartment.name);
+    }
+  }, [apartment]);
 
   const { ref: featuresRef, inView: featuresInView } = useInView({
     triggerOnce: true,
