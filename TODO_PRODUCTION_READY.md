@@ -140,3 +140,68 @@
 - [x] Test GA4 tracking in development
 - [x] Verify events in GA4 debug mode
 - [x] Document GA4 setup for production deployment
+
+
+## 🐛 Bug Fixes (URGENT)
+
+- [ ] Fix nested anchor tag error on homepage
+- [ ] Verify all pages are free of nested anchor tags
+- [ ] Test all navigation links after fix
+
+## 📊 GA4 Dashboard Setup
+
+- [ ] Create GA4 dashboard configuration guide
+- [ ] Document key metrics to monitor
+- [ ] Create custom reports for conversions
+- [ ] Set up alerts for important events
+
+
+## 🏆 Four Seasons Luxury Upgrade (HIGH PRIORITY)
+
+### Design System
+- [ ] Implement luxury color palette (gold, deep navy, cream, white)
+- [ ] Add premium typography (Playfair Display, Cormorant Garamond)
+- [ ] Increase spacing and whitespace for elegance
+- [ ] Add sophisticated shadows and depth
+- [ ] Implement smooth scroll behavior
+
+### Premium Features
+- [ ] Integrate city timelapse video as hero background
+- [ ] Add fade-in animations for sections
+- [ ] Implement parallax scrolling effects
+- [ ] Add hover animations with smooth transitions
+- [ ] Create luxury card designs with gold accents
+- [ ] Add loading animations for premium feel
+
+### Micro-Interactions
+- [ ] Button hover effects with gold shimmer
+- [ ] Image zoom on hover
+- [ ] Smooth page transitions
+- [ ] Animated counters for statistics
+- [ ] Elegant form focus states
+
+### Video Integration
+- [ ] Move uploaded video to public folder
+- [ ] Create video hero component
+- [ ] Add video controls and overlay
+- [ ] Optimize video loading
+
+
+## 🎬 Virtual Tours & Media Enhancement
+
+- [x] Resize Virtual Tours section to 2x2 grid (exact sizing from reference)
+- [x] Add new videos to public folder (breakfast, pool, etc.)
+- [x] Add new images to public folder
+- [x] Create footer carousel component
+- [x] Integrate images and videos in footer slider
+- [x] Optimize video loading and autoplay
+
+## ✨ Complete Four Seasons Transformation
+
+- [x] Gallery section - luxury grid with gold accents
+- [ ] Loyalty Program - elegant card design
+- [ ] Amenities section - premium icons and spacing
+- [ ] Testimonials - sophisticated quote styling
+- [ ] CTA sections - gold gradient buttons
+- [x] Footer - dark navy with gold highlights
+- [ ] Navigation - refined hover effects
