@@ -280,6 +280,40 @@ export const appRouter = router({
         return deleteBlogPost(input.id);
       }),
   }),
+
+  contactMessages: router({
+    list: protectedProcedure.query(async () => {
+      const { getAllContactMessages } = await import("./db");
+      return getAllContactMessages();
+    }),
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(1, "Name is required"),
+        email: z.string().email("Valid email is required"),
+        phone: z.string().optional(),
+        subject: z.string().optional(),
+        message: z.string().min(10, "Message must be at least 10 characters"),
+      }))
+      .mutation(async ({ input }) => {
+        const { createContactMessage } = await import("./db");
+        return createContactMessage(input);
+      }),
+    updateStatus: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["new", "read", "replied"]),
+      }))
+      .mutation(async ({ input }) => {
+        const { updateContactMessageStatus } = await import("./db");
+        return updateContactMessageStatus(input.id, input.status);
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const { deleteContactMessage } = await import("./db");
+        return deleteContactMessage(input.id);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

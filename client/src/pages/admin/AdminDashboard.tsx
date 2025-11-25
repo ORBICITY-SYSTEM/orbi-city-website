@@ -17,6 +17,7 @@ import {
   X,
   LogOut,
   ExternalLink,
+  Mail,
 } from "lucide-react";
 import { APP_LOGO, getLoginUrl } from "@/const";
 
@@ -78,6 +79,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     { id: "bookings", label: "Bookings", icon: Calendar, href: "/admin/bookings" },
     { id: "gallery", label: "Gallery", icon: Image, href: "/admin/gallery" },
     { id: "blog", label: "Blog", icon: FileText, href: "/admin/blog" },
+    { id: "messages", label: "Messages", icon: Mail, href: "/admin/messages" },
     { id: "testimonials", label: "Testimonials", icon: Star, href: "/admin/testimonials" },
     { id: "amenities", label: "Amenities", icon: Sparkles, href: "/admin/amenities" },
     { id: "users", label: "Users", icon: Users, href: "/admin/users" },
@@ -184,7 +186,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 import ApartmentsManagement from "./ApartmentsManagement";
 import GalleryManagement from "./GalleryManagement";
 import BlogManagement from "./BlogManagement";
-
+import { MessagesManagement } from "./MessagesManagement";
 export default function AdminDashboard() {
   const [, params] = useRoute("/admin/:page?");
   const currentPage = params?.page || "dashboard";
@@ -200,6 +202,10 @@ export default function AdminDashboard() {
 
   if (currentPage === "blog") {
     return <BlogManagement />;
+  }
+
+  if (currentPage === "messages") {
+    return <MessagesManagement />;
   }
 
   // Default dashboard view

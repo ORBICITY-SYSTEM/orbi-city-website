@@ -1,6 +1,6 @@
 import { eq, sql, inArray, and, gte, lte, ne, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, apartments, InsertApartment, Apartment, bookings, Booking, InsertBooking, amenities, Amenity, InsertAmenity, gallery, GalleryItem, InsertGalleryItem, testimonials, Testimonial, InsertTestimonial, blogPosts, BlogPost, InsertBlogPost } from "../drizzle/schema";
+import { InsertUser, users, apartments, InsertApartment, Apartment, bookings, Booking, InsertBooking, amenities, Amenity, InsertAmenity, gallery, GalleryItem, InsertGalleryItem, testimonials, Testimonial, InsertTestimonial, blogPosts, BlogPost, InsertBlogPost, contactMessages, ContactMessage, InsertContactMessage } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -413,5 +413,82 @@ export async function deleteBlogPost(id: number) {
   } catch (error: any) {
     console.error("[Database] Failed to delete blog post:", error);
     throw new Error("Failed to delete blog post. Please try again.");
+  }
+}
+
+
+// ==================== Contact Messages ====================
+
+export async function createContactMessage(data: InsertContactMessage) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  try {
+    const [result] = await db.insert(contactMessages).values(data);
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to create contact message:", error);
+    throw new Error("Failed to create contact message");
+  }
+}
+
+export async function getAllContactMessages() {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  try {
+    return await db.select().from(contactMessages).orderBy(desc(contactMessages.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get contact messages:", error);
+    throw new Error("Failed to get contact messages");
+  }
+}
+
+export async function getContactMessageById(id: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  try {
+    const [message] = await db.select().from(contactMessages).where(eq(contactMessages.id, id)).limit(1);
+    return message;
+  } catch (error) {
+    console.error("[Database] Failed to get contact message:", error);
+    throw new Error("Failed to get contact message");
+  }
+}
+
+export async function updateContactMessageStatus(id: number, status: "new" | "read" | "replied") {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  try {
+    await db.update(contactMessages).set({ status }).where(eq(contactMessages.id, id));
+    return { success: true };
+  } catch (error) {
+    console.error("[Database] Failed to update contact message status:", error);
+    throw new Error("Failed to update contact message status");
+  }
+}
+
+export async function deleteContactMessage(id: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  try {
+    await db.delete(contactMessages).where(eq(contactMessages.id, id));
+    return { success: true };
+  } catch (error) {
+    console.error("[Database] Failed to delete contact message:", error);
+    throw new Error("Failed to delete contact message");
   }
 }
