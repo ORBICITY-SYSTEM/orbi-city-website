@@ -22,6 +22,9 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import { PromoPopup } from "./components/PromoPopup";
 import { GoogleAnalytics } from "./components/GoogleAnalytics";
+import { GoogleTagManager } from "./components/GoogleTagManager";
+import { StructuredData } from "./components/StructuredData";
+import { HelmetProvider } from "react-helmet-async";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -57,18 +60,22 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <GoogleAnalytics />
-          <Router />
-          <WhatsAppButton />
-          <PromoPopup />
-        </TooltipProvider>
-      </ThemeProvider>
+      <HelmetProvider>
+        <ThemeProvider
+          defaultTheme="light"
+          // switchable
+        >
+          <TooltipProvider>
+            <Toaster />
+            <StructuredData page="home" />
+            <Router />
+            <WhatsAppButton />
+            <PromoPopup />
+            <GoogleAnalytics />
+            <GoogleTagManager gtmId={import.meta.env.VITE_GTM_ID || ''} />
+          </TooltipProvider>
+        </ThemeProvider>
+      </HelmetProvider>
     </ErrorBoundary>
   );
 }

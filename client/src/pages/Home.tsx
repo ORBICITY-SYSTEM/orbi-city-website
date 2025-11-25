@@ -30,6 +30,7 @@ import { FooterCarousel } from "@/components/FooterCarousel";
 import { BookingModal } from "@/components/BookingModal";
 import { OrbiCityMap } from "@/components/OrbiCityMap";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { SEOHead } from "@/components/SEOHead";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import {
@@ -112,7 +113,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
+      <SEOHead
+        title="Orbi City Batumi - Luxury Sea View Aparthotel | Book Your Perfect Getaway"
+        description="Experience Four Seasons level luxury at Orbi City Batumi. Modern apartments with stunning Black Sea views, premium amenities, 24/7 concierge, and prime beachfront location. Book your perfect getaway today."
+        keywords="Batumi apartments, Orbi City, luxury aparthotel, sea view apartments, Batumi accommodation, beachfront apartments, Georgia hotels, Batumi hotels, vacation rentals Batumi, Orbi City Batumi, Black Sea apartments"
+        url="https://orbicitybatumi.com"
+      />
+      <div className="min-h-screen flex flex-col">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-navy-900/98 backdrop-blur-md border-b border-gold-500/20 shadow-xl">
         <div className="container mx-auto px-4">
@@ -1160,5 +1168,6 @@ export default function Home() {
         />
       )}
     </div>
+    </>
   );
 }

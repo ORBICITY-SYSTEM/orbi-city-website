@@ -45,8 +45,8 @@
 - [ ] Install and configure Winston logging
 - [ ] Add email notification system
 - [ ] Add meta tags to all pages
-- [ ] Create sitemap.xml
-- [ ] Create robots.txt
+- [x] Create sitemap.xml
+- [x] Create robots.txt
 - [ ] Add Open Graph tags
 - [ ] Add Twitter Card tags
 
@@ -369,3 +369,39 @@
 - [x] Add "WhatsApp" button as second CTA in hero section
 - [x] Add "Book Now" buttons throughout website sections
 - [x] Test complete booking flow
+
+## Google Business Profile Integration & Domain Launch
+
+### Google Tag Manager & Analytics
+- [x] Create GTM container and install on website
+- [x] Set up GA4 enhanced ecommerce tracking
+- [x] Track booking funnel (view apartment → submit booking)
+- [x] Set up conversion goals and custom dashboards
+
+### Schema.org Structured Data
+- [x] Add Hotel/LodgingBusiness JSON-LD schema
+- [x] Add AggregateRating schema for reviews
+- [x] Add Offer schema for pricing
+- [x] Add LocalBusiness schema with address and hours
+
+### SEO Optimization
+- [x] Create sitemap.xml
+- [x] Create robots.txt
+- [x] Add proper meta titles and descriptions
+- [x] Add Open Graph tags for social sharing
+- [x] Add canonical URLs
+- [x] Add hreflang tags for Georgian/English
+
+### Google Business Profile Updates
+- [ ] Extract high-quality photos from videos for upload
+- [x] Create review response templates (Georgian + English)
+- [ ] Update business description with luxury keywords
+- [ ] Add website URL (ORBICITYBATUMI.COM)
+
+### Domain Migration to ORBICITYBATUMI.COM
+- [ ] Test all features on staging
+- [ ] Update environment variables for production
+- [ ] Configure DNS settings
+- [ ] Set up SSL certificate
+- [ ] Update Google Business Profile with new domain
+- [ ] Submit sitemap to Google Search Console
