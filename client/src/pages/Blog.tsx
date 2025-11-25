@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { APP_LOGO } from "@/const";
 import { MobileMenu } from "@/components/MobileMenu";
 import { trpc } from "@/lib/trpc";
@@ -89,19 +90,19 @@ export default function Blog() {
       <header className="bg-white border-b sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/">
-            <a className="flex items-center gap-2 text-2xl font-bold text-primary">
+            <span className="flex items-center gap-2 text-2xl font-bold text-primary cursor-pointer">
               <img src={APP_LOGO} alt="OC" className="w-10 h-10" />
               ORBI CITY
-            </a>
+            </span>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/"><a className="text-gray-600 hover:text-primary transition-colors">Home</a></Link>
-            <Link href="/apartments"><a className="text-gray-600 hover:text-primary transition-colors">Apartments</a></Link>
-            <Link href="/amenities"><a className="text-gray-600 hover:text-primary transition-colors">Amenities</a></Link>
-            <Link href="/gallery"><a className="text-gray-600 hover:text-primary transition-colors">Gallery</a></Link>
-            <Link href="/location"><a className="text-gray-600 hover:text-primary transition-colors">Location</a></Link>
-            <Link href="/contact"><a className="text-gray-600 hover:text-primary transition-colors">Contact</a></Link>
-            <Link href="/blog"><a className="text-primary font-semibold">Blog</a></Link>
+            <Link href="/"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Home</span></Link>
+            <Link href="/apartments"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Apartments</span></Link>
+            <Link href="/amenities"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Amenities</span></Link>
+            <Link href="/gallery"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Gallery</span></Link>
+            <Link href="/location"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Location</span></Link>
+            <Link href="/contact"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Contact</span></Link>
+            <Link href="/blog"><span className="text-primary font-semibold cursor-pointer">Blog</span></Link>
           </nav>
           <div className="flex items-center gap-4">
             {user?.role === "admin" && (
@@ -136,8 +137,22 @@ export default function Blog() {
 
       {/* Blog Grid */}
       <section className="py-16">
-        <div className="container mx-auto px-4">
-          {!posts || posts.length === 0 ? (
+             <div className="container mx-auto px-4">
+          {isLoading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <article key={i} className="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-200">
+                  <Skeleton className="h-48 w-full" />
+                  <div className="p-6 space-y-3">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-1/3 mt-4" />
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : !posts || posts.length === 0 ? (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">📝</div>
               <h3 className="text-2xl font-bold text-gray-700 mb-2">No Blog Posts Yet</h3>
@@ -148,7 +163,7 @@ export default function Blog() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post) => (
+              {posts?.map((post) => (
                 <article
                   key={post.id}
                   className="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-200 hover:shadow-xl transition-shadow duration-300 relative"
@@ -282,11 +297,11 @@ export default function Blog() {
             <div>
               <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <div className="flex flex-col gap-2">
-                <Link href="/"><a className="text-slate-300 hover:text-yellow-500 transition-colors">Home</a></Link>
-                <Link href="/apartments"><a className="text-slate-300 hover:text-yellow-500 transition-colors">Apartments</a></Link>
-                <Link href="/amenities"><a className="text-slate-300 hover:text-yellow-500 transition-colors">Amenities</a></Link>
-                <Link href="/gallery"><a className="text-slate-300 hover:text-yellow-500 transition-colors">Gallery</a></Link>
-                <Link href="/contact"><a className="text-slate-300 hover:text-yellow-500 transition-colors">Contact</a></Link>
+                <Link href="/"><span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">Home</span></Link>
+                <Link href="/apartments"><span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">Apartments</span></Link>
+                <Link href="/amenities"><span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">Amenities</span></Link>
+                <Link href="/gallery"><span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">Gallery</span></Link>
+                <Link href="/contact"><span className="text-slate-300 hover:text-yellow-500 transition-colors cursor-pointer">Contact</span></Link>
               </div>
             </div>
             <div>

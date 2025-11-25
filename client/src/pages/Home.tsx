@@ -1,6 +1,7 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
 import {
   Calendar,
@@ -105,56 +106,56 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             <Link href="/">
-              <a className="flex items-center gap-3">
+              <span className="flex items-center gap-3 cursor-pointer">
                 <img
                   src="/orbi-city-logo-real.webp"
                   alt="Orbi City Logo"
                   className="h-14 w-14 object-contain"
                 />
                 <span className="text-2xl font-bold text-white">ORBI CITY </span>
-              </a>
+              </span>
             </Link>
 
             <div className="hidden md:flex items-center gap-6">
               <Link href="/">
-                <a className="text-white hover:text-yellow-500 transition-colors">
+                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
                   Home
-                </a>
+                </span>
               </Link>
               <Link href="/apartments">
-                <a className="text-white hover:text-yellow-500 transition-colors">
+                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
                   Apartments
-                </a>
+                </span>
               </Link>
               <Link href="/amenities">
-                <a className="text-white hover:text-yellow-500 transition-colors">
+                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
                   Amenities
-                </a>
+                </span>
               </Link>
               <Link href="/gallery">
-                <a className="text-white hover:text-yellow-500 transition-colors">
+                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
                   Gallery
-                </a>
+                </span>
               </Link>
               <Link href="/location">
-                <a className="text-white hover:text-yellow-500 transition-colors">
+                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
                   Location
-                </a>
+                </span>
               </Link>
               <Link href="/contact">
-                <a className="text-white hover:text-yellow-500 transition-colors">
+                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
                   Contact
-                </a>
+                </span>
               </Link>
               <Link href="/loyalty-program">
-                <a className="text-white hover:text-yellow-500 transition-colors">
+                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
                   Loyalty Program
-                </a>
+                </span>
               </Link>
               <Link href="/blog">
-                <a className="text-white hover:text-yellow-500 transition-colors">
+                <span className="text-white hover:text-yellow-500 transition-colors cursor-pointer">
                   Blog
-                </a>
+                </span>
               </Link>
               <button className="px-4 py-2 border border-white/30 rounded text-white hover:bg-white/10 transition-colors">
                 EN
@@ -235,8 +236,23 @@ export default function Home() {
           </div>
 
           {isLoading ? (
-            <div className="text-center py-12">
-              <p className="text-slate-600">Loading apartments...</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-lg">
+                  <Skeleton className="h-64 w-full" />
+                  <div className="p-6 space-y-3">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <div className="flex gap-4 pt-4">
+                      <Skeleton className="h-4 w-20" />
+                      <Skeleton className="h-4 w-20" />
+                      <Skeleton className="h-4 w-20" />
+                    </div>
+                    <Skeleton className="h-10 w-full mt-4" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

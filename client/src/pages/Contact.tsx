@@ -49,12 +49,12 @@ export default function Contact() {
             </a>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/"><a className="text-gray-600 hover:text-primary transition-colors">Home</a></Link>
-            <Link href="/apartments"><a className="text-gray-600 hover:text-primary transition-colors">Apartments</a></Link>
-            <Link href="/amenities"><a className="text-gray-600 hover:text-primary transition-colors">Amenities</a></Link>
-            <Link href="/gallery"><a className="text-gray-600 hover:text-primary transition-colors">Gallery</a></Link>
-            <Link href="/location"><a className="text-gray-600 hover:text-primary transition-colors">Location</a></Link>
-            <Link href="/contact"><a className="text-primary font-semibold">Contact</a></Link>
+            <Link href="/"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Home</span></Link>
+            <Link href="/apartments"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Apartments</span></Link>
+            <Link href="/amenities"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Amenities</span></Link>
+            <Link href="/gallery"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Gallery</span></Link>
+            <Link href="/location"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Location</span></Link>
+            <Link href="/contact"><span className="text-primary font-semibold cursor-pointer">Contact</span></Link>
           </nav>
           <Link href="/apartments">
             <Button>Book Now</Button>
@@ -269,10 +269,10 @@ export default function Contact() {
             <div>
               <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <div className="flex flex-col gap-2">
-                <Link href="/"><a className="text-gray-400 hover:text-white transition-colors">Home</a></Link>
-                <Link href="/apartments"><a className="text-gray-400 hover:text-white transition-colors">Apartments</a></Link>
-                <Link href="/amenities"><a className="text-gray-400 hover:text-white transition-colors">Amenities</a></Link>
-                <Link href="/contact"><a className="text-gray-400 hover:text-white transition-colors">Contact</a></Link>
+                <Link href="/"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Home</span></Link>
+                <Link href="/apartments"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Apartments</span></Link>
+                <Link href="/amenities"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Amenities</span></Link>
+                <Link href="/contact"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Contact</span></Link>
               </div>
             </div>
             <div>

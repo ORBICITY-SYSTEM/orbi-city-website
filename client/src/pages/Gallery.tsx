@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { X, ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react";
 import { APP_LOGO } from "@/const";
 import { MobileMenu } from "@/components/MobileMenu";
@@ -133,12 +134,12 @@ export default function Gallery() {
             </a>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/"><a className="text-gray-600 hover:text-primary transition-colors">Home</a></Link>
-            <Link href="/apartments"><a className="text-gray-600 hover:text-primary transition-colors">Apartments</a></Link>
-            <Link href="/amenities"><a className="text-gray-600 hover:text-primary transition-colors">Amenities</a></Link>
-            <Link href="/gallery"><a className="text-primary font-semibold">Gallery</a></Link>
-            <Link href="/location"><a className="text-gray-600 hover:text-primary transition-colors">Location</a></Link>
-            <Link href="/contact"><a className="text-gray-600 hover:text-primary transition-colors">Contact</a></Link>
+            <Link href="/"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Home</span></Link>
+            <Link href="/apartments"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Apartments</span></Link>
+            <Link href="/amenities"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Amenities</span></Link>
+            <Link href="/gallery"><span className="text-primary font-semibold cursor-pointer">Gallery</span></Link>
+            <Link href="/location"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Location</span></Link>
+            <Link href="/contact"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Contact</span></Link>
           </nav>
           <div className="flex items-center gap-4">
             {user?.role === "admin" && (
@@ -191,7 +192,13 @@ export default function Gallery() {
       {/* Gallery Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          {filteredImages.length === 0 ? (
+          {isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <Skeleton key={i} className="aspect-square w-full rounded-lg" />
+              ))}
+            </div>
+          ) : filteredImages.length === 0 ? (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">📷</div>
               <h3 className="text-2xl font-bold text-gray-700 mb-2">No Images Yet</h3>
@@ -313,10 +320,10 @@ export default function Gallery() {
             <div>
               <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <div className="flex flex-col gap-2">
-                <Link href="/"><a className="text-gray-400 hover:text-white transition-colors">Home</a></Link>
-                <Link href="/apartments"><a className="text-gray-400 hover:text-white transition-colors">Apartments</a></Link>
-                <Link href="/amenities"><a className="text-gray-400 hover:text-white transition-colors">Amenities</a></Link>
-                <Link href="/contact"><a className="text-gray-400 hover:text-white transition-colors">Contact</a></Link>
+                <Link href="/"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Home</span></Link>
+                <Link href="/apartments"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Apartments</span></Link>
+                <Link href="/amenities"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Amenities</span></Link>
+                <Link href="/contact"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Contact</span></Link>
               </div>
             </div>
             <div>

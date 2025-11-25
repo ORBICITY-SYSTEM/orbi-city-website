@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2, Users, Bed, Bath, Maximize, Star, Pencil } from "lucide-react";
 import { APP_LOGO } from "@/const";
 import { MobileMenu } from "@/components/MobileMenu";
@@ -96,12 +97,12 @@ export default function Apartments() {
             </a>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/"><a className="text-gray-600 hover:text-primary transition-colors">Home</a></Link>
-            <Link href="/apartments"><a className="text-primary font-semibold">Apartments</a></Link>
-            <Link href="/amenities"><a className="text-gray-600 hover:text-primary transition-colors">Amenities</a></Link>
-            <Link href="/gallery"><a className="text-gray-600 hover:text-primary transition-colors">Gallery</a></Link>
-            <Link href="/location"><a className="text-gray-600 hover:text-primary transition-colors">Location</a></Link>
-            <Link href="/contact"><a className="text-gray-600 hover:text-primary transition-colors">Contact</a></Link>
+            <Link href="/"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Home</span></Link>
+            <Link href="/apartments"><span className="text-primary font-semibold cursor-pointer">Apartments</span></Link>
+            <Link href="/amenities"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Amenities</span></Link>
+            <Link href="/gallery"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Gallery</span></Link>
+            <Link href="/location"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Location</span></Link>
+            <Link href="/contact"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Contact</span></Link>
           </nav>
           <div className="flex items-center gap-4">
             {user?.role === "admin" && (
@@ -175,6 +176,26 @@ export default function Apartments() {
       {/* Apartments Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <Card key={i} className="overflow-hidden">
+                  <Skeleton className="h-64 w-full" />
+                  <CardContent className="p-6 space-y-3">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <div className="flex gap-4 pt-4">
+                      <Skeleton className="h-4 w-16" />
+                      <Skeleton className="h-4 w-16" />
+                      <Skeleton className="h-4 w-16" />
+                    </div>
+                    <Skeleton className="h-10 w-full mt-4" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredApartments?.map((apartment) => (
               <Card key={apartment.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 group">
@@ -233,6 +254,7 @@ export default function Apartments() {
               </Card>
             ))}
           </div>
+          )}
         </div>
       </section>
 
@@ -264,10 +286,10 @@ export default function Apartments() {
             <div>
               <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <div className="flex flex-col gap-2">
-                <Link href="/"><a className="text-gray-400 hover:text-white transition-colors">Home</a></Link>
-                <Link href="/apartments"><a className="text-gray-400 hover:text-white transition-colors">Apartments</a></Link>
-                <Link href="/amenities"><a className="text-gray-400 hover:text-white transition-colors">Amenities</a></Link>
-                <Link href="/contact"><a className="text-gray-400 hover:text-white transition-colors">Contact</a></Link>
+                <Link href="/"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Home</span></Link>
+                <Link href="/apartments"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Apartments</span></Link>
+                <Link href="/amenities"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Amenities</span></Link>
+                <Link href="/contact"><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Contact</span></Link>
               </div>
             </div>
             <div>

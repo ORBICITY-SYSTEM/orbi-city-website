@@ -106,16 +106,57 @@ export async function getApartmentById(id: number): Promise<Apartment | undefine
 export async function createApartment(apartment: InsertApartment): Promise<any> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.insert(apartments).values(apartment);
-  return result;
+  
+  try {
+    const result = await db.insert(apartments).values(apartment);
+    return result;
+  } catch (error: any) {
+    console.error("[Database] Failed to create apartment:", error);
+    if (error.code === 'ER_DUP_ENTRY') {
+      throw new Error("An apartment with this name already exists");
+    }
+    throw new Error("Failed to create apartment. Please try again.");
+  }
 }
 
 // Bookings
 export async function createBooking(booking: InsertBooking): Promise<number> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.insert(bookings).values(booking);
-  return result[0].insertId;
+  
+  try {
+    // Check for booking conflicts
+    const conflicts = await db
+      .select()
+      .from(bookings)
+      .where(
+        and(
+          eq(bookings.apartmentId, booking.apartmentId),
+          sql`${bookings.status} != 'cancelled'`,
+          sql`(
+            (${bookings.checkIn} <= ${booking.checkIn} AND ${bookings.checkOut} > ${booking.checkIn})
+            OR (${bookings.checkIn} < ${booking.checkOut} AND ${bookings.checkOut} >= ${booking.checkOut})
+            OR (${bookings.checkIn} >= ${booking.checkIn} AND ${bookings.checkOut} <= ${booking.checkOut})
+          )`
+        )
+      );
+    
+    if (conflicts.length > 0) {
+      throw new Error("This apartment is not available for the selected dates. Please choose different dates.");
+    }
+    
+    const result = await db.insert(bookings).values(booking);
+    return result[0].insertId;
+  } catch (error: any) {
+    console.error("[Database] Failed to create booking:", error);
+    if (error.message.includes("not available")) {
+      throw error; // Re-throw our custom error
+    }
+    if (error.code === 'ER_DUP_ENTRY') {
+      throw new Error("A booking with these details already exists");
+    }
+    throw new Error("Failed to create booking. Please try again.");
+  }
 }
 
 export async function getUserBookings(userId: number): Promise<Booking[]> {
@@ -198,15 +239,30 @@ export async function createTestimonial(testimonial: InsertTestimonial): Promise
 export async function updateApartment(id: number, data: Partial<InsertApartment>): Promise<any> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.update(apartments).set(data).where(eq(apartments.id, id));
-  return result;
+  
+  try {
+    const result = await db.update(apartments).set(data).where(eq(apartments.id, id));
+    return result;
+  } catch (error: any) {
+    console.error("[Database] Failed to update apartment:", error);
+    throw new Error("Failed to update apartment. Please try again.");
+  }
 }
 
 export async function deleteApartment(id: number): Promise<any> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.delete(apartments).where(eq(apartments.id, id));
-  return result;
+  
+  try {
+    const result = await db.delete(apartments).where(eq(apartments.id, id));
+    return result;
+  } catch (error: any) {
+    console.error("[Database] Failed to delete apartment:", error);
+    if (error.code === 'ER_ROW_IS_REFERENCED_2') {
+      throw new Error("Cannot delete apartment with existing bookings");
+    }
+    throw new Error("Failed to delete apartment. Please try again.");
+  }
 }
 
 // Gallery Management Functions
@@ -225,22 +281,40 @@ export async function getGalleryItemsByCategory(category: string): Promise<Galle
 export async function updateGalleryItem(id: number, data: Partial<InsertGalleryItem>): Promise<any> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.update(gallery).set(data).where(eq(gallery.id, id));
-  return result;
+  
+  try {
+    const result = await db.update(gallery).set(data).where(eq(gallery.id, id));
+    return result;
+  } catch (error: any) {
+    console.error("[Database] Failed to update gallery item:", error);
+    throw new Error("Failed to update gallery item. Please try again.");
+  }
 }
 
 export async function deleteGalleryItem(id: number): Promise<any> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.delete(gallery).where(eq(gallery.id, id));
-  return result;
+  
+  try {
+    const result = await db.delete(gallery).where(eq(gallery.id, id));
+    return result;
+  } catch (error: any) {
+    console.error("[Database] Failed to delete gallery item:", error);
+    throw new Error("Failed to delete gallery item. Please try again.");
+  }
 }
 
 export async function deleteMultipleGalleryItems(ids: number[]): Promise<any> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.delete(gallery).where(inArray(gallery.id, ids));
-  return result;
+  
+  try {
+    const result = await db.delete(gallery).where(inArray(gallery.id, ids));
+    return result;
+  } catch (error: any) {
+    console.error("[Database] Failed to delete gallery items:", error);
+    throw new Error("Failed to delete gallery items. Please try again.");
+  }
 }
 
 
@@ -303,20 +377,41 @@ export async function createBlogPost(post: InsertBlogPost) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  const result = await db.insert(blogPosts).values(post);
-  return result;
+  try {
+    const result = await db.insert(blogPosts).values(post);
+    return result;
+  } catch (error: any) {
+    console.error("[Database] Failed to create blog post:", error);
+    if (error.code === 'ER_DUP_ENTRY') {
+      throw new Error("A blog post with this slug already exists");
+    }
+    throw new Error("Failed to create blog post. Please try again.");
+  }
 }
 
 export async function updateBlogPost(id: number, post: Partial<InsertBlogPost>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  await db.update(blogPosts).set(post).where(eq(blogPosts.id, id));
+  try {
+    await db.update(blogPosts).set(post).where(eq(blogPosts.id, id));
+  } catch (error: any) {
+    console.error("[Database] Failed to update blog post:", error);
+    if (error.code === 'ER_DUP_ENTRY') {
+      throw new Error("A blog post with this slug already exists");
+    }
+    throw new Error("Failed to update blog post. Please try again.");
+  }
 }
 
 export async function deleteBlogPost(id: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  await db.delete(blogPosts).where(eq(blogPosts.id, id));
+  try {
+    await db.delete(blogPosts).where(eq(blogPosts.id, id));
+  } catch (error: any) {
+    console.error("[Database] Failed to delete blog post:", error);
+    throw new Error("Failed to delete blog post. Please try again.");
+  }
 }

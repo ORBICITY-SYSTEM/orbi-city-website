@@ -2,6 +2,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const appRouter = router({
@@ -44,21 +45,24 @@ export const appRouter = router({
       }),
     create: protectedProcedure
       .input(z.object({
-        name: z.string(),
-        type: z.string(),
-        description: z.string(),
-        shortDescription: z.string().optional(),
-        pricePerNight: z.number(),
-        maxGuests: z.number(),
-        bedrooms: z.number(),
-        bathrooms: z.number(),
-        area: z.number().optional(),
-        imageUrl: z.string(),
+        name: z.string().min(2, "Name must be at least 2 characters").max(255, "Name is too long"),
+        type: z.string().min(2, "Type must be at least 2 characters").max(100, "Type is too long"),
+        description: z.string().min(10, "Description must be at least 10 characters"),
+        shortDescription: z.string().max(500, "Short description is too long").optional(),
+        pricePerNight: z.number().positive("Price must be positive").int("Price must be an integer"),
+        maxGuests: z.number().positive("Max guests must be positive").int("Max guests must be an integer"),
+        bedrooms: z.number().nonnegative("Bedrooms cannot be negative").int("Bedrooms must be an integer"),
+        bathrooms: z.number().nonnegative("Bathrooms cannot be negative").int("Bathrooms must be an integer"),
+        area: z.number().positive("Area must be positive").int("Area must be an integer").optional(),
+        imageUrl: z.string().url("Invalid image URL"),
         features: z.string().optional(),
       }))
       .mutation(async ({ input, ctx }) => {
         if (ctx.user.role !== "admin") {
-          throw new Error("Unauthorized");
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'Only admins can create apartments'
+          });
         }
         const { createApartment } = await import("./db");
         return createApartment(input);
@@ -162,22 +166,41 @@ export const appRouter = router({
   bookings: router({
     create: protectedProcedure
       .input(z.object({
-        apartmentId: z.number(),
-        guestName: z.string(),
-        guestEmail: z.string(),
-        checkIn: z.string(),
-        checkOut: z.string(),
-        guests: z.number(),
-        totalPrice: z.number(),
-        guestPhone: z.string().optional(),
+        apartmentId: z.number().positive("Apartment ID must be positive"),
+        guestName: z.string().min(2, "Name must be at least 2 characters").max(255, "Name is too long"),
+        guestEmail: z.string().email("Invalid email address").max(320, "Email is too long"),
+        checkIn: z.string().datetime("Invalid check-in date format"),
+        checkOut: z.string().datetime("Invalid check-out date format"),
+        guests: z.number().positive("Number of guests must be positive").int("Number of guests must be an integer"),
+        totalPrice: z.number().positive("Total price must be positive").int("Total price must be an integer"),
+        guestPhone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format").optional(),
       }))
       .mutation(async ({ input, ctx }) => {
+        // Validate check-in and check-out dates
+        const checkIn = new Date(input.checkIn);
+        const checkOut = new Date(input.checkOut);
+        const now = new Date();
+        
+        if (checkIn < now) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'Check-in date cannot be in the past'
+          });
+        }
+        
+        if (checkOut <= checkIn) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'Check-out date must be after check-in date'
+          });
+        }
+        
         const { createBooking } = await import("./db");
         return createBooking({
           apartmentId: input.apartmentId,
           userId: ctx.user.id,
-          checkIn: new Date(input.checkIn),
-          checkOut: new Date(input.checkOut),
+          checkIn,
+          checkOut,
           guests: input.guests,
           totalPrice: input.totalPrice,
           status: "pending",
