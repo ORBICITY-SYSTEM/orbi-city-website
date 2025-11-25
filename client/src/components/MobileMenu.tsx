@@ -47,16 +47,16 @@ export function MobileMenu({ currentPath = "/" }: MobileMenuProps) {
         <nav className="flex flex-col gap-4 mt-8">
           {menuItems.map((item) => (
             <Link key={item.href} href={item.href}>
-              <a
+              <span
                 onClick={() => setOpen(false)}
-                className={`block px-4 py-3 rounded-lg transition-colors ${
+                className={`block px-4 py-3 rounded-lg transition-colors cursor-pointer ${
                   currentPath === item.href
                     ? "bg-primary text-white font-semibold"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}
               >
                 {item.label}
-              </a>
+              </span>
             </Link>
           ))}
           <div className="mt-4 px-4">

@@ -1,6 +1,6 @@
-import { eq, sql, inArray, and, gte, lte, ne } from "drizzle-orm";
+import { eq, sql, inArray, and, gte, lte, ne, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, apartments, InsertApartment, Apartment, bookings, Booking, InsertBooking, amenities, Amenity, InsertAmenity, gallery, GalleryItem, InsertGalleryItem, testimonials, Testimonial, InsertTestimonial } from "../drizzle/schema";
+import { InsertUser, users, apartments, InsertApartment, Apartment, bookings, Booking, InsertBooking, amenities, Amenity, InsertAmenity, gallery, GalleryItem, InsertGalleryItem, testimonials, Testimonial, InsertTestimonial, blogPosts, BlogPost, InsertBlogPost } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -241,4 +241,82 @@ export async function deleteMultipleGalleryItems(ids: number[]): Promise<any> {
   if (!db) throw new Error("Database not available");
   const result = await db.delete(gallery).where(inArray(gallery.id, ids));
   return result;
+}
+
+
+// ============================================
+// Blog Posts
+// ============================================
+
+export async function getAllBlogPosts() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const posts = await db
+    .select()
+    .from(blogPosts)
+    .orderBy(desc(blogPosts.publishedAt));
+  
+  return posts;
+}
+
+export async function getPublishedBlogPosts() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const posts = await db
+    .select()
+    .from(blogPosts)
+    .where(eq(blogPosts.status, "published"))
+    .orderBy(desc(blogPosts.publishedAt));
+  
+  return posts;
+}
+
+export async function getBlogPostById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db
+    .select()
+    .from(blogPosts)
+    .where(eq(blogPosts.id, id))
+    .limit(1);
+  
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getBlogPostBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db
+    .select()
+    .from(blogPosts)
+    .where(eq(blogPosts.slug, slug))
+    .limit(1);
+  
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createBlogPost(post: InsertBlogPost) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(blogPosts).values(post);
+  return result;
+}
+
+export async function updateBlogPost(id: number, post: Partial<InsertBlogPost>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(blogPosts).set(post).where(eq(blogPosts.id, id));
+}
+
+export async function deleteBlogPost(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(blogPosts).where(eq(blogPosts.id, id));
 }

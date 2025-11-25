@@ -187,6 +187,76 @@ export const appRouter = router({
         });
       }),
   }),
+
+  blog: router({
+    list: publicProcedure.query(async () => {
+      const { getPublishedBlogPosts } = await import("./db");
+      return getPublishedBlogPosts();
+    }),
+    listAll: protectedProcedure.query(async () => {
+      const { getAllBlogPosts } = await import("./db");
+      return getAllBlogPosts();
+    }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        const { getBlogPostById } = await import("./db");
+        return getBlogPostById(input.id);
+      }),
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => {
+        const { getBlogPostBySlug } = await import("./db");
+        return getBlogPostBySlug(input.slug);
+      }),
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string(),
+        slug: z.string(),
+        content: z.string(),
+        excerpt: z.string().optional(),
+        featuredImage: z.string().optional(),
+        status: z.enum(["draft", "published"]).default("draft"),
+        publishedAt: z.string().optional(),
+        metaTitle: z.string().optional(),
+        metaDescription: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const { createBlogPost } = await import("./db");
+        return createBlogPost({
+          ...input,
+          authorId: ctx.user!.id,
+          publishedAt: input.publishedAt ? new Date(input.publishedAt) : undefined,
+        });
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().optional(),
+        slug: z.string().optional(),
+        content: z.string().optional(),
+        excerpt: z.string().optional(),
+        featuredImage: z.string().optional(),
+        status: z.enum(["draft", "published"]).optional(),
+        publishedAt: z.string().optional(),
+        metaTitle: z.string().optional(),
+        metaDescription: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { updateBlogPost } = await import("./db");
+        const { id, ...data } = input;
+        return updateBlogPost(id, {
+          ...data,
+          publishedAt: input.publishedAt ? new Date(input.publishedAt) : undefined,
+        });
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const { deleteBlogPost } = await import("./db");
+        return deleteBlogPost(input.id);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

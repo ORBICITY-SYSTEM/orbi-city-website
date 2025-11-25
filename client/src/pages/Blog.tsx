@@ -1,65 +1,87 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { APP_LOGO } from "@/const";
 import { MobileMenu } from "@/components/MobileMenu";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { Loader2, Pencil } from "lucide-react";
+import { format } from "date-fns";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "sonner";
 
 export default function Blog() {
-  const blogPosts = [
-    {
-      id: 1,
-      title: "Top 10 Things to Do in Batumi",
-      excerpt: "Discover the best attractions, restaurants, and hidden gems in Georgia's coastal gem.",
-      author: "Orbi City Team",
-      date: "March 15, 2024",
-      category: "Travel Guide",
-      image: "/hero-batumi-aerial.jpg"
+  const { user } = useAuth();
+  const { data: posts, isLoading } = trpc.blog.list.useQuery();
+  const [editMode, setEditMode] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingPost, setEditingPost] = useState<any>(null);
+  const [editForm, setEditForm] = useState({
+    title: "",
+    slug: "",
+    content: "",
+    excerpt: "",
+    featuredImage: "",
+    status: "draft" as "draft" | "published",
+  });
+
+  const utils = trpc.useUtils();
+  const updateMutation = trpc.blog.update.useMutation({
+    onSuccess: () => {
+      toast.success("Blog post updated successfully");
+      utils.blog.list.invalidate();
+      setEditDialogOpen(false);
     },
-    {
-      id: 2,
-      title: "Why Choose an Aparthotel Over a Traditional Hotel",
-      excerpt: "Learn about the benefits of aparthotel living and why it's perfect for both short and long stays.",
-      author: "Orbi City Team",
-      date: "March 10, 2024",
-      category: "Accommodation Tips",
-      image: "/suite-sea-view.jpg"
+    onError: (error) => {
+      toast.error(`Failed to update post: ${error.message}`);
     },
-    {
-      id: 3,
-      title: "Batumi's Best Beaches: A Complete Guide",
-      excerpt: "From family-friendly shores to secluded spots, explore Batumi's stunning Black Sea coastline.",
-      author: "Orbi City Team",
-      date: "March 5, 2024",
-      category: "Travel Guide",
-      image: "/balcony-view.jpg"
-    },
-    {
-      id: 4,
-      title: "Georgian Cuisine: Must-Try Dishes in Batumi",
-      excerpt: "A culinary journey through Georgia's rich food culture and the best restaurants in Batumi.",
-      author: "Orbi City Team",
-      date: "February 28, 2024",
-      category: "Food & Dining",
-      image: "/amenity-restaurant.jpg"
-    },
-    {
-      id: 5,
-      title: "Planning Your Perfect Batumi Getaway",
-      excerpt: "Essential tips for planning an unforgettable vacation in Batumi, from weather to activities.",
-      author: "Orbi City Team",
-      date: "February 20, 2024",
-      category: "Travel Tips",
-      image: "/delux-suite-sea-view.jpg"
-    },
-    {
-      id: 6,
-      title: "Orbi City's Sustainability Initiatives",
-      excerpt: "Learn how we're committed to environmental responsibility and sustainable tourism.",
-      author: "Orbi City Team",
-      date: "February 15, 2024",
-      category: "Sustainability",
-      image: "/superior-suite-sea-view.jpg"
-    }
-  ];
+  });
+
+  const handleEditClick = (post: any) => {
+    setEditingPost(post);
+    setEditForm({
+      title: post.title,
+      slug: post.slug,
+      content: post.content,
+      excerpt: post.excerpt || "",
+      featuredImage: post.featuredImage || "",
+      status: post.status,
+    });
+    setEditDialogOpen(true);
+  };
+
+  const handleEditSubmit = () => {
+    if (!editingPost) return;
+    updateMutation.mutate({
+      id: editingPost.id,
+      ...editForm,
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
@@ -82,6 +104,18 @@ export default function Blog() {
             <Link href="/blog"><a className="text-primary font-semibold">Blog</a></Link>
           </nav>
           <div className="flex items-center gap-4">
+            {user?.role === "admin" && (
+              <button
+                onClick={() => setEditMode(!editMode)}
+                className={`px-4 py-2 rounded font-medium transition-all ${
+                  editMode
+                    ? "bg-yellow-500 text-slate-900 hover:bg-yellow-600"
+                    : "border border-gray-300 text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {editMode ? "✓ Edit Mode" : "Edit Mode"}
+              </button>
+            )}
             <Link href="/apartments">
               <Button>Book Now</Button>
             </Link>
@@ -103,44 +137,137 @@ export default function Blog() {
       {/* Blog Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
-              <article
-                key={post.id}
-                className="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-200 hover:shadow-xl transition-shadow duration-300"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                      {post.category}
-                    </span>
-                  </div>
-                </div>
+          {!posts || posts.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="text-6xl mb-4">📝</div>
+              <h3 className="text-2xl font-bold text-gray-700 mb-2">No Blog Posts Yet</h3>
+              <p className="text-gray-500 mb-6">Check back soon for exciting content!</p>
+              {user?.role === "admin" && (
+                <p className="text-sm text-gray-400">Go to Admin Panel → Blog Management to create posts</p>
+              )}
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {posts.map((post) => (
+                <article
+                  key={post.id}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-200 hover:shadow-xl transition-shadow duration-300 relative"
+                >
+                  {user?.role === "admin" && editMode && (
+                    <button
+                      onClick={() => handleEditClick(post)}
+                      className="absolute top-4 right-4 z-10 bg-yellow-500 hover:bg-yellow-600 text-slate-900 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110 animate-pulse"
+                      title="Edit Post"
+                    >
+                      <Pencil className="w-5 h-5" />
+                    </button>
+                  )}
 
-                <div className="p-6">
-                  <h2 className="text-2xl font-bold mb-3 hover:text-blue-600 transition-colors">
-                    {post.title}
-                  </h2>
-                  
-                  <p className="text-slate-600 mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-
-                  <div className="flex items-center justify-between text-sm text-slate-500">
-                    <span>{post.author}</span>
-                    <span>{post.date}</span>
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={post.featuredImage || "/hero-batumi-aerial.jpg"}
+                      alt={post.title}
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    />
                   </div>
-                </div>
-              </article>
-            ))}
-          </div>
+
+                  <div className="p-6">
+                    <h2 className="text-2xl font-bold mb-3 hover:text-blue-600 transition-colors">
+                      {post.title}
+                    </h2>
+                    
+                    <p className="text-slate-600 mb-4 line-clamp-3">
+                      {post.excerpt || post.content.substring(0, 150) + "..."}
+                    </p>
+
+                    <div className="flex items-center justify-between text-sm text-slate-500">
+                      <span>{post.publishedAt ? format(new Date(post.publishedAt), "MMM d, yyyy") : "Draft"}</span>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
+
+      {/* Edit Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Blog Post</DialogTitle>
+            <DialogDescription>
+              Update the blog post details below
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                value={editForm.title}
+                onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="excerpt">Excerpt</Label>
+              <Textarea
+                id="excerpt"
+                value={editForm.excerpt}
+                onChange={(e) => setEditForm({ ...editForm, excerpt: e.target.value })}
+                rows={3}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="content">Content</Label>
+              <Textarea
+                id="content"
+                value={editForm.content}
+                onChange={(e) => setEditForm({ ...editForm, content: e.target.value })}
+                rows={10}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="featuredImage">Featured Image URL</Label>
+              <Input
+                id="featuredImage"
+                value={editForm.featuredImage}
+                onChange={(e) => setEditForm({ ...editForm, featuredImage: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="status">Status</Label>
+              <Select
+                value={editForm.status}
+                onValueChange={(value: "draft" | "published") => setEditForm({ ...editForm, status: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="published">Published</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleEditSubmit} disabled={updateMutation.isPending}>
+              {updateMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              Update
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Footer */}
       <footer className="bg-slate-900 text-white py-16">
