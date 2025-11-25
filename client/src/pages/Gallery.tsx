@@ -124,22 +124,22 @@ export default function Gallery() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-50">
+      {/* Header - Four Seasons Luxury */}
+      <header className="bg-navy-950 border-b-2 border-gold-500/20 sticky top-0 z-50 backdrop-blur-md">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/">
-            <a className="flex items-center gap-2 text-2xl font-bold text-primary">
+            <a className="flex items-center gap-2 text-2xl font-serif font-light text-gold-400">
               <img src={APP_LOGO} alt="OC" className="w-10 h-10" />
               ORBI CITY
             </a>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Home</span></Link>
-            <Link href="/apartments"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Apartments</span></Link>
-            <Link href="/amenities"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Amenities</span></Link>
-            <Link href="/gallery"><span className="text-primary font-semibold cursor-pointer">Gallery</span></Link>
-            <Link href="/location"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Location</span></Link>
-            <Link href="/contact"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Contact</span></Link>
+            <Link href="/"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Home</span></Link>
+            <Link href="/apartments"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Apartments</span></Link>
+            <Link href="/amenities"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Amenities</span></Link>
+            <Link href="/gallery"><span className="text-gold-400 font-medium cursor-pointer">Gallery</span></Link>
+            <Link href="/location"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Location</span></Link>
+            <Link href="/contact"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Contact</span></Link>
           </nav>
           <div className="flex items-center gap-4">
             {user?.role === "admin" && (
@@ -212,7 +212,7 @@ export default function Gallery() {
               {filteredImages.map((image, index) => (
                 <div
                 key={image.id}
-                className="group relative overflow-hidden rounded-lg cursor-pointer aspect-[4/3]"
+                className="group relative overflow-hidden rounded-lg border-2 border-gold-200/30 hover:border-gold-400/50 shadow-xl hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500 cursor-pointer aspect-[4/3]"
                 onClick={() => openLightbox(image.id)}
               >
                 <img

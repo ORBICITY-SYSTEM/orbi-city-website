@@ -28,6 +28,9 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { trackBookingClick } from "@/components/GoogleAnalytics";
 import { FooterCarousel } from "@/components/FooterCarousel";
 import { BookingModal } from "@/components/BookingModal";
+import { OrbiCityMap } from "@/components/OrbiCityMap";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import {
   Dialog,
@@ -43,6 +46,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 export default function Home() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { data: apartments, isLoading } = trpc.apartments.list.useQuery();
   const [scrolled, setScrolled] = useState(false);
@@ -181,6 +185,9 @@ export default function Home() {
                 </button>
               )}
             </div>
+            
+            {/* Language Switcher */}
+            <LanguageSwitcher />
             
             {/* Mobile Menu */}
             <MobileMenu currentPath="/" />
@@ -859,60 +866,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="py-20 bg-white">
+      {/* Location & Map Section - Four Seasons Luxury */}
+      <section className="py-24 bg-gradient-to-b from-white via-cream-50/30 to-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center p-8">
-              <div className="flex justify-center mb-4">
-                <Phone className="h-12 w-12 text-blue-600" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">Phone</h3>
-              <a
-                href="tel:+995555199090"
-                className="text-blue-600 hover:underline text-lg"
-              >
-                +995 555 19 90 90
-              </a>
-            </Card>
-
-            <Card className="text-center p-8">
-              <div className="flex justify-center mb-4">
-                <Mail className="h-12 w-12 text-blue-600" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">Email</h3>
-              <a
-                href="mailto:info@orbicitybatumi.com"
-                className="text-blue-600 hover:underline text-lg"
-              >
-                info@orbicitybatumi.com
-              </a>
-            </Card>
-
-            <Card className="text-center p-8">
-              <div className="flex justify-center mb-4">
-                <MapPin className="h-12 w-12 text-blue-600" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
-                Location
-              </h3>
-              <p className="text-slate-600 text-lg">
-                Orbi City, Block C, Khimshiashvili St, Batumi
-              </p>
-            </Card>
+          <div className="text-center mb-16">
+            <p className="text-sm text-gold-600 tracking-[0.3em] uppercase mb-3 font-light">FIND US</p>
+            <h2 className="text-5xl md:text-6xl font-serif font-light text-navy-900 mb-4">
+              Our Location
+            </h2>
+            <p className="text-xl text-gray-600 font-light max-w-3xl mx-auto">
+              Perfectly situated in the heart of Batumi, steps away from the Black Sea
+            </p>
           </div>
 
-          <div className="text-center mt-12">
-            <Link href="/apartments">
-              <Button
-                size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg"
-              >
-                <Calendar className="mr-2 h-5 w-5" />
-                Book Now
-              </Button>
-            </Link>
-          </div>
+          <OrbiCityMap />
         </div>
       </section>
 

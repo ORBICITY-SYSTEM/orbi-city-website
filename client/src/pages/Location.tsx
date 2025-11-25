@@ -17,43 +17,45 @@ export default function Location() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-50">
+      {/* Header - Four Seasons Luxury */}
+      <header className="bg-navy-950 border-b-2 border-gold-500/20 sticky top-0 z-50 backdrop-blur-md">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/">
-            <a className="flex items-center gap-2 text-2xl font-bold text-primary">
+            <a className="flex items-center gap-2 text-2xl font-serif font-light text-gold-400">
               <img src={APP_LOGO} alt="OC" className="w-10 h-10" />
               ORBI CITY
             </a>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Home</span></Link>
-            <Link href="/apartments"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Apartments</span></Link>
-            <Link href="/amenities"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Amenities</span></Link>
-            <Link href="/gallery"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Gallery</span></Link>
-            <Link href="/location"><span className="text-primary font-semibold cursor-pointer">Location</span></Link>
-            <Link href="/contact"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Contact</span></Link>
+            <Link href="/"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Home</span></Link>
+            <Link href="/apartments"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Apartments</span></Link>
+            <Link href="/amenities"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Amenities</span></Link>
+            <Link href="/gallery"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Gallery</span></Link>
+            <Link href="/location"><span className="text-gold-400 font-medium cursor-pointer">Location</span></Link>
+            <Link href="/contact"><span className="text-gray-300 hover:text-gold-400 transition-all duration-300 font-light cursor-pointer">Contact</span></Link>
           </nav>
           <Link href="/apartments">
-            <Button>Book Now</Button>
+            <Button className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-lg hover:shadow-gold-500/50 transition-all duration-300 hover:scale-105">Book Now</Button>
           </Link>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-700 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Location</h1>
-          <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
+      {/* Hero Section - Four Seasons Luxury */}
+      <section className="relative py-32 bg-navy-900 text-white">
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-900/95 to-navy-800/95" />
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          <p className="text-sm text-gold-400 tracking-[0.3em] uppercase mb-4 font-light">FIND US</p>
+          <h1 className="text-5xl md:text-7xl font-serif font-light mb-6">Our Location</h1>
+          <p className="text-xl text-gray-300 font-light max-w-3xl mx-auto">
             Prime beachfront location in the heart of Batumi, Georgia's stunning Black Sea coast
           </p>
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-16">
+      {/* Map Section - Four Seasons Luxury */}
+      <section className="py-20 bg-gradient-to-b from-white via-cream-50/30 to-white">
         <div className="container mx-auto px-4">
-          <div className="rounded-xl overflow-hidden shadow-2xl h-[500px]">
+          <div className="rounded-xl overflow-hidden border-2 border-gold-200/40 shadow-2xl hover:shadow-gold-500/20 transition-all duration-500 h-[600px]">
             <MapView
               initialCenter={{ lat: 41.6168, lng: 41.6367 }}
               initialZoom={15}
@@ -63,18 +65,18 @@ export default function Location() {
         </div>
       </section>
 
-      {/* Contact Info */}
-      <section className="py-16 bg-white">
+      {/* Contact Info - Four Seasons Luxury */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Get in Touch</h2>
+          <h2 className="text-5xl font-serif font-light text-center mb-16 text-navy-900">Get in Touch</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="hover:shadow-xl transition-shadow">
+            <Card className="border-2 border-gold-200/30 hover:border-gold-400/50 hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="w-8 h-8 text-primary" />
+                <div className="w-16 h-16 bg-gold-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="w-8 h-8 text-gold-500" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">Address</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-serif font-light mb-3 text-navy-900">Address</h3>
+                <p className="text-gray-600 font-light">
                   Orbi City, Block C<br />
                   Khimshiashvili St<br />
                   Batumi, Georgia
@@ -82,13 +84,13 @@ export default function Location() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-xl transition-shadow">
+            <Card className="border-2 border-gold-200/30 hover:border-gold-400/50 hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone className="w-8 h-8 text-primary" />
+                <div className="w-16 h-16 bg-gold-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Phone className="w-8 h-8 text-gold-500" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">Phone</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-serif font-light mb-3 text-navy-900">Phone</h3>
+                <p className="text-gray-600 font-light">
                   <a href="tel:+995555199090" className="hover:text-primary transition-colors">
                     +995 555 19 90 90
                   </a>
@@ -96,13 +98,13 @@ export default function Location() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-xl transition-shadow">
+            <Card className="border-2 border-gold-200/30 hover:border-gold-400/50 hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mail className="w-8 h-8 text-primary" />
+                <div className="w-16 h-16 bg-gold-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Mail className="w-8 h-8 text-gold-500" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">Email</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-serif font-light mb-3 text-navy-900">Email</h3>
+                <p className="text-gray-600 font-light">
                   <a href="mailto:info@orbicitybatumi.com" className="hover:text-primary transition-colors">
                     info@orbicitybatumi.com
                   </a>
@@ -110,13 +112,13 @@ export default function Location() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-xl transition-shadow">
+            <Card className="border-2 border-gold-200/30 hover:border-gold-400/50 hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
               <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Clock className="w-8 h-8 text-primary" />
+                <div className="w-16 h-16 bg-gold-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Clock className="w-8 h-8 text-gold-500" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">Reception</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-serif font-light mb-3 text-navy-900">Reception</h3>
+                <p className="text-gray-600 font-light">
                   24/7<br />
                   Always Available
                 </p>
