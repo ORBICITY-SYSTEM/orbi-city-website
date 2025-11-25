@@ -100,7 +100,7 @@ export default function Amenities() {
             <Link href="/location"><a className="text-gray-600 hover:text-primary transition-colors">Location</a></Link>
             <Link href="/contact"><a className="text-gray-600 hover:text-primary transition-colors">Contact</a></Link>
           </nav>
-          <Link href="/#book">
+          <Link href="/apartments">
             <Button>Book Now</Button>
           </Link>
         </div>
@@ -204,7 +204,7 @@ export default function Amenities() {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Book your stay at Orbi City Batumi and enjoy all these premium amenities and more
           </p>
-          <Link href="/#book">
+          <Link href="/apartments">
             <Button size="lg" variant="secondary" className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold">
               Book Now
             </Button>

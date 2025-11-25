@@ -34,7 +34,7 @@ export default function Location() {
             <Link href="/location"><a className="text-primary font-semibold">Location</a></Link>
             <Link href="/contact"><a className="text-gray-600 hover:text-primary transition-colors">Contact</a></Link>
           </nav>
-          <Link href="/#book">
+          <Link href="/apartments">
             <Button>Book Now</Button>
           </Link>
         </div>
@@ -220,7 +220,7 @@ export default function Location() {
             Experience the perfect location for your Batumi getaway
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/#book">
+            <Link href="/apartments">
               <Button size="lg" variant="secondary" className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold">
                 Book Now
               </Button>

@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { X, ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react";
 import { APP_LOGO } from "@/const";
+import { MobileMenu } from "@/components/MobileMenu";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import {
@@ -152,9 +153,10 @@ export default function Gallery() {
                 {editMode ? "✓ Edit Mode" : "Edit Mode"}
               </button>
             )}
-            <Link href="/#book">
+            <Link href="/apartments">
               <Button>Book Now</Button>
             </Link>
+            <MobileMenu currentPath="/gallery" />
           </div>
         </div>
       </header>
@@ -189,9 +191,19 @@ export default function Gallery() {
       {/* Gallery Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredImages.map((image) => (
-              <div
+          {filteredImages.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="text-6xl mb-4">📷</div>
+              <h3 className="text-2xl font-bold text-gray-700 mb-2">No Images Yet</h3>
+              <p className="text-gray-500 mb-6">Gallery images will appear here once uploaded</p>
+              {user?.role === "admin" && (
+                <p className="text-sm text-gray-400">Go to Admin Panel → Gallery Management to upload images</p>
+              )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredImages.map((image, index) => (
+                <div
                 key={image.id}
                 className="group relative overflow-hidden rounded-lg cursor-pointer aspect-[4/3]"
                 onClick={() => openLightbox(image.id)}
@@ -232,8 +244,9 @@ export default function Gallery() {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -279,7 +292,7 @@ export default function Gallery() {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Book your stay at Orbi City Batumi and enjoy these stunning views in person
           </p>
-          <Link href="/#book">
+          <Link href="/apartments">
             <Button size="lg" variant="secondary" className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold">
               Book Now
             </Button>

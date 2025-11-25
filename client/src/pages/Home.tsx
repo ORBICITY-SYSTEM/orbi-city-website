@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { APP_LOGO } from "@/const";
+import { MobileMenu } from "@/components/MobileMenu";
 import { useState, useEffect } from "react";
 import {
   Dialog,
@@ -171,6 +172,9 @@ export default function Home() {
                 </button>
               )}
             </div>
+            
+            {/* Mobile Menu */}
+            <MobileMenu currentPath="/" />
           </div>
         </div>
       </nav>

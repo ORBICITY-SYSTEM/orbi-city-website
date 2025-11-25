@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, Users, Bed, Bath, Maximize, Star, Pencil } from "lucide-react";
 import { APP_LOGO } from "@/const";
+import { MobileMenu } from "@/components/MobileMenu";
 import { useAuth } from "@/_core/hooks/useAuth";
 import {
   Dialog,
@@ -115,9 +116,10 @@ export default function Apartments() {
                 {editMode ? "✓ Edit Mode" : "Edit Mode"}
               </button>
             )}
-            <Link href="/#book">
+            <Link href="/apartments">
               <Button>Book Now</Button>
             </Link>
+            <MobileMenu currentPath="/apartments" />
           </div>
         </div>
       </header>
@@ -194,9 +196,6 @@ export default function Apartments() {
                       <Pencil className="w-5 h-5" />
                     </button>
                   )}
-                  <div className="absolute top-4 right-4 bg-yellow-400 text-gray-900 px-4 py-2 rounded-full font-bold text-lg shadow-lg">
-                    ${apartment.pricePerNight / 100}/night
-                  </div>
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
                     <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     <span className="font-semibold">4.9</span>
@@ -244,7 +243,7 @@ export default function Apartments() {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Experience luxury living at Orbi City Batumi. Book now and enjoy exclusive rates!
           </p>
-          <Link href="/#book">
+          <Link href="/apartments">
             <Button size="lg" variant="secondary" className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold">
               Book Now
             </Button>

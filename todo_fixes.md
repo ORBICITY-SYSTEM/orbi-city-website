@@ -73,3 +73,71 @@
 - [ ] Test responsive design
 - [ ] Test all images load correctly
 - [ ] Compare side-by-side with original site
+
+
+---
+
+## NEW ISSUES FROM COMPREHENSIVE ANALYSIS
+
+### Phase 1: Gallery Images & Database
+- [ ] Upload 20 gallery images to S3
+- [ ] Seed gallery_images table with uploaded images
+- [ ] Verify Gallery page displays images correctly
+- [ ] Add Empty State UI when gallery is empty
+
+### Phase 2: Critical Navigation Issues  
+- [ ] Add Mobile Navigation Menu (hamburger + drawer)
+- [ ] Add Navigation Header to Blog page
+- [ ] Fix Book Now links (change /#book to /apartments)
+- [ ] Add Book button to Apartment Detail page
+
+### Phase 3: UI Consistency
+- [ ] Remove prices from Apartments page
+- [ ] Improve Edit Mode button styling (less intrusive)
+- [ ] Fix mobile responsive issues on Gallery grid
+- [ ] Fix mobile responsive issues on Apartment cards
+
+### Phase 4: Blog Database Integration
+- [ ] Create blog tRPC procedures (list, create, update, delete)
+- [ ] Add Blog Management page to Admin Panel
+- [ ] Connect Blog page to database
+- [ ] Seed database with default blog posts
+- [ ] Add Edit Mode to Blog page
+
+### Phase 5: Contact & Testimonials
+- [ ] Create contact_messages table in schema
+- [ ] Add Contact form database integration
+- [ ] Add Messages section to Admin Panel
+- [ ] Create testimonials table in schema
+- [ ] Add Testimonials Management to Admin Panel
+- [ ] Connect Home page testimonials to database
+
+### Phase 6: Booking System Improvements
+- [ ] Add visual calendar (date picker component)
+- [ ] Improve availability checking logic
+- [ ] Add Stripe payment integration
+- [ ] Add Bookings Dashboard to Admin Panel
+- [ ] Add payment_status and payment_method fields to bookings table
+
+### Phase 7: Search & Filters
+- [ ] Add search bar for apartments
+- [ ] Add price range filter slider
+- [ ] Add guests count filter
+- [ ] Add amenities checkbox filter
+
+### Phase 8: Legal Pages & SEO
+- [ ] Fill About Us page with real content
+- [ ] Fill Privacy Policy page
+- [ ] Fill Terms & Conditions page
+- [ ] Fill Purchase Conditions page
+- [ ] Add meta tags to all pages
+- [ ] Add Open Graph tags for social sharing
+- [ ] Create sitemap.xml
+- [ ] Add robots.txt
+
+### Phase 9: Performance & Polish
+- [ ] Add image lazy loading attribute
+- [ ] Optimize image sizes
+- [ ] Add loading skeletons for data fetching
+- [ ] Test all pages on mobile devices
+- [ ] Final QA testing across all browsers
