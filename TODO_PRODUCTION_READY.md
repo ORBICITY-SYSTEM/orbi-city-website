@@ -236,3 +236,26 @@
 - [ ] Update Virtual Tours videos with real content
 - [ ] Verify all video autoplay and loop settings
 - [ ] Optimize video file sizes for performance
+
+
+## 🎬 Hero Video Enhancement
+
+- [x] Extract first 3 seconds from City Timelapse video
+- [x] Extract first 3 seconds from Cozy Bedroom video
+- [x] Merge videos into seamless loop
+- [x] Update hero section to use new merged video
+- [ ] Test video autoplay and loop
+
+## 🎫 Promo Popup Updates
+
+- [x] Change "AMERIA20" to "ORBI20"
+- [x] Change "CONTACT CONCIERGE" button to "BOOK NOW"
+- [x] Update Georgian text if needed
+- [ ] Test popup functionalityy
+
+## 🌐 Domain Migration Preparation
+
+- [x] Create domain migration guide
+- [x] Document DNS settings for ORBICITYBATUMI.COM
+- [x] Prepare environment variable updates
+- [x] Create pre-launch checklist

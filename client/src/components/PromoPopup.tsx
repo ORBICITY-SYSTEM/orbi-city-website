@@ -13,7 +13,7 @@ import {
 export function PromoPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const promoCode = "AMERIA20";
+  const promoCode = "ORBI20";
   const discount = "20%";
 
   useEffect(() => {
@@ -96,9 +96,9 @@ export function PromoPopup() {
           <div className="flex gap-2 w-full">
             <Button
               onClick={handleCopy}
-              className="flex-1 bg-blue-600 hover:bg-blue-700"
+              className="flex-1 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white"
             >
-              კოპირება
+              BOOK NOW
             </Button>
             <Button
               onClick={handleClose}
