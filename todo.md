@@ -171,3 +171,12 @@
 - [x] Save booking requests to database (admin panel)
 - [x] Send email notification to info@orbicitybatumi.com with subject "ჯავშნის მოთხოვნა - orbicitybatumi.com"
 - [x] Test entire booking flow end-to-end
+
+## Simplified Booking Flow (WhatsApp Direct)
+- [x] Remove price information from room selection (Avg. price per night, USD amount, Resort Fee text)
+- [x] Change CHOOSE button to redirect directly to WhatsApp
+- [x] WhatsApp message should include: dates, room type, number of guests
+- [x] Send booking request notification to admin panel with all details
+- [x] Send email to info@orbicitybatumi.com with booking request details
+- [x] Admin will manually provide price quotes to guests via WhatsApp
+- [x] Test complete flow: select dates → select room → WhatsApp redirect → receive notification

@@ -97,7 +97,6 @@ export async function sendBookingRequestEmail(bookingData: {
         <p><span class="label">გასვლა:</span> <span class="value">${checkOutDate}</span></p>
         <p><span class="label">ღამეები:</span> <span class="value">${nights}</span></p>
         <p><span class="label">სტუმრები:</span> <span class="value">${bookingData.guests}</span></p>
-        <p><span class="label">სრული ფასი:</span> <span class="value">$${(bookingData.totalPrice / 100).toFixed(2)}</span></p>
       </div>
       
       ${
@@ -113,8 +112,11 @@ export async function sendBookingRequestEmail(bookingData: {
       
       <div class="section">
         <p><span class="label">ჯავშნის ID:</span> <span class="value">#${bookingData.bookingId}</span></p>
-        <p style="color: #888; font-size: 14px; margin-top: 20px;">
-          გთხოვთ დაუკავშირდეთ სტუმარს 24 საათის განმავლობაში ხელმისაწვდომობისა და სხვა დეტალების დასადასტურებლად.
+        <p style="color: #d32f2f; font-size: 14px; margin-top: 20px; font-weight: bold;">
+          ⚠️ სტუმარი მოელის ფასის შეთავაზებას WhatsApp-ზე!
+        </p>
+        <p style="color: #888; font-size: 14px; margin-top: 10px;">
+          გთხოვთ დაუკავშირდეთ სტუმარს WhatsApp-ზე (+995555199090) და მიაწოდოთ ფასები, ხელმისაწვდომობა და სხვა დეტალები.
         </p>
       </div>
     </div>

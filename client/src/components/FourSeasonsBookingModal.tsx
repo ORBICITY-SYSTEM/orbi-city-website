@@ -79,9 +79,53 @@ export function FourSeasonsBookingModal({
     setStep("rooms");
   };
 
-  const handleChooseRoom = (roomId: number) => {
+  const handleChooseRoom = async (roomId: number) => {
+    if (!checkIn || !checkOut) {
+      toast.error("Please select dates first");
+      return;
+    }
+
+    const selectedApt = apartments.find((apt) => apt.id === roomId);
+    if (!selectedApt) return;
+
     setSelectedRoom(roomId);
-    setStep("details");
+
+    // Create booking request without user details (WhatsApp flow)
+    try {
+      const totalPrice = nights * selectedApt.pricePerNight;
+      
+      await createBookingMutation.mutateAsync({
+        apartmentId: roomId,
+        guestName: "WhatsApp Inquiry",
+        guestEmail: "pending@whatsapp.com",
+        guestPhone: "+995555199090",
+        checkIn: checkIn.toISOString(),
+        checkOut: checkOut.toISOString(),
+        guests: adults + children,
+        totalPrice,
+        specialRequests: `Booking request via WhatsApp. Dates: ${format(checkIn, "MMM dd, yyyy")} - ${format(checkOut, "MMM dd, yyyy")}, Guests: ${adults} adults, ${children} children`,
+        contactMethod: "whatsapp",
+      });
+
+      // Redirect to WhatsApp
+      const whatsappMessage = encodeURIComponent(
+        `Hello! I would like to book ${selectedApt.name} at Orbi City Batumi.\n\n` +
+        `Check-in: ${format(checkIn, "MMM dd, yyyy")}\n` +
+        `Check-out: ${format(checkOut, "MMM dd, yyyy")}\n` +
+        `Nights: ${nights}\n` +
+        `Guests: ${adults} adults${children > 0 ? `, ${children} children` : ""}\n\n` +
+        `Could you please provide the rates and availability?`
+      );
+      
+      window.open(`https://wa.me/995555199090?text=${whatsappMessage}`, "_blank");
+      
+      // Close modal
+      resetAndClose();
+      
+      toast.success("Redirecting to WhatsApp...");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to process booking request");
+    }
   };
 
   const handleSubmitBooking = async () => {
@@ -310,12 +354,7 @@ export function FourSeasonsBookingModal({
                           <span>•</span>
                           <span>{room.maxGuests} adults, or {room.maxGuests - 1} adults and {room.maxGuests - 1} children</span>
                         </div>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="text-sm text-gray-600">Avg. price per night</div>
-                            <div className="text-2xl font-light">USD {room.pricePerNight}</div>
-                            <div className="text-xs text-gray-500">before addition of Resort Fee plus taxes per night</div>
-                          </div>
+                        <div className="flex items-center justify-end">
                           <Button
                             onClick={() => handleChooseRoom(room.id)}
                             className="bg-black hover:bg-gray-900 text-white px-8 py-3 text-sm uppercase tracking-wider font-light"
