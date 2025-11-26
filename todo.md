@@ -94,3 +94,13 @@
 - [x] Create Blog page (from navigation)
 - [x] Update ALL footers to include Legal section with links
 - [x] Test all legal page links
+
+## Live Chat Widget
+- [x] Create LiveChatWidget component with floating button
+- [x] Add chat message UI with message bubbles
+- [x] Add database schema for chat_sessions and chat_messages tables
+- [x] Create tRPC procedures for sending/receiving messages
+- [x] Integrate chat widget globally in App.tsx
+- [x] Add admin chat management page at /admin/chat
+- [x] Add real-time message notifications for admin
+- [x] Test chat functionality end-to-end

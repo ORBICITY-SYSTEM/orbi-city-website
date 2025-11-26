@@ -18,6 +18,7 @@ import {
   LogOut,
   ExternalLink,
   Mail,
+  MessageCircle,
 } from "lucide-react";
 import { APP_LOGO, getLoginUrl } from "@/const";
 import ApartmentsManagement from "./ApartmentsManagement";
@@ -25,6 +26,7 @@ import GalleryManagement from "./GalleryManagement";
 import BlogManagement from "./BlogManagement";
 import { MessagesManagement } from "./MessagesManagement";
 import BookingsManagement from "./BookingsManagement";
+import ChatManagement from "./ChatManagement";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -85,6 +87,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     { id: "gallery", label: "Gallery", icon: Image, href: "/admin/gallery" },
     { id: "blog", label: "Blog", icon: FileText, href: "/admin/blog" },
     { id: "messages", label: "Messages", icon: Mail, href: "/admin/messages" },
+    { id: "chat", label: "Live Chat", icon: MessageCircle, href: "/admin/chat" },
     { id: "testimonials", label: "Testimonials", icon: Star, href: "/admin/testimonials" },
     { id: "amenities", label: "Amenities", icon: Sparkles, href: "/admin/amenities" },
     { id: "users", label: "Users", icon: Users, href: "/admin/users" },
@@ -211,6 +214,10 @@ export default function AdminDashboard() {
 
   if (currentPage === "bookings") {
     return <BookingsManagement />;
+  }
+
+  if (currentPage === "chat") {
+    return <ChatManagement />;
   }
 
   // Default dashboard view

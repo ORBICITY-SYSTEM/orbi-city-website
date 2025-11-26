@@ -161,3 +161,30 @@ export const contactMessages = mysqlTable("contact_messages", {
 
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type InsertContactMessage = typeof contactMessages.$inferInsert;
+
+// Chat Sessions
+export const chatSessions = mysqlTable("chat_sessions", {
+  id: int("id").autoincrement().primaryKey(),
+  guestName: varchar("guestName", { length: 255 }).notNull(),
+  guestEmail: varchar("guestEmail", { length: 320 }).notNull(),
+  status: mysqlEnum("status", ["active", "closed"]).default("active").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ChatSession = typeof chatSessions.$inferSelect;
+export type InsertChatSession = typeof chatSessions.$inferInsert;
+
+// Chat Messages
+export const chatMessages = mysqlTable("chat_messages", {
+  id: int("id").autoincrement().primaryKey(),
+  sessionId: int("sessionId").notNull(),
+  message: text("message").notNull(),
+  senderType: mysqlEnum("senderType", ["guest", "admin"]).notNull(),
+  senderName: varchar("senderName", { length: 255 }),
+  isRead: int("isRead").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ChatMessage = typeof chatMessages.$inferSelect;
+export type InsertChatMessage = typeof chatMessages.$inferInsert;

@@ -1,6 +1,6 @@
 import { eq, sql, inArray, and, gte, lte, ne, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, apartments, InsertApartment, Apartment, bookings, Booking, InsertBooking, amenities, Amenity, InsertAmenity, gallery, GalleryItem, InsertGalleryItem, testimonials, Testimonial, InsertTestimonial, blogPosts, BlogPost, InsertBlogPost, contactMessages, ContactMessage, InsertContactMessage } from "../drizzle/schema";
+import { InsertUser, users, apartments, InsertApartment, Apartment, bookings, Booking, InsertBooking, amenities, Amenity, InsertAmenity, gallery, GalleryItem, InsertGalleryItem, testimonials, Testimonial, InsertTestimonial, blogPosts, BlogPost, InsertBlogPost, contactMessages, ContactMessage, InsertContactMessage, chatSessions, ChatSession, InsertChatSession, chatMessages, ChatMessage, InsertChatMessage } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -510,5 +510,115 @@ export async function deleteContactMessage(id: number) {
   } catch (error) {
     console.error("[Database] Failed to delete contact message:", error);
     throw new Error("Failed to delete contact message");
+  }
+}
+
+
+// ==================== Chat Functions ====================
+
+export async function getOrCreateChatSession(guestName: string, guestEmail: string): Promise<ChatSession> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  try {
+    // Check if session exists for this email
+    const existing = await db
+      .select()
+      .from(chatSessions)
+      .where(and(eq(chatSessions.guestEmail, guestEmail), eq(chatSessions.status, "active")))
+      .limit(1);
+
+    if (existing.length > 0) {
+      return existing[0];
+    }
+
+    // Create new session
+    const [result] = await db.insert(chatSessions).values({
+      guestName,
+      guestEmail,
+      status: "active",
+    });
+
+    const [newSession] = await db
+      .select()
+      .from(chatSessions)
+      .where(eq(chatSessions.id, Number(result.insertId)))
+      .limit(1);
+
+    return newSession;
+  } catch (error) {
+    console.error("[Database] Failed to get or create chat session:", error);
+    throw error;
+  }
+}
+
+export async function getChatMessages(sessionId: number): Promise<ChatMessage[]> {
+  const db = await getDb();
+  if (!db) return [];
+
+  try {
+    return await db
+      .select()
+      .from(chatMessages)
+      .where(eq(chatMessages.sessionId, sessionId))
+      .orderBy(chatMessages.createdAt);
+  } catch (error) {
+    console.error("[Database] Failed to get chat messages:", error);
+    return [];
+  }
+}
+
+export async function createChatMessage(data: InsertChatMessage): Promise<number> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  try {
+    const [result] = await db.insert(chatMessages).values(data);
+    return Number(result.insertId);
+  } catch (error) {
+    console.error("[Database] Failed to create chat message:", error);
+    throw error;
+  }
+}
+
+export async function getAllChatSessions(): Promise<ChatSession[]> {
+  const db = await getDb();
+  if (!db) return [];
+
+  try {
+    return await db.select().from(chatSessions).orderBy(desc(chatSessions.updatedAt));
+  } catch (error) {
+    console.error("[Database] Failed to get chat sessions:", error);
+    return [];
+  }
+}
+
+export async function closeChatSession(sessionId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  try {
+    await db
+      .update(chatSessions)
+      .set({ status: "closed", updatedAt: new Date() })
+      .where(eq(chatSessions.id, sessionId));
+  } catch (error) {
+    console.error("[Database] Failed to close chat session:", error);
+    throw error;
+  }
+}
+
+export async function markMessagesAsRead(sessionId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  try {
+    await db
+      .update(chatMessages)
+      .set({ isRead: 1 })
+      .where(and(eq(chatMessages.sessionId, sessionId), eq(chatMessages.isRead, 0)));
+  } catch (error) {
+    console.error("[Database] Failed to mark messages as read:", error);
+    throw error;
   }
 }

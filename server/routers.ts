@@ -368,6 +368,75 @@ export const appRouter = router({
         return deleteContactMessage(input.id);
       }),
   }),
+
+  chat: router({
+    getOrCreateSession: publicProcedure
+      .input(z.object({
+        guestName: z.string().min(1),
+        guestEmail: z.string().email(),
+      }))
+      .query(async ({ input }) => {
+        const { getOrCreateChatSession } = await import("./db");
+        return getOrCreateChatSession(input.guestName, input.guestEmail);
+      }),
+    getMessages: publicProcedure
+      .input(z.object({ sessionId: z.number() }))
+      .query(async ({ input }) => {
+        const { getChatMessages } = await import("./db");
+        return getChatMessages(input.sessionId);
+      }),
+    sendMessage: publicProcedure
+      .input(z.object({
+        sessionId: z.number(),
+        message: z.string().min(1),
+        senderType: z.enum(["guest", "admin"]),
+        senderName: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { createChatMessage } = await import("./db");
+        return createChatMessage({
+          sessionId: input.sessionId,
+          message: input.message,
+          senderType: input.senderType,
+          senderName: input.senderName || null,
+          isRead: 0,
+        });
+      }),
+    listSessions: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin") {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Only admins can view chat sessions'
+        });
+      }
+      const { getAllChatSessions } = await import("./db");
+      return getAllChatSessions();
+    }),
+    closeSession: protectedProcedure
+      .input(z.object({ sessionId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'Only admins can close chat sessions'
+          });
+        }
+        const { closeChatSession } = await import("./db");
+        return closeChatSession(input.sessionId);
+      }),
+    markAsRead: protectedProcedure
+      .input(z.object({ sessionId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'Only admins can mark messages as read'
+          });
+        }
+        const { markMessagesAsRead } = await import("./db");
+        return markMessagesAsRead(input.sessionId);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

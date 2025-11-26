@@ -20,6 +20,7 @@ import LoyaltyProgram from "./pages/LoyaltyProgram";
 import Blog from "./pages/Blog";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { WhatsAppButton } from "./components/WhatsAppButton";
+import { LiveChatWidget } from "./components/LiveChatWidget";
 import { PromoPopup } from "./components/PromoPopup";
 import { GoogleAnalytics } from "./components/GoogleAnalytics";
 import { GoogleTagManager } from "./components/GoogleTagManager";
@@ -70,6 +71,7 @@ function App() {
             <StructuredData page="home" />
             <Router />
             <WhatsAppButton />
+            <LiveChatWidget />
             <PromoPopup />
             <GoogleAnalytics />
             <GoogleTagManager gtmId={import.meta.env.VITE_GTM_ID || ''} />
