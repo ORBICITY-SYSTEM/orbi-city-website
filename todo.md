@@ -189,3 +189,8 @@
 - [x] Remove "Ready to Experience Luxury?" CTA section with blue button
 - [x] Add booking filters to admin panel (date, room type, status)
 - [x] Create /admin/bookings page with filters for date, room type, and status
+
+## URGENT FIXES
+- [x] Fix map location on Location page (not Home page) with exact Orbi City coordinates (41.6415° N, 41.6367° E)
+- [x] Add Modern Hotel Room Showcase video to Home page hero section as third frame (3-second cycle)
+- [x] Remove "Exclusive Benefits - Loyalty Program" section from Home page

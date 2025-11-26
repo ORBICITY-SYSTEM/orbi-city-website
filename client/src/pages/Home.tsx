@@ -56,6 +56,21 @@ export default function Home() {
   const [editingApartment, setEditingApartment] = useState<any>(null);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [selectedApartment, setSelectedApartment] = useState<any>(null);
+  const [currentHeroFrame, setCurrentHeroFrame] = useState(0);
+
+  // Hero carousel rotation every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeroFrame((prev) => (prev + 1) % 3);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const heroVideos = [
+    "/hero-city-timelapse.mp4",
+    "/hero-loop.mp4",
+    "/modern-hotel-room-showcase.mp4"
+  ];
   const [editForm, setEditForm] = useState({
     name: "",
     description: "",
@@ -203,18 +218,23 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section - Four Seasons Style with Video */}
+      {/* Hero Section - Four Seasons Style with Video Carousel */}
       <section className="relative h-screen flex items-center justify-center text-white overflow-hidden">
-        {/* Video Background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/hero-loop.mp4" type="video/mp4" />
-        </video>
+        {/* Video Background Carousel */}
+        {heroVideos.map((videoSrc, index) => (
+          <video
+            key={videoSrc}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+              index === currentHeroFrame ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        ))}
         
         {/* Elegant Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
@@ -463,106 +483,6 @@ export default function Home() {
                 className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-medium px-12 py-7 text-lg transition-all duration-300 hover:shadow-xl border-0"
               >
                 Explore Full Gallery
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Loyalty Program Section - Four Seasons Luxury */}
-      <section className="py-32 bg-gradient-to-b from-cream to-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-20 animate-fade-in-up">
-            <p className="text-gold-600 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-              Exclusive Benefits
-            </p>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light text-navy-900 mb-6">
-              Loyalty
-              <br />
-              <span className="text-gold-gradient">Program</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
-              Earn points with every stay and enjoy exclusive rewards crafted for our most
-              valued guests.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <Card className="luxury-card text-center p-10 bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500">
-                <div className="flex justify-center mb-6">
-                  <div className="p-4 bg-gold-50 rounded-full">
-                    <Gift className="h-10 w-10 text-gold-600" />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
-                  Welcome Bonus
-                </h3>
-                <p className="text-gray-600 font-light leading-relaxed">
-                  Get bonus points when you join our loyalty program
-                </p>
-              </Card>
-
-              <Card className="luxury-card text-center p-10 bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500">
-                <div className="flex justify-center mb-6">
-                  <div className="p-4 bg-gold-50 rounded-full">
-                    <Calendar className="h-10 w-10 text-gold-600" />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
-                  Exclusive Discounts
-                </h3>
-                <p className="text-gray-600 font-light leading-relaxed">
-                  Enjoy special rates and early booking privileges
-                </p>
-              </Card>
-
-              <Card className="luxury-card text-center p-10 bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500">
-                <div className="flex justify-center mb-6">
-                  <div className="p-4 bg-gold-50 rounded-full">
-                    <DollarSign className="h-10 w-10 text-gold-600" />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
-                  Earn Points
-                </h3>
-                <p className="text-gray-600 font-light leading-relaxed">
-                  Accumulate points with every booking and stay
-                </p>
-              </Card>
-
-              <Card className="luxury-card text-center p-10 bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500">
-                <div className="flex justify-center mb-6">
-                  <div className="p-4 bg-gold-50 rounded-full">
-                    <Award className="h-10 w-10 text-gold-600" />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
-                  VIP Access
-                </h3>
-                <p className="text-gray-600 font-light leading-relaxed">
-                  Priority service and exclusive amenities
-                </p>
-              </Card>
-            </div>
-
-            <div className="relative h-[600px] rounded-2xl overflow-hidden border-2 border-gold-200/30">
-              <img
-                src="/loyalty-program-image.webp"
-                alt="Orbi City Luxury Interior"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-900/40 to-transparent" />
-            </div>
-          </div>
-
-          <div className="text-center mt-16">
-            <Link href="/loyalty-program">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-medium px-12 py-7 text-lg transition-all duration-300 hover:shadow-xl border-0"
-              >
-                Join Loyalty Program
               </Button>
             </Link>
           </div>

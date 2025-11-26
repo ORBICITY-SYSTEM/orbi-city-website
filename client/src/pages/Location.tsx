@@ -7,9 +7,9 @@ import { MapView } from "@/components/Map";
 
 export default function Location() {
   const handleMapReady = (map: google.maps.Map) => {
-    // Add marker for Orbi City
+    // Add marker for Orbi City with exact coordinates
     new google.maps.Marker({
-      position: { lat: 41.6168, lng: 41.6367 },
+      position: { lat: 41.6415, lng: 41.6367 },
       map: map,
       title: "Orbi City Batumi",
     });
@@ -57,8 +57,8 @@ export default function Location() {
         <div className="container mx-auto px-4">
           <div className="rounded-xl overflow-hidden border-2 border-gold-200/40 shadow-2xl hover:shadow-gold-500/20 transition-all duration-500 h-[600px]">
             <MapView
-              initialCenter={{ lat: 41.6168, lng: 41.6367 }}
-              initialZoom={15}
+              initialCenter={{ lat: 41.6415, lng: 41.6367 }}
+              initialZoom={16}
               onMapReady={handleMapReady}
             />
           </div>
