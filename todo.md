@@ -127,11 +127,19 @@
 
 ## UX Improvements
 - [ ] Remove "Made with Manus" badge
-- [ ] Optimize website load speed
+- [x] Optimize website load speed
 - [x] Remove popup
 - [x] Remove "Explore Residences" button
 - [x] Keep only "Book Now" (blue) and "WhatsApp" (green) buttons
 - [x] Make apartment cards clickable to detail pages
-- [ ] Change "Book Now" to "Book Now / Pay Later"
+- [x] Change "Book Now" to "Book Now / Pay Later"
 - [x] Add "View Details" button to apartment cards
 - [x] Create apartment detail pages with 6-image sliders
+
+## Performance Optimization
+- [x] Implement lazy loading for all images across the website
+- [x] Add loading="lazy" attribute to all img tags
+- [x] Enable code splitting with React.lazy() for page components
+- [x] Add Suspense boundaries with loading skeletons
+- [x] Test performance improvements on mobile and desktop
+- [x] Verify images load progressively during scroll
