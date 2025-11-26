@@ -131,7 +131,7 @@
 - [x] Remove popup
 - [x] Remove "Explore Residences" button
 - [x] Keep only "Book Now" (blue) and "WhatsApp" (green) buttons
-- [x] Make apartment cards clickable to detail pages
+- [x] Make apartment cards clickable to detail pages (entire card area, not just buttons)
 - [x] Change "Book Now" to "Book Now / Pay Later"
 - [x] Add "View Details" button to apartment cards
 - [x] Create apartment detail pages with 6-image sliders

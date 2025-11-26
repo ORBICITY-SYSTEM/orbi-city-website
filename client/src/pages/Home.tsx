@@ -309,11 +309,10 @@ export default function Home() {
                 const imageSrc = imageMap[apt.id] || "/hero-bg.jpg";
 
                 return (
-                  <Card
-                    key={apt.id}
-                    className="luxury-card overflow-hidden bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500 group cursor-pointer"
-                    onClick={() => window.location.href = `/apartment/${apt.id}`}
-                  >
+                  <Link key={apt.id} href={`/apartment/${apt.id}`}>
+                    <Card
+                      className="luxury-card overflow-hidden bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500 group cursor-pointer"
+                    >
                     <div className="relative h-72 overflow-hidden">
                       <img
                         src={imageSrc}
@@ -370,18 +369,21 @@ export default function Home() {
                         >
                           Book Now / Pay Later
                         </Button>
-                        <Link href={`/apartment/${apt.id}`}>
-                          <Button
-                            className="bg-white hover:bg-gray-50 text-gray-700 font-medium py-6 px-6 transition-all duration-300 hover:shadow-lg border border-gray-300"
-                            variant="outline"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            View Details
-                          </Button>
-                        </Link>
+                        <Button
+                          className="bg-white hover:bg-gray-50 text-gray-700 font-medium py-6 px-6 transition-all duration-300 hover:shadow-lg border border-gray-300"
+                          variant="outline"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.location.href = `/apartment/${apt.id}`;
+                          }}
+                        >
+                          View Details
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
+                  </Link>
                 );
               })}
             </div>
