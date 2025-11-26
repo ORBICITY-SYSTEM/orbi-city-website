@@ -180,3 +180,12 @@
 - [x] Send email to info@orbicitybatumi.com with booking request details
 - [x] Admin will manually provide price quotes to guests via WhatsApp
 - [x] Test complete flow: select dates → select room → WhatsApp redirect → receive notification
+
+## UI/UX Improvements & Content Updates
+- [x] Fix map location - add exact Orbi City Batumi coordinates (single marker only)
+- [x] Add hotel room video to hero section as 3rd frame (3-second cycle)
+- [ ] Replace duplicate images in "A Glimpse into Our World of Luxury" gallery (section not found on site)
+- [x] Remove "World-Class Amenities" section from home page
+- [x] Remove "Ready to Experience Luxury?" CTA section with blue button
+- [x] Add booking filters to admin panel (date, room type, status)
+- [x] Create /admin/bookings page with filters for date, room type, and status

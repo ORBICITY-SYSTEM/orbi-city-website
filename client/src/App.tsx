@@ -28,6 +28,7 @@ const PurchaseConditions = lazy(() => import("./pages/PurchaseConditions"));
 const LoyaltyProgram = lazy(() => import("./pages/LoyaltyProgram"));
 const Blog = lazy(() => import("./pages/Blog"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const BookingRequests = lazy(() => import("./pages/BookingRequests"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading fallback component with luxury styling
@@ -58,9 +59,10 @@ function Router() {
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/terms-conditions" component={TermsConditions} />
         <Route path="/purchase-conditions" component={PurchaseConditions} />
-        <Route path="/loyalty-program" component={LoyaltyProgram} />
+            <Route path="/loyalty-program" component={LoyaltyProgram} />
         <Route path="/blog" component={Blog} />
-        <Route path="/admin/:page?" component={AdminDashboard} />
+        <Route path="/admin" component={AdminDashboard} />
+        <Route path="/admin/bookings" component={BookingRequests} />
         <Route path="/404" component={NotFound} />
         {/* Final fallback route */}
         <Route component={NotFound} />

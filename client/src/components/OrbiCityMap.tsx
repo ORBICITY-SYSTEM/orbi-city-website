@@ -4,10 +4,10 @@ import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { MapPin, Navigation, Phone } from "lucide-react";
 
-// Orbi City Batumi coordinates (Exact from Google Business Profile)
+// Orbi City Batumi coordinates (Exact location)
 const ORBI_CITY_LOCATION = {
-  lat: 41.6394,
-  lng: 41.6138,
+  lat: 41.6415,
+  lng: 41.6415,
 };
 
 const NEARBY_ATTRACTIONS = [
@@ -47,27 +47,7 @@ export function OrbiCityMap() {
       orbiInfoWindow.open(map, orbiMarker);
     });
 
-    // Add nearby attractions markers
-    NEARBY_ATTRACTIONS.forEach((attraction) => {
-      const marker = new google.maps.marker.AdvancedMarkerElement({
-        map,
-        position: { lat: attraction.lat, lng: attraction.lng },
-        title: attraction.name,
-      });
-
-      const infoWindow = new google.maps.InfoWindow({
-        content: `
-          <div style="padding: 8px; font-family: 'Cormorant Garamond', serif;">
-            <h4 style="font-size: 16px; font-weight: 500; color: #1e293b;">${attraction.name}</h4>
-            <p style="color: #64748b; font-size: 14px; text-transform: capitalize;">${attraction.type}</p>
-          </div>
-        `,
-      });
-
-      marker.addListener("click", () => {
-        infoWindow.open(map, marker);
-      });
-    });
+    // Only show Orbi City marker (no nearby attractions)
   };
 
   const showDirections = (destination: { lat: number; lng: number }, name: string) => {

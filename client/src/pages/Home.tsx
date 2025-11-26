@@ -627,83 +627,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Amenities Section */}
-      <section className="py-24 bg-gradient-to-b from-white via-cream-50/30 to-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-sm text-gold-600 tracking-[0.3em] uppercase mb-3 font-light">PREMIUM SERVICES</p>
-            <h2 className="text-5xl md:text-6xl font-serif font-light text-navy-900 mb-4">
-              World-Class Amenities
-            </h2>
-            <p className="text-xl text-gray-600 font-light">
-              Everything you need for a perfect stay
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="text-center p-10 border-2 border-gold-200/30 hover:border-gold-400/50 bg-white hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
-              <div className="flex justify-center mb-4">
-                <UtensilsCrossed className="h-16 w-16 text-gold-500" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
-                Restaurant
-              </h3>
-              <p className="text-gray-600 font-light leading-relaxed">
-                Savor exquisite dishes prepared by our world-class chefs.
-              </p>
-            </Card>
-
-            <Card className="text-center p-10 border-2 border-gold-200/30 hover:border-gold-400/50 bg-white hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
-              <div className="flex justify-center mb-4">
-                <Wifi className="h-16 w-16 text-gold-500" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
-                High-Speed WiFi
-              </h3>
-              <p className="text-gray-600 font-light leading-relaxed">
-                Stay connected with complimentary high-speed internet access
-                throughout the hotel.
-              </p>
-            </Card>
-
-            <Card className="text-center p-10 border-2 border-gold-200/30 hover:border-gold-400/50 bg-white hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
-              <div className="flex justify-center mb-4">
-                <Shield className="h-16 w-16 text-gold-500" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
-                24/7 Security
-              </h3>
-              <p className="text-gray-600 font-light leading-relaxed">
-                Your safety is our priority with round-the-clock security and
-                surveillance.
-              </p>
-            </Card>
-
-            <Card className="text-center p-10 border-2 border-gold-200/30 hover:border-gold-400/50 bg-white hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500">
-              <div className="flex justify-center mb-4">
-                <Headphones className="h-16 w-16 text-gold-500" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-navy-900 mb-3">
-                Concierge Service
-              </h3>
-              <p className="text-gray-600 font-light leading-relaxed">
-                Our dedicated concierge team is at your service upon request.
-              </p>
-            </Card>
-          </div>
-
-          <div className="text-center mt-12">
-            <Link href="/amenities">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-light tracking-wide px-10 py-6 text-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-gold-500/50"
-              >
-                Learn More
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>      {/* Virtual Tours Section - Four Seasons Luxury */}
+      {/* Virtual Tours Section - Four Seasons Luxury */}
       <section className="py-32 bg-gradient-to-b from-cream to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20 animate-fade-in-up">
@@ -768,7 +692,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Video 3 - Batumi Location */}
+            {/* Video 3 - Hotel Room Showcase */}
             <div className="luxury-card rounded-2xl overflow-hidden bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500 group">
               <div className="relative" style={{ paddingBottom: '56.25%', height: '400px' }}>
                 <video
@@ -778,16 +702,15 @@ export default function Home() {
                   muted
                   playsInline
                 >
-                  <source src="/hero-city-timelapse.mp4" type="video/mp4" />
+                  <source src="/hotel-room-video.mp4" type="video/mp4" />
                 </video>
               </div>
               <div className="p-6 bg-white">
                 <h3 className="text-2xl font-serif font-light text-navy-900 mb-3 group-hover:text-gold-600 transition-colors duration-300">
-                  Batumi City & Beach
+                  Modern Hotel Room
                 </h3>
                 <p className="text-gray-600 font-light leading-relaxed">
-                  Discover the vibrant city of Batumi, its beautiful beaches, and nearby
-                  attractions.
+                  Experience our elegantly designed rooms with contemporary furnishings and stunning sea views.
                 </p>
               </div>
             </div>
@@ -850,34 +773,6 @@ export default function Home() {
               </div>
             </Card>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section
-        className="relative py-32 text-white"
-        style={{
-          backgroundImage: "url(/cta-sunset-batumi.webp)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Experience Luxury?
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Book your stay at Orbi City Batumi and discover the perfect blend of
-            comfort, elegance, and breathtaking sea views.
-          </p>
-          <Button
-            onClick={() => setBookingModalOpen(true)}
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-7 text-lg shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 font-medium tracking-wide"
-          >
-            Book Now / Pay Later
-          </Button>
         </div>
       </section>
 
