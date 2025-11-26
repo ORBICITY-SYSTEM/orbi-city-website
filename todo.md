@@ -194,3 +194,14 @@
 - [x] Fix map location on Location page (not Home page) with exact Orbi City coordinates (41.6415° N, 41.6367° E)
 - [x] Add Modern Hotel Room Showcase video to Home page hero section as third frame (3-second cycle)
 - [x] Remove "Exclusive Benefits - Loyalty Program" section from Home page
+
+
+## CRITICAL: tRPC API Errors
+- [x] Investigate tRPC queries receiving HTML instead of JSON
+- [x] Check server logs for API endpoint errors
+- [x] Fix server-side error handling
+- [x] Verify all tRPC procedures are returning proper JSON
+- [x] Test API endpoints after fixes
+- [x] Add retry logic with exponential backoff to tRPC client
+- [x] Configure query caching (5 min stale time)
+- [x] Disable refetch on window focus to reduce unnecessary requests
