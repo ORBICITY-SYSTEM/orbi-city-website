@@ -143,3 +143,31 @@
 - [x] Add Suspense boundaries with loading skeletons
 - [x] Test performance improvements on mobile and desktop
 - [x] Verify images load progressively during scroll
+
+## Four Seasons Booking System Redesign
+- [ ] Replace all "Book Now / Pay Later" buttons with "CHECK RATES"
+- [ ] Change button colors from blue to black/white Four Seasons style
+- [ ] Update WhatsApp button to transparent green style
+- [ ] Create new booking flow with Check In - Check Out date picker
+- [ ] Add Guests selector (Adults + Children)
+- [ ] Add Promo Code field
+- [ ] Implement calendar with availability display
+- [ ] Show all room categories with "CHOOSE" button
+- [ ] Create confirmation message: "Your booking request has been received! Our reservations manager will contact you regarding rates and other details. Thank you for your interest in staying with us."
+- [ ] Save booking requests to database (admin panel)
+- [ ] Send email notification to info@orbicitybatumi.com with subject "ჯავშნის მოთხოვნა ვებ საიტი"
+- [ ] Test entire booking flow end-to-end
+
+## Four Seasons Booking System Redesign
+- [x] Replace all "Book Now / Pay Later" buttons with "CHECK RATES"
+- [x] Change button colors from blue to black/white Four Seasons style
+- [x] Update WhatsApp button to transparent green style
+- [x] Create new booking flow with Check In - Check Out date picker
+- [x] Add Guests selector (Adults + Children)
+- [x] Add Promo Code field
+- [x] Implement calendar with availability display
+- [x] Show all room categories with "CHOOSE" button
+- [x] Create confirmation message: "Your booking request has been received! Our reservations manager will contact you regarding rates and other details. Thank you for your interest in staying with us."
+- [x] Save booking requests to database (admin panel)
+- [x] Send email notification to info@orbicitybatumi.com with subject "ჯავშნის მოთხოვნა - orbicitybatumi.com"
+- [x] Test entire booking flow end-to-end

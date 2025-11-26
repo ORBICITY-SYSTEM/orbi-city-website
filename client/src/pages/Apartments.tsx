@@ -118,7 +118,7 @@ export default function Apartments() {
               </button>
             )}
             <Link href="/apartments">
-              <Button className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-lg hover:shadow-gold-500/50 transition-all duration-300 hover:scale-105">Book Now / Pay Later</Button>
+              <Button className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-lg hover:shadow-gold-500/50 transition-all duration-300 hover:scale-105">CHECK RATES</Button>
             </Link>
             <MobileMenu currentPath="/apartments" />
           </div>

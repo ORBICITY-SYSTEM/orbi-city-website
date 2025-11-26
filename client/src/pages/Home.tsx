@@ -27,7 +27,7 @@ import { APP_LOGO } from "@/const";
 import { MobileMenu } from "@/components/MobileMenu";
 import { trackBookingClick } from "@/components/GoogleAnalytics";
 import { FooterCarousel } from "@/components/FooterCarousel";
-import { BookingModal } from "@/components/BookingModal";
+import { FourSeasonsBookingModal } from "@/components/FourSeasonsBookingModal";
 import { OrbiCityMap } from "@/components/OrbiCityMap";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SEOHead } from "@/components/SEOHead";
@@ -239,9 +239,9 @@ export default function Home() {
             <Button
               onClick={() => setBookingModalOpen(true)}
               size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-7 text-lg shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 font-medium tracking-wide"
+              className="bg-black hover:bg-gray-900 text-white px-12 py-7 text-lg shadow-2xl transition-all duration-300 hover:scale-105 font-light tracking-wider uppercase"
             >
-              Book Now / Pay Later
+              CHECK RATES
             </Button>
             <Button
               size="lg"
@@ -358,7 +358,7 @@ export default function Home() {
                       </div>
                       <div className="flex gap-3">
                         <Button
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-6 transition-all duration-300 hover:shadow-lg border-0"
+                          className="flex-1 bg-black hover:bg-gray-900 text-white font-light py-6 transition-all duration-300 hover:shadow-lg border-0 uppercase tracking-wider text-sm"
                           variant="default"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -367,7 +367,7 @@ export default function Home() {
                             trackBookingClick(apt.name);
                           }}
                         >
-                          Book Now / Pay Later
+                          CHECK RATES
                         </Button>
                         <Button
                           className="bg-white hover:bg-gray-50 text-gray-700 font-medium py-6 px-6 transition-all duration-300 hover:shadow-lg border border-gray-300"
@@ -1154,19 +1154,25 @@ export default function Home() {
         </DialogContent>
       </Dialog>
 
-      {/* Booking Modal */}
-      {selectedApartment && (
-        <BookingModal
-          isOpen={bookingModalOpen}
-          onClose={() => {
-            setBookingModalOpen(false);
-            setSelectedApartment(null);
-          }}
-          apartmentName={selectedApartment.name}
-          apartmentId={selectedApartment.id}
-          pricePerNight={selectedApartment.pricePerNight}
-        />
-      )}
+      {/* Four Seasons Booking Modal */}
+      <FourSeasonsBookingModal
+        isOpen={bookingModalOpen}
+        onClose={() => {
+          setBookingModalOpen(false);
+          setSelectedApartment(null);
+        }}
+        apartments={apartments?.map(apt => ({
+          id: apt.id,
+          name: apt.name,
+          description: apt.description,
+          pricePerNight: apt.pricePerNight,
+          maxGuests: apt.maxGuests,
+          bedrooms: apt.bedrooms,
+          bathrooms: apt.bathrooms,
+          area: apt.area || 50,
+          imageUrl: apt.id === 30008 ? '/apt-studio-real.webp' : apt.id === 30009 ? '/apt-one-bedroom-real.webp' : '/apt-two-bedroom-real.webp',
+        })) || []}
+      />
     </div>
     </>
   );

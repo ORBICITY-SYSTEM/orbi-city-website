@@ -69,7 +69,7 @@ export default function Contact() {
             <Link href="/contact"><span className="text-primary font-semibold cursor-pointer">Contact</span></Link>
           </nav>
           <Link href="/apartments">
-            <Button>Book Now / Pay Later</Button>
+            <Button>CHECK RATES</Button>
           </Link>
           <MobileMenu />
         </div>

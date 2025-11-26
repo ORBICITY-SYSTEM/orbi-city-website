@@ -199,6 +199,7 @@ export const appRouter = router({
         
         const { createBooking, getApartmentById } = await import("./db");
         const { sendBookingNotification } = await import("./_core/bookingNotifications");
+        const { sendBookingRequestEmail } = await import("./_core/emailNotification");
         
         const bookingId = await createBooking({
           apartmentId: input.apartmentId,
@@ -218,6 +219,7 @@ export const appRouter = router({
         // Send notification to property manager
         const apartment = await getApartmentById(input.apartmentId);
         if (apartment) {
+          // Send Manus notification
           await sendBookingNotification({
             booking: {
               id: bookingId,
@@ -233,6 +235,20 @@ export const appRouter = router({
             },
             apartmentName: apartment.name,
             contactMethod: input.contactMethod,
+          });
+          
+          // Send email to info@orbicitybatumi.com
+          await sendBookingRequestEmail({
+            guestName: input.guestName,
+            guestEmail: input.guestEmail,
+            guestPhone: input.guestPhone || null,
+            apartmentName: apartment.name,
+            checkIn,
+            checkOut,
+            guests: input.guests,
+            totalPrice: input.totalPrice,
+            specialRequests: input.specialRequests || null,
+            bookingId,
           });
         }
         

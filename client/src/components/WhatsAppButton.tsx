@@ -20,9 +20,9 @@ export function WhatsAppButton() {
     >
       <Button
         size="lg"
-        className="h-14 w-14 rounded-full bg-[#25D366] hover:bg-[#20BA5A] shadow-lg hover:shadow-xl transition-all duration-300 animate-pulse group-hover:animate-none"
+        className="h-14 w-14 rounded-full bg-[#25D366]/20 hover:bg-[#25D366]/30 border-2 border-[#25D366] backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-110"
       >
-        <MessageCircle className="h-7 w-7 text-white" />
+        <MessageCircle className="h-7 w-7 text-[#25D366]" />
       </Button>
       <span className="absolute -top-12 right-0 bg-gray-900 text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         Chat with us!
