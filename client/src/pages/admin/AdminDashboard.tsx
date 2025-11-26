@@ -24,6 +24,7 @@ import ApartmentsManagement from "./ApartmentsManagement";
 import GalleryManagement from "./GalleryManagement";
 import BlogManagement from "./BlogManagement";
 import { MessagesManagement } from "./MessagesManagement";
+import BookingsManagement from "./BookingsManagement";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -206,6 +207,10 @@ export default function AdminDashboard() {
 
   if (currentPage === "messages") {
     return <MessagesManagement />;
+  }
+
+  if (currentPage === "bookings") {
+    return <BookingsManagement />;
   }
 
   // Default dashboard view

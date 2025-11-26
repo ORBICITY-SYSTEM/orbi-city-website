@@ -172,6 +172,26 @@ export async function getBookingById(id: number): Promise<Booking | undefined> {
   return result[0];
 }
 
+export async function getAllBookings(): Promise<Booking[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(bookings).orderBy(desc(bookings.createdAt));
+}
+
+export async function updateBookingStatus(id: number, status: "pending" | "confirmed" | "completed" | "cancelled"): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  try {
+    await db.update(bookings)
+      .set({ status, updatedAt: new Date() })
+      .where(eq(bookings.id, id));
+  } catch (error) {
+    console.error("[Database] Failed to update booking status:", error);
+    throw error;
+  }
+}
+
 export async function checkAvailability(apartmentId: number, checkIn: Date, checkOut: Date): Promise<boolean> {
   const db = await getDb();
   if (!db) return false;

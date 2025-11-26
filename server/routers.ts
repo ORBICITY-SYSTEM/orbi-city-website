@@ -238,6 +238,31 @@ export const appRouter = router({
         
         return bookingId;
       }),
+    list: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== "admin") {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Only admins can view all bookings'
+        });
+      }
+      const { getAllBookings } = await import("./db");
+      return getAllBookings();
+    }),
+    updateStatus: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["pending", "confirmed", "completed", "cancelled"]),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "admin") {
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'Only admins can update booking status'
+          });
+        }
+        const { updateBookingStatus } = await import("./db");
+        return updateBookingStatus(input.id, input.status);
+      }),
   }),
 
   blog: router({

@@ -1,0 +1,9 @@
+Mobile optimization changes for Home.tsx hero section:
+
+Line 225: Change text-lg to text-base sm:text-lg
+Line 228: Change text-5xl to text-4xl sm:text-5xl  
+Line 233: Change text-lg to text-base sm:text-lg and mb-12 to mb-8 sm:mb-12
+Line 238: Change gap-6 to gap-4 sm:gap-6 and mt-12 to mt-8 sm:mt-12
+Line 242: Add w-full sm:w-auto and change px-10 py-7 text-lg to px-8 sm:px-10 py-5 sm:py-7 text-base sm:text-lg
+Line 256: Add w-full sm:w-auto and change px-12 py-7 text-lg to px-10 sm:px-12 py-5 sm:py-7 text-base sm:text-lg
+Line 262: Add w-full sm:w-auto and change px-10 py-7 text-lg to px-8 sm:px-10 py-5 sm:py-7 text-base sm:text-lg

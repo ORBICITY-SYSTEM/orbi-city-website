@@ -5,10 +5,11 @@ import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon, CheckCircle2, Phone, Mail, MessageCircle } from "lucide-react";
+import { CalendarIcon, CheckCircle2, Phone, Mail, MessageCircle, Loader2 } from "lucide-react";
 import { BookingConfirmation } from "./BookingConfirmation";
 import { format, differenceInDays } from "date-fns";
 import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -31,12 +32,37 @@ export function BookingModal({
   const [guestEmail, setGuestEmail] = useState("");
   const [guestPhone, setGuestPhone] = useState("");
   const [specialRequests, setSpecialRequests] = useState("");
+  const [guests, setGuests] = useState(2);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [contactMethod, setContactMethod] = useState<"whatsapp" | "telegram" | "email" | "phone">("whatsapp");
 
   const nights = checkIn && checkOut ? differenceInDays(checkOut, checkIn) : 0;
   const totalPrice = nights * pricePerNight;
-  const isAvailable = true; // In real app, check against database
+
+  // Check availability
+  const { data: availabilityData } = trpc.apartments.checkAvailability.useQuery(
+    {
+      apartmentId,
+      checkIn: checkIn ? checkIn.toISOString() : new Date().toISOString(),
+      checkOut: checkOut ? checkOut.toISOString() : new Date().toISOString(),
+    },
+    {
+      enabled: !!checkIn && !!checkOut,
+    }
+  );
+
+  const isAvailable = availabilityData ?? true;
+
+  // Create booking mutation
+  const createBookingMutation = trpc.bookings.create.useMutation({
+    onSuccess: () => {
+      setShowConfirmation(true);
+      toast.success("ჯავშანი წარმატებით გაიგზავნა!");
+    },
+    onError: (error) => {
+      toast.error(`დაფიქსირდა შეცდომა: ${error.message}`);
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,77 +77,41 @@ export function BookingModal({
       return;
     }
 
-    // Prepare booking data
-    const bookingData = {
-      apartmentName,
+    if (!guestEmail) {
+      toast.error("გთხოვთ შეავსოთ Email მისამართი");
+      return;
+    }
+
+    if (!isAvailable) {
+      toast.error("სამწუხაროდ, ბინა არ არის ხელმისაწვდომი არჩეულ თარიღებში");
+      return;
+    }
+
+    // Create booking via tRPC
+    createBookingMutation.mutate({
       apartmentId,
-      checkIn: format(checkIn, "PPP"),
-      checkOut: format(checkOut, "PPP"),
-      nights,
-      totalPrice,
       guestName,
       guestEmail,
       guestPhone,
-      specialRequests,
+      checkIn: checkIn.toISOString(),
+      checkOut: checkOut.toISOString(),
+      guests,
+      totalPrice,
       contactMethod,
-    };
-
-    // Send notification based on selected method
-    const message = `🏨 ახალი ჯავშანი - Orbi City Batumi
-
-📍 ბინა: ${apartmentName}
-👤 სტუმარი: ${guestName}
-📞 ტელეფონი: ${guestPhone}
-📧 Email: ${guestEmail || "არ არის მითითებული"}
-
-📅 Check-in: ${format(checkIn, "PPP")}
-📅 Check-out: ${format(checkOut, "PPP")}
-🌙 ღამეების რაოდენობა: ${nights}
-💰 სრული ფასი: $${totalPrice}
-
-📝 სპეციალური მოთხოვნები:
-${specialRequests || "არ არის"}
-
-⏰ დაუკავშირდით სტუმარს რამოდენიმე წუთში სართულისა და ბლოკის არჩევისთვის.`;
-
-    try {
-      // Send to selected channel
-      if (contactMethod === "whatsapp") {
-        // WhatsApp Business API or direct link
-        const whatsappNumber = "995555123456"; // Replace with actual number
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, "_blank");
-      } else if (contactMethod === "telegram") {
-        // Telegram Bot API (would need backend implementation)
-        const telegramBotToken = "YOUR_BOT_TOKEN";
-        const telegramChatId = "YOUR_CHAT_ID";
-        // This would be done via backend API
-        console.log("Sending to Telegram:", message);
-      } else if (contactMethod === "email") {
-        // Email via backend
-        console.log("Sending email:", message);
-      } else if (contactMethod === "phone") {
-        // Just show phone number to call
-        console.log("Call:", guestPhone);
-      }
-
-      setShowConfirmation(true);
-      toast.success("ჯავშანი წარმატებით გაიგზავნა!");
-    } catch (error) {
-      toast.error("დაფიქსირდა შეცდომა. გთხოვთ სცადოთ ხელახლა.");
-    }
+      specialRequests: specialRequests || undefined,
+    });
   };
 
   if (showConfirmation && checkIn && checkOut) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-4xl bg-navy-950 border-2 border-gold-500/30 max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-4xl bg-navy-950 border-2 border-gold-500/30 max-h-[90vh] overflow-y-auto">
           <BookingConfirmation
             bookingDetails={{
               apartmentName,
               checkIn,
               checkOut,
-              guests: 2, // You can add a guests field to the form
+              guests,
               fullName: guestName,
               email: guestEmail,
               phone: guestPhone,
@@ -132,6 +122,14 @@ ${specialRequests || "არ არის"}
             onClose={() => {
               setShowConfirmation(false);
               onClose();
+              // Reset form
+              setCheckIn(undefined);
+              setCheckOut(undefined);
+              setGuestName("");
+              setGuestEmail("");
+              setGuestPhone("");
+              setSpecialRequests("");
+              setGuests(2);
             }}
           />
         </DialogContent>
@@ -141,22 +139,31 @@ ${specialRequests || "არ არის"}
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-3xl bg-white border-2 border-gold-200 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-[95vw] sm:max-w-3xl bg-white border-2 border-gold-200 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-3xl font-serif font-light text-navy-900">
+          <DialogTitle className="text-2xl sm:text-3xl font-serif font-light text-navy-900">
             დაჯავშნა - {apartmentName}
           </DialogTitle>
-          {isAvailable && (
-            <div className="flex items-center gap-2 text-green-600 mt-2">
-              <CheckCircle2 className="w-5 h-5" />
-              <span className="font-medium">Available</span>
+          {checkIn && checkOut && (
+            <div className="flex items-center gap-2 mt-2">
+              {isAvailable ? (
+                <>
+                  <CheckCircle2 className="w-5 h-5 text-green-600" />
+                  <span className="font-medium text-green-600">Available</span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 className="w-5 h-5 text-red-600" />
+                  <span className="font-medium text-red-600">Not Available</span>
+                </>
+              )}
             </div>
           )}
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-6">
           {/* Date Selection */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div>
               <Label className="text-navy-900 font-medium mb-2 block">
                 ჩასახლების თარიღი
@@ -166,7 +173,7 @@ ${specialRequests || "არ არის"}
                 selected={checkIn}
                 onSelect={setCheckIn}
                 disabled={(date) => date < new Date()}
-                className="rounded-xl border-2 border-gold-200"
+                className="rounded-xl border-2 border-gold-200 w-full"
               />
             </div>
             <div>
@@ -178,14 +185,14 @@ ${specialRequests || "არ არის"}
                 selected={checkOut}
                 onSelect={setCheckOut}
                 disabled={(date) => !checkIn || date <= checkIn}
-                className="rounded-xl border-2 border-gold-200"
+                className="rounded-xl border-2 border-gold-200 w-full"
               />
             </div>
           </div>
 
           {/* Price Summary */}
           {nights > 0 && (
-            <div className="bg-gold-50 border-2 border-gold-200 rounded-xl p-6">
+            <div className="bg-gold-50 border-2 border-gold-200 rounded-xl p-4 sm:p-6">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-gray-700">ღამეების რაოდენობა:</span>
                 <span className="font-semibold text-navy-900">{nights}</span>
@@ -220,6 +227,21 @@ ${specialRequests || "არ არის"}
             </div>
 
             <div>
+              <Label htmlFor="guestEmail" className="text-navy-900 font-medium">
+                Email *
+              </Label>
+              <Input
+                id="guestEmail"
+                type="email"
+                value={guestEmail}
+                onChange={(e) => setGuestEmail(e.target.value)}
+                placeholder="email@example.com"
+                required
+                className="border-2 border-gold-200 focus:border-gold-400"
+              />
+            </div>
+
+            <div>
               <Label htmlFor="guestPhone" className="text-navy-900 font-medium">
                 ტელეფონის ნომერი *
               </Label>
@@ -235,15 +257,16 @@ ${specialRequests || "არ არის"}
             </div>
 
             <div>
-              <Label htmlFor="guestEmail" className="text-navy-900 font-medium">
-                Email (არასავალდებულო)
+              <Label htmlFor="guests" className="text-navy-900 font-medium">
+                სტუმრების რაოდენობა
               </Label>
               <Input
-                id="guestEmail"
-                type="email"
-                value={guestEmail}
-                onChange={(e) => setGuestEmail(e.target.value)}
-                placeholder="email@example.com"
+                id="guests"
+                type="number"
+                min="1"
+                max="10"
+                value={guests}
+                onChange={(e) => setGuests(parseInt(e.target.value) || 2)}
                 className="border-2 border-gold-200 focus:border-gold-400"
               />
             </div>
@@ -268,11 +291,11 @@ ${specialRequests || "არ არის"}
             <Label className="text-navy-900 font-medium mb-3 block">
               რჩეული კონტაქტის მეთოდი
             </Label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
               <button
                 type="button"
                 onClick={() => setContactMethod("whatsapp")}
-                className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+                className={`p-3 sm:p-4 rounded-xl border-2 transition-all duration-300 min-h-[80px] flex flex-col items-center justify-center ${
                   contactMethod === "whatsapp"
                     ? "border-gold-500 bg-gold-50"
                     : "border-gray-200 hover:border-gold-300"
@@ -284,7 +307,7 @@ ${specialRequests || "არ არის"}
               <button
                 type="button"
                 onClick={() => setContactMethod("telegram")}
-                className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+                className={`p-3 sm:p-4 rounded-xl border-2 transition-all duration-300 min-h-[80px] flex flex-col items-center justify-center ${
                   contactMethod === "telegram"
                     ? "border-gold-500 bg-gold-50"
                     : "border-gray-200 hover:border-gold-300"
@@ -296,7 +319,7 @@ ${specialRequests || "არ არის"}
               <button
                 type="button"
                 onClick={() => setContactMethod("email")}
-                className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+                className={`p-3 sm:p-4 rounded-xl border-2 transition-all duration-300 min-h-[80px] flex flex-col items-center justify-center ${
                   contactMethod === "email"
                     ? "border-gold-500 bg-gold-50"
                     : "border-gray-200 hover:border-gold-300"
@@ -308,7 +331,7 @@ ${specialRequests || "არ არის"}
               <button
                 type="button"
                 onClick={() => setContactMethod("phone")}
-                className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+                className={`p-3 sm:p-4 rounded-xl border-2 transition-all duration-300 min-h-[80px] flex flex-col items-center justify-center ${
                   contactMethod === "phone"
                     ? "border-gold-500 bg-gold-50"
                     : "border-gray-200 hover:border-gold-300"
@@ -327,14 +350,23 @@ ${specialRequests || "არ არის"}
               variant="outline"
               onClick={onClose}
               className="flex-1 border-2 border-gray-300 hover:border-gray-400"
+              disabled={createBookingMutation.isPending}
             >
               გაუქმება
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white py-6 text-lg font-medium"
+              disabled={createBookingMutation.isPending || !isAvailable}
+              className="flex-1 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white py-4 sm:py-6 text-base sm:text-lg font-medium min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              დაჯავშნა
+              {createBookingMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  მუშავდება...
+                </>
+              ) : (
+                "დაჯავშნა"
+              )}
             </Button>
           </div>
         </form>
