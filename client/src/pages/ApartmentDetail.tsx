@@ -73,13 +73,13 @@ export default function ApartmentDetail() {
     );
   }
 
-  // Map apartment IDs to real images
+  // Map apartment IDs to real images (6 images per apartment for slider)
   const imageMap: Record<number, string[]> = {
-    30006: ["/apt-suite-sea-view-real.webp", "/gallery-3-bedroom.webp", "/gallery-1-balcony-sea.webp"],
-    30007: ["/apt-delux-suite-real.webp", "/gallery-2-lobby.webp", "/gallery-5-bedroom-2.webp"],
-    30008: ["/apt-superior-suite-real.webp", "/gallery-3-bedroom.webp", "/gallery-1-balcony-sea.webp"],
-    30009: ["/apt-superior-family-real.webp", "/gallery-5-bedroom-2.webp", "/gallery-1-balcony-sea.webp"],
-    30010: ["/apt-two-bedroom-real.webp", "/gallery-6-aerial-coast.webp", "/gallery-1-balcony-sea.webp"],
+    30006: ["/apt-suite-sea-view-real.webp", "/gallery-3-bedroom.webp", "/gallery-1-balcony-sea.webp", "/gallery-2-lobby.webp", "/gallery-5-bedroom-2.webp", "/gallery-6-aerial-coast.webp"],
+    30007: ["/apt-delux-suite-real.webp", "/gallery-2-lobby.webp", "/gallery-5-bedroom-2.webp", "/gallery-3-bedroom.webp", "/gallery-1-balcony-sea.webp", "/gallery-6-aerial-coast.webp"],
+    30008: ["/apt-superior-suite-real.webp", "/gallery-3-bedroom.webp", "/gallery-1-balcony-sea.webp", "/gallery-2-lobby.webp", "/gallery-5-bedroom-2.webp", "/gallery-6-aerial-coast.webp"],
+    30009: ["/apt-superior-family-real.webp", "/gallery-5-bedroom-2.webp", "/gallery-1-balcony-sea.webp", "/gallery-3-bedroom.webp", "/gallery-2-lobby.webp", "/gallery-6-aerial-coast.webp"],
+    30010: ["/apt-two-bedroom-real.webp", "/gallery-6-aerial-coast.webp", "/gallery-1-balcony-sea.webp", "/gallery-3-bedroom.webp", "/gallery-2-lobby.webp", "/gallery-5-bedroom-2.webp"],
   };
   const gallery = imageMap[apartment.id] || (apartment.gallery ? JSON.parse(apartment.gallery as string) : [apartment.imageUrl]);
   const features = apartment.features ? JSON.parse(apartment.features as string) : [];
@@ -167,7 +167,7 @@ export default function ApartmentDetail() {
               </div>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
-              {gallery.slice(0, 4).map((img: string, index: number) => (
+              {gallery.slice(0, 6).map((img: string, index: number) => (
                 <div
                   key={index}
                   onClick={() => setSelectedImage(index)}

@@ -21,7 +21,7 @@ import Blog from "./pages/Blog";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import { LiveChatWidget } from "./components/LiveChatWidget";
-import { PromoPopup } from "./components/PromoPopup";
+// PromoPopup removed per user request
 import { GoogleAnalytics } from "./components/GoogleAnalytics";
 import { GoogleTagManager } from "./components/GoogleTagManager";
 import { StructuredData } from "./components/StructuredData";
@@ -72,7 +72,7 @@ function App() {
             <Router />
             <WhatsAppButton />
             <LiveChatWidget />
-            <PromoPopup />
+            {/* PromoPopup removed */}
             <GoogleAnalytics />
             <GoogleTagManager gtmId={import.meta.env.VITE_GTM_ID || ''} />
           </TooltipProvider>

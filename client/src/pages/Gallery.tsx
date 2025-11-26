@@ -155,7 +155,7 @@ export default function Gallery() {
               </button>
             )}
             <Link href="/apartments">
-              <Button>Book Now</Button>
+              <Button>Book Now / Pay Later</Button>
             </Link>
             <MobileMenu currentPath="/gallery" />
           </div>

@@ -124,3 +124,14 @@
 - [x] Enhance Schema Markup for all pages
 - [x] Document Google Workspace Enterprise integration
 - [x] Test all SEO integrations
+
+## UX Improvements
+- [ ] Remove "Made with Manus" badge
+- [ ] Optimize website load speed
+- [x] Remove popup
+- [x] Remove "Explore Residences" button
+- [x] Keep only "Book Now" (blue) and "WhatsApp" (green) buttons
+- [x] Make apartment cards clickable to detail pages
+- [ ] Change "Book Now" to "Book Now / Pay Later"
+- [x] Add "View Details" button to apartment cards
+- [x] Create apartment detail pages with 6-image sliders

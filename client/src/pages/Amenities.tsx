@@ -101,7 +101,7 @@ export default function Amenities() {
             <Link href="/contact"><span className="text-gray-600 hover:text-primary transition-colors cursor-pointer">Contact</span></Link>
           </nav>
           <Link href="/apartments">
-            <Button>Book Now</Button>
+            <Button>Book Now / Pay Later</Button>
           </Link>
         </div>
       </header>

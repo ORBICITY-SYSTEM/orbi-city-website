@@ -236,35 +236,20 @@ export default function Home() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12 animate-fade-in-up-delay">
-            <Link href="/apartments">
-              <Button
-                size="lg"
-                className="bg-gold-500 hover:bg-gold-600 text-slate-900 font-medium px-10 py-7 text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-              >
-                <Calendar className="mr-2 h-5 w-5" />
-                Explore Residences
-              </Button>
-            </Link>
-            <a
-              href="https://wa.me/995555199090"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Button
+              onClick={() => setBookingModalOpen(true)}
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-7 text-lg shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 font-medium tracking-wide"
             >
-              <Button
-                onClick={() => setBookingModalOpen(true)}
-                size="lg"
-                className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-12 py-7 text-lg shadow-2xl hover:shadow-gold-500/50 transition-all duration-300 hover:scale-105 font-serif font-light tracking-wide"
-              >
-                Book Now
-              </Button>
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-2 border-green-400 px-10 py-7 text-lg shadow-2xl hover:shadow-green-500/50 transition-all duration-300 hover:scale-105 font-serif font-light tracking-wide"
-                onClick={() => window.open('https://wa.me/995555199090?text=Hello, I would like to book an apartment at Orbi City Batumi', '_blank')}
-              >
-                WhatsApp
-              </Button>
-            </a>
+              Book Now / Pay Later
+            </Button>
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-2 border-green-400 px-10 py-7 text-lg shadow-2xl hover:shadow-green-500/50 transition-all duration-300 hover:scale-105 font-medium tracking-wide"
+              onClick={() => window.open('https://wa.me/995555199090?text=Hello, I would like to book an apartment at Orbi City Batumi', '_blank')}
+            >
+              WhatsApp
+            </Button>
           </div>
           
           {/* Scroll Indicator */}
@@ -326,7 +311,8 @@ export default function Home() {
                 return (
                   <Card
                     key={apt.id}
-                    className="luxury-card overflow-hidden bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500 group"
+                    className="luxury-card overflow-hidden bg-white border-2 border-gold-200/30 hover:border-gold-400/50 transition-all duration-500 group cursor-pointer"
+                    onClick={() => window.location.href = `/apartment/${apt.id}`}
                   >
                     <div className="relative h-72 overflow-hidden">
                       <img
@@ -371,17 +357,29 @@ export default function Home() {
                           {apt.area}m²
                         </span>
                       </div>
-                      <Button
-                        className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-medium py-6 transition-all duration-300 hover:shadow-lg border-0"
-                        variant="default"
-                        onClick={() => {
-                          setSelectedApartment(apt);
-                          setBookingModalOpen(true);
-                          trackBookingClick(apt.name);
-                        }}
-                      >
-                        Book Now
-                      </Button>
+                      <div className="flex gap-3">
+                        <Button
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-6 transition-all duration-300 hover:shadow-lg border-0"
+                          variant="default"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedApartment(apt);
+                            setBookingModalOpen(true);
+                            trackBookingClick(apt.name);
+                          }}
+                        >
+                          Book Now / Pay Later
+                        </Button>
+                        <Link href={`/apartment/${apt.id}`}>
+                          <Button
+                            className="bg-white hover:bg-gray-50 text-gray-700 font-medium py-6 px-6 transition-all duration-300 hover:shadow-lg border border-gray-300"
+                            variant="outline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            View Details
+                          </Button>
+                        </Link>
+                      </div>
                     </CardContent>
                   </Card>
                 );
@@ -874,9 +872,9 @@ export default function Home() {
           <Button
             onClick={() => setBookingModalOpen(true)}
             size="lg"
-            className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-12 py-7 text-lg shadow-2xl hover:shadow-gold-500/50 transition-all duration-300 hover:scale-105 font-serif font-light tracking-wide"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-7 text-lg shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 font-medium tracking-wide"
           >
-            Book Now
+            Book Now / Pay Later
           </Button>
         </div>
       </section>
