@@ -48,6 +48,46 @@ export function LanguageSwitcher() {
         >
           ქართული
         </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => changeLanguage("ru")}
+          className={`cursor-pointer font-light transition-colors ${
+            i18n.language === "ru"
+              ? "text-gold-400 bg-gold-50/10"
+              : "text-gray-300 hover:text-gold-400 hover:bg-gold-50/10"
+          }`}
+        >
+          Русский
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => changeLanguage("tr")}
+          className={`cursor-pointer font-light transition-colors ${
+            i18n.language === "tr"
+              ? "text-gold-400 bg-gold-50/10"
+              : "text-gray-300 hover:text-gold-400 hover:bg-gold-50/10"
+          }`}
+        >
+          Türkçe
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => changeLanguage("uk")}
+          className={`cursor-pointer font-light transition-colors ${
+            i18n.language === "uk"
+              ? "text-gold-400 bg-gold-50/10"
+              : "text-gray-300 hover:text-gold-400 hover:bg-gold-50/10"
+          }`}
+        >
+          Українська
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => changeLanguage("ar")}
+          className={`cursor-pointer font-light transition-colors ${
+            i18n.language === "ar"
+              ? "text-gold-400 bg-gold-50/10"
+              : "text-gray-300 hover:text-gold-400 hover:bg-gold-50/10"
+          }`}
+        >
+          العربية
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
