@@ -314,3 +314,37 @@ html {
   );
   animation: shimmer 3s infinite;
 }
+
+
+/* Hide Manus Badge - Comprehensive */
+a[href*="manus.im"],
+a[href*="Made with Manus"],
+div[class*="manus"],
+div[id*="manus"],
+button[class*="manus"],
+button[class*="badge"],
+[data-manus],
+[class*="made-with"],
+iframe[src*="manus"],
+/* Target specific badge positions */
+[style*="position: fixed"][style*="bottom"],
+[style*="position: fixed"][style*="right"],
+/* Target by content */
+*:has-text("Made with Manus"),
+*:has-text("manus.im") {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+/* Hide by z-index (badges usually have high z-index) */
+[style*="z-index: 999"],
+[style*="z-index: 9999"] {
+  display: none !important;
+}
