@@ -52,11 +52,34 @@ const trpcClient = trpc.createClient({
     httpBatchLink({
       url: "/api/trpc",
       transformer: superjson,
-      fetch(input, init) {
-        return globalThis.fetch(input, {
-          ...(init ?? {}),
-          credentials: "include",
-        });
+      async fetch(input, init) {
+        const url = typeof input === 'string' ? input : (input instanceof Request ? input.url : input.toString());
+        
+        try {
+          const response = await globalThis.fetch(input, {
+            ...(init ?? {}),
+            credentials: "include",
+          });
+          
+          // Check if response is HTML when we expect JSON
+          const contentType = response.headers.get('content-type');
+          if (contentType?.includes('text/html')) {
+            console.error('[tRPC] Server returned HTML instead of JSON. This usually happens during HMR or server restart.');
+            console.error('[tRPC] URL:', url);
+            console.error('[tRPC] Status:', response.status);
+            
+            // Throw error to trigger retry logic
+            throw new Error(`Server returned HTML instead of JSON (likely HMR/restart). Retrying...`);
+          }
+          
+          return response;
+        } catch (error) {
+          // Only log non-HTML errors to avoid spam
+          if (!(error instanceof Error && error.message.includes('HTML instead of JSON'))) {
+            console.error('[tRPC] Fetch error:', url, error);
+          }
+          throw error;
+        }
       },
     }),
   ],

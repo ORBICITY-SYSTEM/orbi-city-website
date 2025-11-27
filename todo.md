@@ -205,3 +205,15 @@
 - [x] Add retry logic with exponential backoff to tRPC client
 - [x] Configure query caching (5 min stale time)
 - [x] Disable refetch on window focus to reduce unnecessary requests
+
+
+## RECURRING: tRPC HTML Response Error
+- [x] Identify which specific tRPC query is receiving HTML
+- [x] Check server routing configuration for conflicts
+- [x] Verify all API routes are properly registered
+- [x] Check middleware order and error handling
+- [x] Add detailed logging to identify failing endpoint
+- [x] Fix root cause of HTML responses
+- [x] Add HTML response detection in tRPC client
+- [x] Implement automatic retry on HTML responses
+- [x] Add descriptive error messages for debugging
