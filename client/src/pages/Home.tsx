@@ -196,9 +196,10 @@ export default function Home() {
                   Blog
                 </span>
               </Link>
-              <button className="px-5 py-2 border border-gold-400/40 rounded-md text-gold-400 hover:bg-gold-400/10 hover:border-gold-400 transition-all duration-300 font-light tracking-wider">
-                EN
-              </button>
+              
+              {/* Language Switcher */}
+              <LanguageSwitcher />
+              
               {user?.role === "admin" && (
                 <button
                   onClick={() => setEditMode(!editMode)}
@@ -212,9 +213,6 @@ export default function Home() {
                 </button>
               )}
             </div>
-            
-            {/* Language Switcher */}
-            <LanguageSwitcher />
             
             {/* Mobile Menu */}
             <MobileMenu currentPath="/" />

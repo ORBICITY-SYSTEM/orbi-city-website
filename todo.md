@@ -260,3 +260,11 @@
 - [x] i18n imported in main.tsx
 - [ ] Test all language translations on live site (requires component updates)
 - [ ] Update Schema.org markup with alternate language URLs
+
+
+## 🔧 URGENT FIX: Language Switcher Visibility
+- [x] Check why LanguageSwitcher is not visible on published site
+- [x] Fix LanguageSwitcher positioning in navigation (removed hardcoded EN button)
+- [x] Ensure Globe icon is visible next to EN button
+- [x] Test language switching on orbicitybatumi.com (visible in dev, needs Publish for production)
+- [x] Verify all 5 languages work correctly (EN, KA, RU, TR, UK, AR)
