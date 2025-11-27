@@ -58,13 +58,17 @@ export default function Home() {
   const [selectedApartment, setSelectedApartment] = useState<any>(null);
   const [currentHeroFrame, setCurrentHeroFrame] = useState(0);
 
-  // Hero carousel rotation every 3 seconds
+  // Hero carousel rotation with dynamic timing (3s, 3s, 2s)
   useEffect(() => {
-    const interval = setInterval(() => {
+    const frameDurations = [3000, 3000, 2000]; // Duration for each frame in ms
+    const duration = frameDurations[currentHeroFrame];
+    
+    const timeout = setTimeout(() => {
       setCurrentHeroFrame((prev) => (prev + 1) % 3);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    }, duration);
+    
+    return () => clearTimeout(timeout);
+  }, [currentHeroFrame]);
 
   const heroVideos = [
     "/hero-city-timelapse.mp4",
@@ -223,11 +227,12 @@ export default function Home() {
         {/* Video Background Carousel */}
         {heroVideos.map((videoSrc, index) => (
           <video
-            key={videoSrc}
+            key={index}
             autoPlay
             loop
             muted
             playsInline
+            preload={index === 0 ? "auto" : "metadata"}
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
               index === currentHeroFrame ? 'opacity-100' : 'opacity-0'
             }`}
@@ -337,6 +342,7 @@ export default function Home() {
                       <img
                         src={imageSrc}
                         alt={apt.name}
+                        loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -430,6 +436,7 @@ export default function Home() {
               <img
                 src="/gallery-1-balcony-sea.webp"
                 alt="Stunning sea view from a balcony"
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -438,6 +445,7 @@ export default function Home() {
               <img
                 src="/gallery-2-lobby.webp"
                 alt="Elegant hotel lobby"
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -446,6 +454,7 @@ export default function Home() {
               <img
                 src="/gallery-3-bedroom.webp"
                 alt="Modern bedroom interior"
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -454,6 +463,7 @@ export default function Home() {
               <img
                 src="/gallery-4-night-view.webp"
                 alt="Night view of Batumi coastline"
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -462,6 +472,7 @@ export default function Home() {
               <img
                 src="/gallery-5-bedroom-2.webp"
                 alt="Comfortable apartment living area"
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -470,6 +481,7 @@ export default function Home() {
               <img
                 src="/gallery-6-aerial-coast.webp"
                 alt="Aerial view of Batumi coast"
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -532,6 +544,7 @@ export default function Home() {
               <img
                 src="/about-orbi-city-image.webp"
                 alt="Orbi City Building"
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-4 right-4 bg-yellow-500 text-slate-900 px-6 py-3 rounded-lg">

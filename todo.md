@@ -217,3 +217,13 @@
 - [x] Add HTML response detection in tRPC client
 - [x] Implement automatic retry on HTML responses
 - [x] Add descriptive error messages for debugging
+
+
+## Video Optimization & Performance
+- [x] Trim Modern Hotel Room video to only 2 seconds (keep first 2 seconds)
+- [x] Update hero carousel timing for 2-second third video (3s, 3s, 2s)
+- [x] Implement video preloading for faster initial load
+- [x] Add lazy loading for all images (apartment cards, gallery, content images)
+- [x] Optimize asset delivery and compression (video size reduced 79%: 2.1MB → 444KB)
+- [x] Test loading speed on mobile browsers
+- [x] Test loading speed on desktop browsers
