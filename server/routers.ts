@@ -163,6 +163,30 @@ export const appRouter = router({
       }),
   }),
 
+  testimonials: router({
+    list: publicProcedure.query(async () => {
+      const { getApprovedTestimonials } = await import("./db");
+      return getApprovedTestimonials();
+    }),
+    create: publicProcedure
+      .input(z.object({
+        guestName: z.string().min(2, "Name must be at least 2 characters").max(255, "Name is too long"),
+        guestCountry: z.string().max(100, "Country is too long").optional(),
+        rating: z.number().min(1, "Rating must be at least 1").max(5, "Rating cannot exceed 5").int("Rating must be an integer"),
+        comment: z.string().min(10, "Comment must be at least 10 characters"),
+        avatarUrl: z.string().url("Invalid avatar URL").optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { createTestimonial } = await import("./db");
+        return createTestimonial({
+          ...input,
+          guestCountry: input.guestCountry || null,
+          avatarUrl: input.avatarUrl || null,
+          isApproved: 0, // Requires admin approval
+        });
+      }),
+  }),
+
   bookings: router({
     create: protectedProcedure
       .input(z.object({

@@ -50,6 +50,7 @@ export default function Home() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { data: apartments, isLoading } = trpc.apartments.list.useQuery();
+  const { data: testimonials = [], isLoading: testimonialsLoading } = trpc.testimonials.list.useQuery();
   const [scrolled, setScrolled] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -671,9 +672,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Testimonials Section */}
+      </section>      {/* Testimonials Section - Guest Reviews */}
       <section className="py-24 bg-gradient-to-b from-white via-cream-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -683,27 +682,41 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <Card className="p-12 border-2 border-gold-200/40 bg-white shadow-2xl hover:shadow-gold-500/20 transition-all duration-500">
-              <div className="flex justify-center mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-7 w-7 fill-gold-500 text-gold-500 mx-1"
-                  />
-                ))}
-              </div>
-              <p className="text-2xl text-navy-800 font-serif font-light italic text-center mb-8 leading-relaxed">
-                "The loyalty program is fantastic! Earned points on my stay and
-                got a free welcome drink. The sea view from our balcony was
-                breathtaking every morning."
-              </p>
-              <div className="text-center border-t border-gold-200/30 pt-6">
-                <p className="font-serif text-lg text-navy-900 mb-1">Sarah Johnson</p>
-                <p className="text-gray-600 font-light tracking-wide">United Kingdom</p>
-              </div>
-            </Card>
-          </div>
+          {testimonialsLoading ? (
+            <div className="flex justify-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600"></div>
+            </div>
+          ) : testimonials.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {testimonials.slice(0, 6).map((testimonial) => (
+                <Card key={testimonial.id} className="p-8 border-2 border-gold-200/40 bg-white shadow-lg hover:shadow-gold-500/20 transition-all duration-500">
+                  <div className="flex justify-center mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-5 w-5 fill-gold-500 text-gold-500 mx-0.5"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-lg text-navy-800 font-light italic text-center mb-6 leading-relaxed">
+                    "{testimonial.comment}"
+                  </p>
+                  <div className="text-center border-t border-gold-200/30 pt-4">
+                    <p className="font-serif text-base text-navy-900 mb-1">{testimonial.guestName}</p>
+                    {testimonial.guestCountry && (
+                      <p className="text-sm text-gray-600 font-light tracking-wide">{testimonial.guestCountry}</p>
+                    )}
+                  </div>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="max-w-4xl mx-auto">
+              <Card className="p-12 border-2 border-gold-200/40 bg-white shadow-2xl">
+                <p className="text-center text-gray-600">No testimonials available yet.</p>
+              </Card>
+            </div>
+          )}
         </div>
       </section>
 
