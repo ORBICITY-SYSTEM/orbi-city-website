@@ -275,3 +275,40 @@
 - [x] Add best reviews to testimonials database (5 reviews added)
 - [x] Display reviews on website testimonials section
 - [x] Test reviews display on live site (API working, 8 total testimonials)
+
+
+## 🚀 MVP: B2B Corporate Portal & Dual Registration System
+
+### Phase 1: Database Schema Update
+- [ ] Add fields to users table (accountType, loyaltyPoints, passwordHash, emailVerified)
+- [ ] Create loyalty_transactions table
+- [ ] Create companies table (for future corporate feature)
+- [ ] Run pnpm db:push to apply migrations
+
+### Phase 2: Email/Password Authentication
+- [ ] Implement password hashing (bcrypt)
+- [ ] Create registration endpoint (individual)
+- [ ] Create login endpoint
+- [ ] Create email verification flow
+- [ ] Update auth context to support email/password
+
+### Phase 3: Welcome Popup & Registration Forms
+- [ ] Create WelcomePopup component (3-sec trigger)
+- [ ] Create RegistrationForm component
+- [ ] Add popup to Home page
+- [ ] Implement popup dismiss logic (24hr cookie)
+- [ ] Auto-add 100 points on registration
+
+### Phase 4: Loyalty Points Dashboard
+- [ ] Create LoyaltyDashboard component
+- [ ] Display current points balance
+- [ ] Show points history
+- [ ] Create redemption flow (100 points = 1 free night)
+- [ ] Add points widget to user dashboard
+
+### Phase 5: Testing & Deployment
+- [ ] Test registration flow end-to-end
+- [ ] Test popup behavior
+- [ ] Test points earning/redemption
+- [ ] Deploy to production
+- [ ] Create checkpoint
