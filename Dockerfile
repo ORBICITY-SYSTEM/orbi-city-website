@@ -8,6 +8,7 @@ ENV PORT=8080
 
 # copy package + lock first for caching
 COPY package.json pnpm-lock.yaml* ./
+COPY patches ./patches
 
 # install pnpm and deps
 RUN npm i -g pnpm@10 \
