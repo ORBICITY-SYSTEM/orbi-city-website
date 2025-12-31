@@ -20,10 +20,10 @@ steps:
         set -o pipefail
         TAG="${SHORT_SHA:-${BUILD_ID}}"
         IMAGE="${_AR_HOSTNAME}/${PROJECT_ID}/${_AR_REPOSITORY}/${_IMAGE_NAME}:${BUILD_ID}"
-        echo "Building ${IMAGE}"
-        docker build -t "${IMAGE}" -f Dockerfile .
-        docker push "${IMAGE}"
-        echo -n "${IMAGE}" > /workspace/image.txt
+        echo "Building $$IMAGE"
+        docker build -t "$$IMAGE" -f Dockerfile .
+        docker push "$$IMAGE"
+        echo -n "$$IMAGE" > /workspace/image.txt
 
   - id: "Deploy"
     name: "gcr.io/cloud-builders/gcloud"
@@ -33,9 +33,9 @@ steps:
       - |
         set -o pipefail
         IMAGE="$(cat /workspace/image.txt)"
-        echo "Deploying ${IMAGE} to ${_DEPLOY_REGION}"
+        echo "Deploying $$IMAGE to ${_DEPLOY_REGION}"
         gcloud run deploy "${_SERVICE_NAME}" \
-          --image="${IMAGE}" \
+          --image="$$IMAGE" \
           --region="${_DEPLOY_REGION}" \
           --platform=managed \
           --allow-unauthenticated \
