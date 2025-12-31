@@ -1,41 +1,42 @@
-substitutions:
-  _REGION: "europe-west1"
-  _REPOSITORY: "orbi-city-docker"
-
 timeout: "1200s"
 
+options:
+  substitutionOption: "ALLOW_LOOSE"
+
+substitutions:
+  _DEPLOY_REGION: "europe-west1"
+  _AR_HOSTNAME: "europe-west1-docker.pkg.dev"
+  _AR_REPOSITORY: "cloud-run-source-deploy"
+  _SERVICE_NAME: "orbi-city-website"
+  _IMAGE_NAME: "orbi-city-website"
+
 steps:
-- id: "build_and_push"
-  name: "gcr.io/cloud-builders/docker"
-  entrypoint: "bash"
-  args:
-    - "-c"
-    - |
-      set -euo pipefail
-      # choose tag: prefer SHORT_SHA (triggered builds). If absent, use BUILD_ID.
-      TAG="${SHORT_SHA:-${BUILD_ID}}"
-      IMAGE="europe-west1-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/orbi-city-website:${TAG}"
-      echo "Building image $IMAGE"
-      docker build -t "$IMAGE" -f Dockerfile .
-      echo "Pushing image $IMAGE"
-      docker push "$IMAGE"
-      echo "$IMAGE" > /workspace/image.txt
+  - id: "Build & Push"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args:
+      - "-ceu"
+      - |
+        set -o pipefail
+        TAG="${SHORT_SHA:-${BUILD_ID}}"
+        IMAGE="${_AR_HOSTNAME}/${PROJECT_ID}/${_AR_REPOSITORY}/${_IMAGE_NAME}:${BUILD_ID}"
+        echo "Building ${IMAGE}"
+        docker build -t "${IMAGE}" -f Dockerfile .
+        docker push "${IMAGE}"
+        echo -n "${IMAGE}" > /workspace/image.txt
 
-- id: "deploy"
-  name: "gcr.io/cloud-builders/gcloud"
-  entrypoint: "bash"
-  args:
-    - "-c"
-    - |
-      set -euo pipefail
-      IMAGE=$(cat /workspace/image.txt)
-      echo "Deploying $IMAGE to region ${_REGION}"
-      gcloud run deploy orbi-city-website \
-        --image="$IMAGE" \
-        --region="${_REGION}" \
-        --platform=managed \
-        --allow-unauthenticated \
-        --set-env-vars=NODE_ENV=production,PORT=8080
-
-# optional artifact list
-# images:  <-- omitted because we compute tag inside bash and echo it to workspace.
+  - id: "Deploy"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-ceu"
+      - |
+        set -o pipefail
+        IMAGE="$(cat /workspace/image.txt)"
+        echo "Deploying ${IMAGE} to ${_DEPLOY_REGION}"
+        gcloud run deploy "${_SERVICE_NAME}" \
+          --image="${IMAGE}" \
+          --region="${_DEPLOY_REGION}" \
+          --platform=managed \
+          --allow-unauthenticated \
+          --set-env-vars=NODE_ENV=production,PORT=8080
