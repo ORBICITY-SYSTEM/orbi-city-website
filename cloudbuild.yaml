@@ -39,4 +39,4 @@ steps:
           --region="${_DEPLOY_REGION}" \
           --platform=managed \
           --allow-unauthenticated \
-          --set-env-vars=NODE_ENV=production,PORT=8080
+          --set-env-vars=NODE_ENV=production
